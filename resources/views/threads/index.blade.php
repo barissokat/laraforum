@@ -18,6 +18,7 @@
                <article>
                   <h4>
                      <a href="{{ route('threads.show', $thread) }}">{{ $thread->title }}</a>
+                     - by {{ $thread->owner->name}}
                   </h4>
                   <div>
                      {{ $thread->body }}
