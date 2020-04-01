@@ -9,16 +9,16 @@ class ReadThreadTest extends TestCase
 {
     use DatabaseMigrations;
 
+    // protected $thread;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->thread = factory(\App\Thread::class)->create();
+        $this->thread = factory('App\Thread')->create();
     }
 
     /**
-     * Threads index test
-     *
      * @test
      *
      * @return void
@@ -30,21 +30,17 @@ class ReadThreadTest extends TestCase
     }
 
     /**
-     * Threads show test
-     *
      * @test
      *
      * @return void
      */
     public function aUserCanReadASingleThread()
     {
-        $response = $this->get('/threads/' . $this->thread->id)
+        $response = $this->get($this->thread->path())
             ->assertSee($this->thread->title);
     }
 
     /**
-     * Replies show test
-     *
      * @test
      *
      * @return void
@@ -53,7 +49,7 @@ class ReadThreadTest extends TestCase
     {
         $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
 
-        $response = $this->get('/threads/' . $this->thread->id)
+        $response = $this->get($this->thread->path())
             ->assertSee($reply->body);
     }
 }

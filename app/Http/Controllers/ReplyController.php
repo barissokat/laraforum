@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
+use App\Thread;
 use Illuminate\Http\Request;
 
 class ReplyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,9 +39,18 @@ class ReplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Thread $thread, Request $request)
     {
-        //
+        request()->validate([
+            'body' => 'required|max:255',
+        ]);
+
+        $thread->addReply([
+            'user_id' => auth()->id(),
+            'body' => request('body'),
+        ]);
+        
+        return redirect()->back('threads.index');
     }
 
     /**

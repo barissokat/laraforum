@@ -10,16 +10,14 @@ class ReplyTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * Reply has an owner test example.
-     *
      * @test
      *
      * @return void
      */
     public function itHasAnOwner()
     {
-        $reply = factory(\App\Reply::class)->create();
-        
+        $reply = factory('App\Reply')->create();
+
         $this->assertInstanceOf('App\User', $reply->owner);
     }
 }
