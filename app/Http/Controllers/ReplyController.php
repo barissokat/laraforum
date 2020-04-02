@@ -50,7 +50,7 @@ class ReplyController extends Controller
             'body' => request('body'),
         ]);
         
-        return redirect()->back('threads.index');
+        return redirect()->back();
     }
 
     /**

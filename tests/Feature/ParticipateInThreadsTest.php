@@ -17,8 +17,7 @@ class ParticipateInThreadsTest extends TestCase
     public function unauthenticatedUsersMayNotAddReplies()
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
-        $this->withoutExceptionHandling(); // <-- this
-        $this->expectExceptionMessage("anan");
+        $this->withoutExceptionHandling();
 
         $this->post('/threads/1/replies', []);
     }

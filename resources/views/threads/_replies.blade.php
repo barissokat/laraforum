@@ -1,10 +1,13 @@
-<h4>Replies</h4>
-@foreach ($thread->replies as $reply)
+@forelse ($thread->replies as $reply)
 <article>
    <h6><a href="#">{{ $reply->owner->name }}</a> said {{ $reply->created_at->diffForHumans() }}</h6>
    <div>
       {{ $reply->body }}
    </div>
 </article>
+@if(!$loop->last)
 <hr>
-@endforeach
+@endif
+@empty
+<p>Reply not found!</p>
+@endforelse

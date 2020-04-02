@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Auth::loginUsingId(3);
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

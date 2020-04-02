@@ -24,7 +24,9 @@
                      {{ $thread->body }}
                   </div>
                </article>
+               @if(!$loop->last)
                <hr>
+               @endif
                @endforeach
             </div>
          </div>
