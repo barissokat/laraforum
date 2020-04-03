@@ -21,7 +21,7 @@ class CreateThreadsTest extends TestCase
         $this->withoutExceptionHandling();
 
         // Given we have a thread
-        $thread = factory('App\Thread')->make();
+        $thread = make('App\Thread');
 
         // And a guest posts a new thread to the endpoint
         $this->post('/threads', $thread->toArray());
@@ -35,13 +35,11 @@ class CreateThreadsTest extends TestCase
     public function anAuthenticatedUserCanCreateNewForumThreads()
     {
         // Given we have a user
-        $user = factory('App\User')->create();
-
         // And that user is authenticated
-        $this->actingAs($user);
+        $this->signIn();
 
         // And we have a thread created by that user
-        $thread = factory('App\Thread')->make();
+        $thread = make('App\Thread');
 
         // And once we hit the endpoint to create a new thread
         $this->post('/threads', $thread->toArray());
