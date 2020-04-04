@@ -32,6 +32,17 @@ class CreateThreadsTest extends TestCase
      *
      * @return void
      */
+    public function guestCannotSeeTheCreateThreadPage()
+    {
+        $this->get('/threads/create')
+            ->assertRedirect('/login');
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
     public function anAuthenticatedUserCanCreateNewForumThreads()
     {
         // Given we have a user
