@@ -17,7 +17,7 @@
                @foreach ($threads as $thread)
                <article>
                   <h4>
-                     <a href="{{ route('threads.show', $thread) }}">{{ $thread->title }}</a>
+                     <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
                      - by {{ $thread->owner->name}}
                   </h4>
                   <div>

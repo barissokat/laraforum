@@ -44,7 +44,7 @@ class ReplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Thread $thread, Request $request)
+    public function store($channelId, Thread $thread, Request $request)
     {
         request()->validate([
             'body' => 'required|max:255',
@@ -54,7 +54,7 @@ class ReplyController extends Controller
             'user_id' => auth()->id(),
             'body' => request('body'),
         ]);
-        
+
         return redirect()->back();
     }
 

@@ -14,7 +14,7 @@ class ReplyTest extends TestCase
      *
      * @return void
      */
-    public function itHasAnOwner()
+    public function replyHasAnOwner()
     {
         $reply = create('App\Reply');
 

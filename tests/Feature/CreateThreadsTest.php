@@ -16,25 +16,10 @@ class CreateThreadsTest extends TestCase
      */
     public function guestMayNotCreateThreads()
     {
-        // We should expect an authenticated error exception
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-        $this->withoutExceptionHandling();
-
-        // Given we have a thread
-        $thread = make('App\Thread');
-
-        // And a guest posts a new thread to the endpoint
-        $this->post('/threads', $thread->toArray());
-    }
-
-    /**
-     * @test
-     *
-     * @return void
-     */
-    public function guestCannotSeeTheCreateThreadPage()
-    {
         $this->get('/threads/create')
+            ->assertRedirect('/login');
+
+        $this->post('/threads')
             ->assertRedirect('/login');
     }
 
@@ -50,7 +35,7 @@ class CreateThreadsTest extends TestCase
         $this->signIn();
 
         // And we have a thread created by that user
-        $thread = make('App\Thread');
+        $thread = create('App\Thread');
 
         // And once we hit the endpoint to create a new thread
         $this->post('/threads', $thread->toArray());

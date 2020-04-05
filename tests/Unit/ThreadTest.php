@@ -17,17 +17,39 @@ class ThreadTest extends TestCase
 
         $this->thread = create('App\Thread');
     }
-   
+
     /**
      * @test
      *
      * @return void
-     */ 
+     */
+    public function aThreadCanMakeAStringPath()
+    {
+        $thread = create('App\Thread');
+
+        $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}", $thread->path());
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function aThreadHasAOwner()
+    {
+        $this->assertInstanceOf('App\User', $this->thread->owner);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
     public function aThreadCanAddAReply()
     {
         $this->thread->addReply([
             'user_id' => 1,
-            'body' => 'Foobar'
+            'body' => 'Foobar',
         ]);
 
         $this->assertCount(1, $this->thread->replies);
@@ -48,8 +70,10 @@ class ThreadTest extends TestCase
      *
      * @return void
      */
-    public function aThreadHasAOwner()
+    public function aThreadBelongsToAChannel()
     {
-        $this->assertInstanceOf('App\User', $this->thread->owner);
+        $thread = create('App\Thread');
+
+        $this->assertInstanceOf('App\Channel', $thread->channel);
     }
 }

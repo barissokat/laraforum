@@ -36,7 +36,7 @@
 
             <div class="card-footer text-muted">
                @auth
-               <form action="{{ route('replies.store', $thread )}}" method="post">
+               <form action="{{ $thread->path() . '/replies' )}}" method="post">
                   @csrf
                   <div class="form-group">
                      <textarea class="form-control" name="body" id="body" rows="3"
