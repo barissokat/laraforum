@@ -47,7 +47,7 @@ class ReplyController extends Controller
     public function store($channelId, Thread $thread, Request $request)
     {
         request()->validate([
-            'body' => 'required|max:255',
+            'body' => 'required',
         ]);
 
         $thread->addReply([
