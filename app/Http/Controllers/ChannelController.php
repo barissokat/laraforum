@@ -3,18 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Thread;
 use Illuminate\Http\Request;
 
 class ChannelController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Channel $channel)
     {
-        //
+        if ($channel->exists) {
+            $threads = $channel->threads()->latest()->get();
+        } else {
+            $threads = Thread::latest()->get();
+        }
+
+        return view('threads.index', [
+            'threads' => $threads
+        ]);
     }
 
     /**

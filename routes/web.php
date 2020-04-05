@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Auth::loginUsingId(3);
+Auth::loginUsingId(1);
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +23,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/threads', 'ThreadController@index');
-Route::get('/threads/create', 'ThreadController@create');
-Route::get('/threads/{channel}/{thread}', 'ThreadController@show');
-Route::post('/threads', 'ThreadController@store');
+Route::get('/threads', ['as' => 'threads.index', 'uses' => 'ThreadController@index']);
+Route::get('/threads/create', ['as' => 'threads.create', 'uses' => 'ThreadController@create']);
+Route::get('/threads/{channel:slug}/{thread}', ['as' => 'threads.show', 'uses' => 'ThreadController@show']);
+Route::post('/threads', ['as' => 'threads.store', 'uses' => 'ThreadController@store']);
 
-Route::post('/threads/{channel}/{thread}/replies', ['as' => 'replies.store', 'uses' => 'ReplyController@store']);
+Route::post('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.store', 'uses' => 'ReplyController@store']);
+
+Route::get('/threads/{channel:slug}', ['as' => 'channels.index', 'uses' => 'ChannelController@index']);

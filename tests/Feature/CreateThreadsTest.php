@@ -85,7 +85,6 @@ class CreateThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
