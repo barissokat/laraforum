@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Thread;
+use App\User;
 use Illuminate\Http\Request;
 
 class ChannelController extends Controller
@@ -23,17 +24,9 @@ class ChannelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Channel $channel)
+    public function index()
     {
-        if ($channel->exists) {
-            $threads = $channel->threads()->latest()->get();
-        } else {
-            $threads = Thread::latest()->get();
-        }
-
-        return view('threads.index', [
-            'threads' => $threads
-        ]);
+        //
     }
 
     /**
@@ -65,7 +58,15 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
-        //
+        if ($channel->exists) {
+            $threads = $channel->threads()->latest()->get();
+        } else {
+            $threads = Thread::latest()->get();
+        }
+
+        return view('threads.index', [
+            'threads' => $threads
+        ]);
     }
 
     /**

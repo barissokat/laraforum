@@ -50,7 +50,9 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="/threads/create">New Thread</a>
                                 <a class="dropdown-item" href="/threads">All Threads</a>
-                                <a class="dropdown-item" href="/threads">My Threads</a>
+                                @auth
+                                <a class="dropdown-item" href="/threads?by={{ auth()->user()->name }}">My Threads</a>
+                                @endauth
                             </div>
                         </li>
                         <li class="nav-item dropdown">
