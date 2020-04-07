@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Thread;
-use App\User;
+use App\Filters\ThreadFilters;
 use Illuminate\Http\Request;
 
 class ThreadController extends Controller
@@ -23,17 +23,9 @@ class ThreadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ThreadFilters $filters)
     {
-        $threads = Thread::latest();
-
-        if ($username = request('by')) {
-            $user = User::where('name', $username)->firstOrFail();
-
-            $threads->where('user_id', $user->id);
-        }
-
-        $threads = $threads->get();
+        $threads = Thread::latest()->filter($filters)->get();
 
         return view('threads.index', [
             'threads' => $threads,
