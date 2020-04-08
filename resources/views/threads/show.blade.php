@@ -56,7 +56,7 @@
                     This thread was published <strong>{{ $thread->created_at->diffForHumans() }}</strong>
                     by <a href="#">{{ $thread->owner->name }}</a>
                     , and currently has <strong>{{ $thread->replies_count }}</strong>
-                    {{ Str::plural('comment', $thread->replies_count) }}.
+                    {{ Str::plural('reply', $thread->replies_count) }}.
                 </div>
             </div>
         </div>

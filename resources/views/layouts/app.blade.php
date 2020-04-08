@@ -53,6 +53,7 @@
                                 @auth
                                 <a class="dropdown-item" href="/threads?by={{ auth()->user()->name }}">My Threads</a>
                                 @endauth
+                                <a class="dropdown-item" href="/threads?popular=all">Popular All Time</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -102,7 +103,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="my-4">
             @yield('content')
         </main>
     </div>

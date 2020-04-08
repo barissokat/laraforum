@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
             <div class="card">
                 <div class="card-header">Forum Threads</div>
 
@@ -16,11 +16,18 @@
 
                     @foreach ($threads as $thread)
                     <article>
-                        <h4>
-                            <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
-                            - by {{ $thread->owner->name}}
-                        </h4>
-                        <div>
+                        <div class="d-flex">
+                            <h4 class="card-title flex-fill">
+                                <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
+                            </h4>
+                            <a href="{{ $thread->path() }}">
+                                <strong>
+                                    {{ $thread->replies_count }}
+                                    {{ Str::plural('reply', $thread->replies_count) }}
+                                </strong>
+                            </a>
+                        </div>
+                        <div class="card-text">
                             {{ $thread->body }}
                         </div>
                     </article>
