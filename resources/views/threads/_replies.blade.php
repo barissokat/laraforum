@@ -1,10 +1,8 @@
-@forelse ($thread->replies as $reply)
-<article>
-   <h6><a href="#">{{ $reply->owner->name }}</a> said {{ $reply->created_at->diffForHumans() }}</h6>
-   <div>
-      {{ $reply->body }}
-   </div>
-</article>
+@forelse ($replies as $reply)
+<h5 class="card-title"> <a href="#">{{ $reply->owner->name }}</a> said {{ $reply->created_at->diffForHumans() }}</h5>
+<p class="card-text">
+    {{ $reply->body }}
+</p>
 @if(!$loop->last)
 <hr>
 @endif

@@ -2,35 +2,35 @@
 
 @section('content')
 <div class="container">
-   <div class="row justify-content-center">
-      <div class="col-md-8">
-         <div class="card">
-            <div class="card-header">Forum Threads</div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Forum Threads</div>
 
-            <div class="card-body">
-               @if (session('status'))
-               <div class="alert alert-success" role="alert">
-                  {{ session('status') }}
-               </div>
-               @endif
+                <div class="card-body">
+                    @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                    @endif
 
-               @foreach ($threads as $thread)
-               <article>
-                  <h4>
-                     <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
-                     - by {{ $thread->owner->name}}
-                  </h4>
-                  <div>
-                     {{ $thread->body }}
-                  </div>
-               </article>
-               @if(!$loop->last)
-               <hr>
-               @endif
-               @endforeach
+                    @foreach ($threads as $thread)
+                    <article>
+                        <h4>
+                            <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
+                            - by {{ $thread->owner->name}}
+                        </h4>
+                        <div>
+                            {{ $thread->body }}
+                        </div>
+                    </article>
+                    @if(!$loop->last)
+                    <hr>
+                    @endif
+                    @endforeach
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 @endsection
