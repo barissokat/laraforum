@@ -31,3 +31,6 @@ Route::post('/threads', ['as' => 'threads.store', 'uses' => 'ThreadController@st
 Route::post('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.store', 'uses' => 'ReplyController@store']);
 
 Route::get('/threads/{channel:slug}', ['as' => 'channels.index', 'uses' => 'ChannelController@show']);
+
+
+Route::post('/replies/{reply}/favorites', ['as' => 'channels.index', 'uses' => 'FavoriteController@store']);
