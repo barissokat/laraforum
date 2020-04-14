@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Auth::loginUsingId(1);
+ Auth::loginUsingId(1);
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +33,4 @@ Route::post('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.store'
 Route::get('/threads/{channel:slug}', ['as' => 'channels.index', 'uses' => 'ChannelController@show']);
 
 
-Route::post('/replies/{reply}/favorites', ['as' => 'channels.index', 'uses' => 'FavoriteController@store']);
+Route::post('/replies/{reply}/favorites', ['as' => 'replies.favorite', 'uses' => 'FavoriteController@store']);
