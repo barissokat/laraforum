@@ -1,7 +1,7 @@
 @forelse ($replies as $reply)
 <h5 class="card-title d-flex justify-content-between">
     <div class="flex-grow-1 align-self-center">
-        <a href="#">{{ $reply->owner->name }}</a> said {{ $reply->created_at->diffForHumans() }}
+        <a href="{{ route('profiles.show', $reply->owner->name ) }}">{{ $reply->owner->name }}</a> said {{ $reply->created_at->diffForHumans() }}
     </div>
     <div class="flex-shrink-1">
 

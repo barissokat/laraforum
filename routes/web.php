@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
- Auth::loginUsingId(1);
+// Auth::loginUsingId(5);
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,5 +32,6 @@ Route::post('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.store'
 
 Route::get('/threads/{channel:slug}', ['as' => 'channels.index', 'uses' => 'ChannelController@show']);
 
-
 Route::post('/replies/{reply}/favorites', ['as' => 'replies.favorite', 'uses' => 'FavoriteController@store']);
+
+Route::get('/profiles/{user:name}', ['as' => 'profiles.show', 'uses' => 'ProfileController@show']);
