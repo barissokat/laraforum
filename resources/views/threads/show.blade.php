@@ -1,12 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-3">{{ $thread->title }}</h1>
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"><a href="{{ route('profiles.show', $thread->owner->name ) }}">{{ $thread->owner->name }}</a> posted: {{ $thread->title }}</h4>
+                    <div class="flex">
+                        <h4 class="card-title"><a
+                                href="{{ route('profiles.show', $thread->owner->name ) }}">{{ $thread->owner->name }}</a>
+                            posted: {{ $thread->title }}</h4>
+                    </div>
+                    <form action="{{ $thread->path() }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-primary">Delete Thread</button>
+                    </form>
                 </div>
                 <div class="card-body">
                     <p class="card-text">
