@@ -16,11 +16,13 @@
                                 href="{{ route('profiles.show', $thread->owner->name ) }}">{{ $thread->owner->name }}</a>
                             posted: {{ $thread->title }}</h4>
                     </div>
+                    @can('update', $thread)
                     <form action="{{ $thread->path() }}" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-primary">Delete Thread</button>
                     </form>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <p class="card-text">

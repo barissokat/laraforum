@@ -7,7 +7,7 @@
     </div>
 </div>
 <div class="container">
-    @foreach ($threads as $thread)
+    @forelse ($threads as $thread)
     <div class="card">
         <div class="card-header">
             @if (session('status'))
@@ -37,6 +37,8 @@
     @if(!$loop->last)
     <hr>
     @endif
-    @endforeach
+    @empty
+        <p>There are no relevant results at this time.</p>
+    @endforelse
 </div>
 @endsection

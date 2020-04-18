@@ -4,7 +4,8 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1 class="display-3">
-            {{ $profileUser->name }}</h1>
+            {{ $profileUser->name }}
+        </h1>
         <p class="lead">
             <small>Since {{ $profileUser->created_at->diffForHumans() }}</small>
         </p>
@@ -16,7 +17,9 @@
             @foreach ($threads as $thread)
             <div class="card mb-2">
                 <div class="card-header d-flex justify-content-between">
-                    <h4 class="card-title">{{ $thread->title }}</h4>
+                    <h4 class="card-title">
+                        <a href="{{ $thread->path()}}">{{ $thread->title }}</a>
+                    </h4>
                     <small>Since {{ $thread->created_at->diffForHumans() }}</small>
                 </div>
                 <div class="card-body">
@@ -31,11 +34,11 @@
         </div>
         <div class="col-md-2">
             <div class="card text-left">
-              <img class="card-img-top" src="holder.js/100px180/" alt="">
-              <div class="card-body">
-                <h4 class="card-title">Title</h4>
-                <p class="card-text">Body</p>
-              </div>
+                <img class="card-img-top" src="holder.js/100px180/" alt="">
+                <div class="card-body">
+                    <h4 class="card-title">Title</h4>
+                    <p class="card-text">Body</p>
+                </div>
             </div>
         </div>
     </div>
