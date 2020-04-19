@@ -22,13 +22,12 @@
                                 id="channel" required>
                                 <option value="">Choose One...</option>
                                 @foreach ($channels as $channel)
-                                <option value="{{ $channel->id }}"'
-                                    {{ old('channel_id') == $channel->id ? 'selected' : '' }}>{{ $channel->name }}
+                                <option value="{{ $channel->id }}" {{ old('channel_id') == $channel->id ? 'selected' : '' }}>
+                                    {{ $channel->name }}
                                 </option>
                                 @endforeach
                             </select>
-                            @error('channel_id')
-                            <div class="invalid-feedback">
+                            @error(' channel_id') <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
