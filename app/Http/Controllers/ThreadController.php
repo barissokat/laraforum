@@ -125,6 +125,6 @@ class ThreadController extends Controller
             return response([], 204);
         }
 
-        return \redirect()->route('threads.index');
+        return redirect()->route('threads.index')->with('flash', 'Your thread is deleted!');;
     }
 }

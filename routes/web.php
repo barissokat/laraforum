@@ -31,6 +31,7 @@ Route::post('/threads', ['as' => 'threads.store', 'uses' => 'ThreadController@st
 Route::delete('/threads/{channel:slug}/{thread}', ['as' => 'threads.delete', 'uses' => 'ThreadController@destroy']);
 
 Route::post('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.store', 'uses' => 'ReplyController@store']);
+Route::patch('/replies/{reply}', ['as' => 'replies.update', 'uses' => 'ReplyController@update']);
 Route::delete('/replies/{reply}', ['as' => 'replies.delete', 'uses' => 'ReplyController@destroy']);
 
 Route::get('/threads/{channel:slug}', ['as' => 'channels.index', 'uses' => 'ChannelController@show']);
