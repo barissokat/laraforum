@@ -33,17 +33,15 @@
             </div>
             <hr>
             <h2>Replies</h2>
-            <div class="card">
+            @include('threads._replies')
+
+            <div class="d-flex justify-content-center">
+                {{ $replies->links() }}
+            </div>
+
+
+            <div class="card bg-light border-light">
                 <div class="card-body">
-                    @include('threads._replies')
-                </div>
-
-                <div class="d-flex justify-content-center">
-                    {{ $replies->links() }}
-                </div>
-
-
-                <div class="card-footer text-muted">
                     @auth
                     <form action="{{ $thread->path() . '/replies' }}" method="post">
                         @csrf
