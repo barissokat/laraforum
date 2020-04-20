@@ -1,12 +1,12 @@
 @component('profiles.activities.activity')
 @slot('heading')
 <span class="d-flex align-items-center">
-    <i class="fas fa-comment-dots fa-2x mr-2"></i>
+    <i class="fas fa-heart fa-2x mr-2"></i>
     <span class="mr-1">
-        {{ $profileUser->name }} replied to
+        {{ $profileUser->name }} favorited a
     </span>
-    <a href="{{$activity->subject->thread->path() }}">
-        "{{ $activity->subject->thread->title }}"
+    <a href="{{ $activity->subject->favorited->path() }}">
+        reply
     </a>.
 </span>
 <span class="d-flex align-items-center">
@@ -15,7 +15,7 @@
 @endslot
 @slot('body')
 <p class="card-text">
-    {{ $activity->subject->body }}
+    {{ $activity->subject->favorited->body }}
 </p>
 @endslot
 @endcomponent

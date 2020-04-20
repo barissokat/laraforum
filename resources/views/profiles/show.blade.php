@@ -15,10 +15,12 @@
     <div class="row">
         <div class="col-md-8">
             @forelse ($activities as $date => $activity)
-            <h5>{{ $date }}</h5>
-            @foreach ($activity as $record)
-            @include("profiles.activities._{$record->type}", ['activity' => $record])
-            @endforeach
+                <h5 class="mt-4">{{ $date }}</h5>
+                @foreach ($activity as $record)
+                    @if (view()->exists("profiles.activities._{$record->type}"))
+                        @include("profiles.activities._{$record->type}", ['activity' => $record])
+                    @endif
+                @endforeach
             @empty
             <p>There are no relevant results at this time.</p>
             @endforelse

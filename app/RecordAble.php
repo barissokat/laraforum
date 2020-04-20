@@ -16,9 +16,9 @@ trait RecordAble
             });
         }
 
-        static::deleting(function ($model) {
-            $model->activity()->delete();
-        });
+        // static::deleting(function ($model) {
+        //     $model->activity()->delete();
+        // });
     }
 
     protected static function getActivitiesToRecord()
