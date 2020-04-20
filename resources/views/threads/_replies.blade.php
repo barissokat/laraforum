@@ -17,6 +17,17 @@
     <p class="card-text">
         {{ $reply->body }}
     </p>
+    @can('update', $reply)
+    <div class="card-footer text-muted">
+        <form action="{{ route('replies.delete', $reply) }}" method="post">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">
+                Delete
+            </button>
+        </form>
+    </div>
+    @endcan
 </div>
 @if(!$loop->last)
 <hr>
