@@ -9,12 +9,7 @@
                     {{ $reply->created_at->diffForHumans() }}
                 </div>
                 <div class="flex-shrink-1">
-                    <form action="{{ route('replies.favorite', $reply) }}" method="post">
-                        @csrf
-                        <button type="submit" class="btn btn-primary" {{ $reply->isFavorited() ? 'disabled' : '' }}>
-                            {{ $reply->favorites_count }} {{ Str::plural('Favorite', $reply->favorites_count) }}
-                        </button>
-                    </form>
+                    <favorite :reply="{{ $reply }}"></favorite>
                 </div>
             </h5>
             <p class="card-text">

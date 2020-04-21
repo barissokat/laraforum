@@ -41,6 +41,24 @@ class FavoritesTest extends TestCase
      *
      * @return void
      */
+    public function anAuthenticatedUserCanUnfavoriteAnyReply()
+    {
+        $this->signIn();
+
+        $reply = create('App\Reply');
+
+        $reply->favorite();
+
+        $this->delete('replies/' . $reply->id . '/favorites');
+
+        $this->assertCount(0, $reply->favorites);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
     public function anAuthenticatedUserMayOnlyFavoriteAReplyOnce()
     {
         $this->signIn();
@@ -53,7 +71,6 @@ class FavoritesTest extends TestCase
         } catch (\Throwable $th) {
             $this->fail('Did not expect to insert the same record set twice.');
         }
-
 
         $this->assertCount(1, $reply->favorites);
     }

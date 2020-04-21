@@ -25,4 +25,11 @@ class FavoriteController extends Controller
 
         return back();
     }
+
+    public function destroy(Reply $reply)
+    {
+        $reply->unfavorite();
+
+        // return back();
+    }
 }
