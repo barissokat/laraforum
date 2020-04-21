@@ -8,9 +8,12 @@
                     <a href="{{ route('profiles.show', $reply->owner->name ) }}">{{ $reply->owner->name }}</a> said
                     {{ $reply->created_at->diffForHumans() }}
                 </div>
+
+                @auth
                 <div class="flex-shrink-1">
                     <favorite :reply="{{ $reply }}"></favorite>
                 </div>
+                @endauth
             </h5>
             <p class="card-text">
                 <div v-if="editing">

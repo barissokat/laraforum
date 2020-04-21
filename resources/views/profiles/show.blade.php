@@ -22,7 +22,7 @@
                     @endif
                 @endforeach
             @empty
-            <p>There are no relevant results at this time.</p>
+            <p>There is no activity for this user yet.</p>
             @endforelse
         </div>
     </div>

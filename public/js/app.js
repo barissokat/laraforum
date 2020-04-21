@@ -1920,7 +1920,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       count: this.reply.favoritesCount,
-      active: this.reply.isFavorited ? true : false
+      active: this.reply.isFavorited
     };
   },
   computed: {
@@ -1933,7 +1933,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     toggle: function toggle() {
-      this.reply.active ? this.destory() : this.create();
+      this.active ? this.destory() : this.create();
     },
     create: function create() {
       axios.post(this.endpoint);

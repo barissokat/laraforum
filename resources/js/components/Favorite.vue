@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       count: this.reply.favoritesCount,
-      active: this.reply.isFavorited ? true : false
+      active: this.reply.isFavorited
     };
   },
 
@@ -31,7 +31,7 @@ export default {
 
   methods: {
     toggle() {
-      this.reply.active ? this.destory() : this.create();
+      this.active ? this.destory() : this.create();
     },
 
     create() {

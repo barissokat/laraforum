@@ -23,7 +23,8 @@ trait RecordAble
 
     protected static function getActivitiesToRecord()
     {
-        return ['created', 'deleted'];
+        return ['created'];
+        // return ['created', 'deleted'];
     }
 
     public function activity()
