@@ -36,34 +36,14 @@
                 <hr>
                 <h2>Replies</h2>
 
-                <replies :data="{{ $thread->replies }}" @removed="repliesCount--"></replies>
+                <replies :data="{{ $thread->replies }}"
+                    @added="repliesCount++"
+                    @removed="repliesCount--"></replies>
 
                 {{-- {{ $replies->links() }} --}}
 
 
-                <div class="card bg-light border-light">
-                    <div class="card-body">
-                        @auth
-                        <form action="{{ $thread->path() . '/replies' }}" method="post">
-                            @csrf
-                            <div class="form-group">
-                                <textarea class="form-control" name="body" id="body" rows="3"
-                                    placeholder="Have something to say?"></textarea>
-                                @error('body')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                            <button type="submit" class="btn btn-primary">Post</button>
-                        </form>
-                        @else
-                        <p class="text-muted text-center">
-                            Please <a href="{{ route('login') }}">sign in</a> to participate in this discussion.
-                        </p>
-                        @endauth
-                    </div>
-                </div>
+
             </div>
             <div class="col-md-4">
                 <div class="card">
