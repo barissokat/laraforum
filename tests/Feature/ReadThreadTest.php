@@ -95,15 +95,31 @@ class ReadThreadTest extends TestCase
     public function aUserCanFilterThreadsByPopularity()
     {
         $threadWithTwoReplies = create('App\Thread');
-        create('App\Reply', ['thread_id' => $threadWithTwoReplies->id ], 2);
+        create('App\Reply', ['thread_id' => $threadWithTwoReplies->id], 2);
 
         $threadWithThreeReplies = create('App\Thread');
-        create('App\Reply', ['thread_id' => $threadWithThreeReplies->id ], 3);
+        create('App\Reply', ['thread_id' => $threadWithThreeReplies->id], 3);
 
         $threadWithNoReplies = $this->thread;
 
         $response = $this->getJson('threads?popular=all')->json();
 
         $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function aUserCanRequestAllRepliesForAGivenThread()
+    {
+        $thread = create('App\Thread');
+        create('App\Reply', ['thread_id' => $thread->id], 2);
+
+        $response = $this->getJson($thread->path() . '/replies')->json();
+
+        $this->assertCount(1, $response['data']);
+        $this->assertEquals(2, $response['total']);
     }
 }

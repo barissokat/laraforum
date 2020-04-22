@@ -4,7 +4,8 @@
       <h5 class="card-title d-flex justify-content-between">
         <div class="flex-grow-1 align-self-center">
           <a :href="`/profiles/${data.owner.name}`" v-text="data.owner.name"></a>
-          said {{ data.created_at }}...
+          said
+          <span v-text="ago"></span>
         </div>
 
         <div class="flex-shrink-1" v-if="signedIn">
@@ -33,6 +34,7 @@
 
 <script>
 import Favorite from "./Favorite";
+import moment from "moment";
 
 export default {
   props: ["data"],
@@ -48,13 +50,17 @@ export default {
   },
 
   computed: {
+    ago() {
+        return moment(this.data.created_at).fromNow() + '...';
+    },
+
     signedIn() {
       return window.App.signedIn;
     },
 
     canUpdate() {
-        return this.authorize(user => this.data.user_id == user.id);
-        // return this.data.user_id == window.App.user.id;
+      return this.authorize(user => this.data.user_id == user.id);
+      // return this.data.user_id == window.App.user.id;
     }
   },
 

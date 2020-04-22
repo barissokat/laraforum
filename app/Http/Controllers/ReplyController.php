@@ -15,16 +15,14 @@ class ReplyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  integer $channelId
-     * @param  Thread  $thread
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    public function index($channelId, Thread $thread)
+    {
+        return $thread->replies()->paginate(20);
+    }
+
     public function store($channelId, Thread $thread)
     {
         request()->validate([

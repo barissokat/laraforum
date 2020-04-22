@@ -80,9 +80,7 @@ class ThreadController extends Controller
      */
     public function show($channel, Thread $thread)
     {
-        return view('threads.show', [
-            'thread' => $thread
-        ]);
+        return view('threads.show', compact('thread'));
     }
 
     /**
@@ -124,6 +122,6 @@ class ThreadController extends Controller
             return response([], 204);
         }
 
-        return redirect()->route('threads.index')->with('flash', 'Your thread is deleted!');;
+        return redirect()->route('threads.index')->with('flash', 'Your thread is deleted!');
     }
 }
