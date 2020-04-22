@@ -1,5 +1,5 @@
 @forelse ($replies as $reply)
-<reply :attributes="{{ $reply }}" inline-template>
+<reply :data="{{ $reply }}" inline-template>
 
     <div id="reply-{{ $reply->id }}" class="card">
         <div class="card-body">
