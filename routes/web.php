@@ -37,6 +37,7 @@ Route::patch('/replies/{reply}', ['as' => 'replies.update', 'uses' => 'ReplyCont
 Route::delete('/replies/{reply}', ['as' => 'replies.delete', 'uses' => 'ReplyController@destroy']);
 # ThreadSubscriptionController
 Route::post('/threads/{channel:slug}/{thread}/subscriptions', ['as' => 'subscriptions.store', 'uses' => 'ThreadSubscriptionController@store']);
+Route::delete('/threads/{channel:slug}/{thread}/subscriptions', ['as' => 'subscriptions.destroy', 'uses' => 'ThreadSubscriptionController@destroy']);
 # ChannelController
 Route::get('/threads/{channel:slug}', ['as' => 'channels.index', 'uses' => 'ChannelController@show']);
 # FavoriteController

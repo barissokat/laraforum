@@ -89,8 +89,8 @@ class ThreadSubscriptionController extends Controller
      * @param  \App\ThreadSubscription  $threadSubscription
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ThreadSubscription $threadSubscription)
+    public function destroy($channelId, Thread $thread)
     {
-        //
+        $thread->unsubscribe();
     }
 }
