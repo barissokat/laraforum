@@ -99,6 +99,21 @@ class ReadThreadTest extends TestCase
      *
      * @return void
      */
+    public function aUserCanFilterThreadsByThoseThatAreUnanswered()
+    {
+        $thread = create('App\Thread');
+        $reply = create('App\Reply', ['thread_id' => $thread->id]);
+
+        $response = $this->getJson('threads?unanswered=all')->json();
+
+        $this->assertCount(1, $response);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
     public function aUserCanRequestAllRepliesForAGivenThread()
     {
         $thread = create('App\Thread');
