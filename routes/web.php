@@ -24,20 +24,23 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+# ThreadController
 Route::get('/threads', ['as' => 'threads.index', 'uses' => 'ThreadController@index']);
 Route::get('/threads/create', ['as' => 'threads.create', 'uses' => 'ThreadController@create']);
 Route::get('/threads/{channel:slug}/{thread}', ['as' => 'threads.show', 'uses' => 'ThreadController@show']);
 Route::post('/threads', ['as' => 'threads.store', 'uses' => 'ThreadController@store']);
 Route::delete('/threads/{channel:slug}/{thread}', ['as' => 'threads.delete', 'uses' => 'ThreadController@destroy']);
-
+# ReplyController
 Route::get('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.index', 'uses' => 'ReplyController@index']);
 Route::post('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.store', 'uses' => 'ReplyController@store']);
 Route::patch('/replies/{reply}', ['as' => 'replies.update', 'uses' => 'ReplyController@update']);
 Route::delete('/replies/{reply}', ['as' => 'replies.delete', 'uses' => 'ReplyController@destroy']);
-
+# ThreadSubscriptionController
+Route::post('/threads/{channel:slug}/{thread}/subscriptions', ['as' => 'subscriptions.store', 'uses' => 'ThreadSubscriptionController@store']);
+# ChannelController
 Route::get('/threads/{channel:slug}', ['as' => 'channels.index', 'uses' => 'ChannelController@show']);
-
+# FavoriteController
 Route::post('/replies/{reply}/favorites', ['as' => 'replies.favorite', 'uses' => 'FavoriteController@store']);
 Route::delete('/replies/{reply}/favorites', ['as' => 'replies.unfavorite', 'uses' => 'FavoriteController@destroy']);
-
+# ProfileController
 Route::get('/profiles/{user:name}', ['as' => 'profiles.show', 'uses' => 'ProfileController@show']);
