@@ -45,19 +45,6 @@ class ReadThreadTest extends TestCase
      *
      * @return void
      */
-    public function aUserCanReadRepliesThatAreAssociatedWithAThread()
-    {
-        $reply = create('App\Reply', ['thread_id' => $this->thread->id]);
-
-        $response = $this->get($this->thread->path())
-            ->assertSee($reply->body);
-    }
-
-    /**
-     * @test
-     *
-     * @return void
-     */
     public function aUserCanFilterThreadsAccordingToAChannel()
     {
         $channel = create('App\Channel');
@@ -119,7 +106,7 @@ class ReadThreadTest extends TestCase
 
         $response = $this->getJson($thread->path() . '/replies')->json();
 
-        $this->assertCount(1, $response['data']);
+        $this->assertCount(2, $response['data']);
         $this->assertEquals(2, $response['total']);
     }
 }

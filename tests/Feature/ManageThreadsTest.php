@@ -144,15 +144,6 @@ class ManageThreadsTest extends TestCase
             'type' => 'created_reply',
         ]);
 
-        // $this->assertDatabaseHas('threads', [
-        //     'id' => $thread->id,
-        //     'type' => 'deleted_thread',
-        // ]);
-        // $this->assertDatabaseHas('replies', [
-        //     'id' => $reply->id,
-        //     'type' => 'deleted_reply',
-        // ]);
-
-        $this->assertEquals(2, Activity::count());
+        $this->assertEquals(0, Activity::count());
     }
 }
