@@ -17,7 +17,15 @@
             @endif
             <div class="d-flex">
                 <h4 class="card-title flex-fill">
-                    <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
+                    <a href="{{ $thread->path() }}">
+                        @if (auth()->user() && $thread->hasUpdatesFor(auth()->user()))
+                        <strong>
+                            {{ $thread->title }}
+                        </strong>
+                        @else
+                        {{ $thread->title }}
+                        @endif
+                    </a>
                 </h4>
                 <a href="{{ $thread->path() }}">
                     <strong>
@@ -38,7 +46,7 @@
     <hr>
     @endif
     @empty
-        <p>There are no relevant results at this time.</p>
+    <p>There are no relevant results at this time.</p>
     @endforelse
 </div>
 @endsection

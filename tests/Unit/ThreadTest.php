@@ -149,4 +149,27 @@ class ThreadTest extends TestCase
 
         $this->assertTrue($thread->isSubscribedTo);
     }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function aThreadCanCheckIfTheAuthenticatedUserHasReadAllReplies()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        tap(auth()->user(), fn($user) =>
+
+            [
+                $this->assertTrue($thread->hasUpdatesFor($user)),
+
+                $user->read($thread),
+
+                $this->assertFalse($thread->hasUpdatesFor($user)),
+            ]
+        );
+    }
 }
