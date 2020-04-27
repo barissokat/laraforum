@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
+use App\Spam;
 use App\Thread;
-use Illuminate\Http\Request;
 
 class ReplyController extends Controller
 {
@@ -23,11 +23,13 @@ class ReplyController extends Controller
         return $thread->replies()->paginate(20);
     }
 
-    public function store($channelId, Thread $thread)
+    public function store($channelId, Thread $thread, Spam $spam)
     {
         request()->validate([
             'body' => 'required',
         ]);
+
+        $spam->detect(request('body'));
 
         $reply = $thread->addReply([
             'user_id' => auth()->id(),

@@ -5,13 +5,14 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class SubscribeToThreads extends TestCase
+class SubscribeToThreadsTest extends TestCase
 {
     use DatabaseMigrations;
 
     /**
      * @test
      *
+     * @return void
      */
     public function aUserCanSubscribeToThreads()
     {
@@ -27,6 +28,7 @@ class SubscribeToThreads extends TestCase
     /**
      * @test
      *
+     * @return void
      */
     public function aUserCanUnsubscribeFromThreads()
     {
