@@ -1,44 +1,54 @@
 <template>
-  <div class="alert alert-success alert-flash" role="alert" v-show="show">
-    <strong>Success! </strong>
-    {{ body }}
-  </div>
+  <div class="alert alert-flash" role="alert" :class="`alert-${level}`" v-show="show" v-text="data.message"></div>
 </template>
 
 <script>
 export default {
-  props: ["message"],
+  props: ["initialData"],
 
   data() {
     return {
-      body: this.message,
+      data: {},
       show: false
-    };
-  },
-
-  created() {
-    if (this.message) {
-      this.flash(this.message);
     }
-
-    window.events.$on("flash", message => this.flash(message));
   },
 
   methods: {
-    flash(message) {
-      this.body = message;
-      this.show = true;
+    flash() {
+      this.show = true
 
-      this.hide();
+      this.hide()
     },
 
     hide() {
       setTimeout(() => {
-        this.show = false;
-      }, 3000);
+        this.show = false
+      }, 3000)
     }
+  },
+
+  computed: {
+    level() {
+      return this.data.level || "success"
+    }
+  },
+
+  watch: {
+    data() {
+      if (this.data.message !== null) {
+        this.flash()
+      }
+    }
+  },
+
+  created() {
+    if (this.initialData) {
+      this.data = this.initialData
+    }
+
+    window.events.$on("flash", data => (this.data = data))
   }
-};
+}
 </script>
 
 <style>

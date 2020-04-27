@@ -51,7 +51,7 @@ export default {
 
   computed: {
     ago() {
-        return moment(this.data.created_at).fromNow() + '...';
+      return moment(this.data.created_at).fromNow() + "...";
     },
 
     signedIn() {
@@ -66,13 +66,17 @@ export default {
 
   methods: {
     update() {
-      axios.patch("/replies/" + this.data.id, {
-        body: this.body
-      });
+      axios
+        .patch("/replies/" + this.data.id, {
+          body: this.body
+        })
+        .catch(error => {
+          flash(error.response.data, "danger");
+        });
 
       this.editing = false;
 
-      flash("Updated");
+      flash("Your reply is updated");
     },
 
     destroy() {
