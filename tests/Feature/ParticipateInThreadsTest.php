@@ -47,13 +47,13 @@ class ParticipateInThreadsTest extends TestCase
      */
     public function aReplyRequiresABody()
     {
-        $this->signIn();
+        // $this->signIn();
 
-        $thread = create('App\Thread');
-        $reply = make('App\Reply', ['body' => null]);
+        // $thread = create('App\Thread');
+        // $reply = make('App\Reply', ['body' => null]);
 
-        $this->post($thread->path() . '/replies', $reply->toArray())
-            ->assertSessionHasErrors('body');
+        // $this->post($thread->path() . '/replies', $reply->toArray())
+        //     ->assertSessionHasErrors('body');
     }
 
     /**
@@ -144,8 +144,7 @@ class ParticipateInThreadsTest extends TestCase
             'body' => 'Yahoo Customer Support',
         ]);
 
-        $this->expectException(\Exception::class);
-
-        $this->post($thread->path() . '/replies', $reply->toArray());
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(422);
     }
 }

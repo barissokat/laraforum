@@ -40,6 +40,6 @@ class SpamFree implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'The :attribute contains spam.';
     }
 }
