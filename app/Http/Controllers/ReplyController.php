@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Inspections\Spam;
 use App\Reply;
 use App\Thread;
 
@@ -23,15 +22,13 @@ class ReplyController extends Controller
         return $thread->replies()->paginate(20);
     }
 
-    public function store($channelId, Thread $thread, Spam $spam)
+    public function store($channelId, Thread $thread)
     {
 
         try {
             request()->validate([
-                'body' => 'required',
+                'body' => 'required|spamfree',
             ]);
-
-            $spam->detect(request('body'));
 
             $reply = $thread->addReply([
                 'user_id' => auth()->id(),
@@ -44,18 +41,17 @@ class ReplyController extends Controller
         return $reply->load('owner');
     }
 
-    public function update(Reply $reply, Spam $spam)
+    public function update(Reply $reply)
     {
         try {
             $this->authorize('update', $reply);
 
             request()->validate([
-                'body' => 'required',
-                ]);
+                'body' => 'required|spamfree',
+            ]);
 
-                $spam->detect(request('body'));
-            } catch (\Throwable $th) {
-                return response('Sorry, your reply could not be saved at this time.', 422);
+        } catch (\Throwable $th) {
+            return response('Sorry, your reply could not be saved at this time.', 422);
         }
 
         $reply->update(request(['body']));
