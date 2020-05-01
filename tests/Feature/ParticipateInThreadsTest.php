@@ -47,13 +47,13 @@ class ParticipateInThreadsTest extends TestCase
      */
     public function aReplyRequiresABody()
     {
-        // $this->signIn();
+        $this->signIn();
 
-        // $thread = create('App\Thread');
-        // $reply = make('App\Reply', ['body' => null]);
+        $thread = create('App\Thread');
+        $reply = make('App\Reply', ['body' => null]);
 
-        // $this->post($thread->path() . '/replies', $reply->toArray())
-        //     ->assertSessionHasErrors('body');
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(422);
     }
 
     /**
@@ -146,5 +146,25 @@ class ParticipateInThreadsTest extends TestCase
 
         $this->post($thread->path() . '/replies', $reply->toArray())
             ->assertStatus(422);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function usersMayOnlyReplyAMaximumOfOncePerMinute()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $reply = make('App\Reply');
+
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(201);
+
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(429);
     }
 }
