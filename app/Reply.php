@@ -2,8 +2,10 @@
 
 namespace App;
 
+use App\Notifications\YouWereMentioned;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Notification;
 
 class Reply extends Model
 {
@@ -48,6 +50,12 @@ class Reply extends Model
         preg_match_all('/\@([^\s\.]+)/', $this->body, $matches);
 
         return $matches[1];
+    }
+
+    public function notifyMentionedUsers(): void
+    {
+        $users = User::whereIn('name', $this->mentionedUsers())->get();
+        Notification::send($users, new YouWereMentioned($this));
     }
 
     public function path()
