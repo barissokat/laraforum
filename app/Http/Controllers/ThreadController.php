@@ -27,7 +27,7 @@ class ThreadController extends Controller
      */
     public function index(ThreadFilters $filters)
     {
-        $threads = Thread::filter($filters)->latest()->get();
+        $threads = Thread::filter($filters)->latest()->paginate(25);
 
         if (request()->wantsJson()) {
             return $threads;

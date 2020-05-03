@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('head')
+<link href="{{ asset('css/vendor/tribute.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <div class="jumbotron jumbotron-fluid">
     <div class="container">

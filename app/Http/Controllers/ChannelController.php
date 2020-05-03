@@ -59,7 +59,7 @@ class ChannelController extends Controller
     public function show(Channel $channel)
     {
         if ($channel->exists) {
-            $threads = $channel->threads()->latest()->get();
+            $threads = $channel->threads()->latest()->paginate(25);
         } else {
             $threads = Thread::latest()->get();
         }
