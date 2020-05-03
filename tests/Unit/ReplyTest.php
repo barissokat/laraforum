@@ -45,11 +45,26 @@ class ReplyTest extends TestCase
      */
     public function itCanDetectAllMentionedUsersInTheBody()
     {
-        $reply = create('App\Reply', [
-            'body' => '@JaneDoe wants to talk to @JohnDoe'
+        $reply = new \App\Reply([
+            'body' => '@JaneDoe wants to talk to @JohnDoe',
         ]);
 
         $this->assertEquals(['JaneDoe', 'JohnDoe'], $reply->mentionedUsers());
+
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function itWrapsMentionedUsernamesInTheBodyWithinAnchorTags()
+    {
+        $reply = new \App\Reply([
+            'body' => 'Hello @Jane-Doe.',
+        ]);
+
+        $this->assertEquals('Hello <a href="/profiles/Jane-Doe">@Jane-Doe</a>.', $reply->body);
 
     }
 }
