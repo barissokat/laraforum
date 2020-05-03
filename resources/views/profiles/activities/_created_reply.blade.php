@@ -14,8 +14,8 @@
 </span>
 @endslot
 @slot('body')
-<p class="card-text">
-    {{ $activity->subject->body }}
-</p>
+<div class="card-text">
+    {!! $activity->subject->body !!}
+</div>
 @endslot
 @endcomponent

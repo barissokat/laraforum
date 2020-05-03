@@ -48,5 +48,7 @@ Route::delete('/replies/{reply}/favorites', ['as' => 'replies.unfavorite', 'uses
 Route::get('/profiles/{user:name}', ['as' => 'profiles.show', 'uses' => 'ProfileController@show']);
 ## Api
 # UserNotificationController
-Route::get('/profiles/{user:name}/notifications', ['as' => 'notifications.index', 'uses' => 'UserNotificationController@index']);
-Route::delete('/profiles/{user:name}/notifications/{notification}', ['as' => 'notifications.destroy', 'uses' => 'UserNotificationController@destroy']);
+Route::get('/profiles/{user:name}/notifications', ['as' => 'notifications.index', 'uses' => 'Api\UserNotificationController@index']);
+Route::delete('/profiles/{user:name}/notifications/{notification}', ['as' => 'notifications.destroy', 'uses' => 'Api\UserNotificationController@destroy']);
+# UsersController
+Route::get('/api/users', 'Api\UsersController@index');
