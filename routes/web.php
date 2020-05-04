@@ -53,4 +53,4 @@ Route::delete('/profiles/{user:name}/notifications/{notification}', ['as' => 'no
 # UsersController
 Route::get('/api/users', 'Api\UsersController@index');
 # UserAvatarController
-Route::post('/api/users/{user}/avatar', 'Api\UserAvatarController@store');
+Route::post('/api/users/{user}/avatar', ['as' => 'avatar.store', 'uses' => 'Api\UserAvatarController@store']);

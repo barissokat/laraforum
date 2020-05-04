@@ -17,8 +17,10 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <div class="flex">
-                            <h4 class="card-title"><a
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="{{ $thread->owner->avatar() }}" class="rounded-circle mr-2" width="25"
+                                height="25" alt="{{ $thread->owner->name }}">
+                            <h4 class="card-title d-inline mb-0"><a
                                     href="{{ route('profiles.show', $thread->owner->name ) }}">{{ $thread->owner->name }}</a>
                                 posted: {{ $thread->title }}</h4>
                         </div>
