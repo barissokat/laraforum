@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -62,8 +63,13 @@ class User extends Authenticatable
         return sprintf("users.%s.visits.%s", $this->id, $thread->id);
     }
 
-    public function avatar()
+    public function getAvatarPathAttribute($avatar_path)
     {
-        return asset($this->avatar_path ? "storage/" . $this->avatar_path : 'storage/avatars/default.jpg');
+        return asset(Storage::url($avatar_path ?: 'avatars/default.jpg'));
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->avatar_path;
     }
 }

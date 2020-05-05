@@ -26,28 +26,7 @@
             @endforelse
         </div>
         <div class="col-md-4">
-
-            <div class="card">
-                <img class="card-img-top" src="{{ $profileUser->avatar() }}" alt="{{ $profileUser->name }}">
-                <div class="card-body">
-                    @can('update', $profileUser)
-                    <hr>
-                    <form action="{{ route('avatar.store', $profileUser) }}" method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-group">
-                            <input type="file" class="form-control-file" name="avatar">
-                            @error('title')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Add Avatar</button>
-                    </form>
-                    @endcan
-                </div>
-            </div>
+            <avatar-form :user="{{ $profileUser }}"></avatar-form>
         </div>
     </div>
 </div>
