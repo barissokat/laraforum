@@ -7,8 +7,31 @@
     </div>
 </div>
 <div class="container">
-    @include('threads._list')
-    <hr>
-    {{ $threads->links() }}
+    <div class="row">
+        <div class="col-md-8">
+            @include('threads._list')
+            <hr>
+            {{ $threads->links() }}
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="holder.js/100x180/" alt="">
+                <div class="card-header">
+                    Trending Threads
+                </div>
+                <div class="card-body">
+                    @foreach ($trending as $thread)
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="{{ url($thread->path) }}">
+                                {{ $thread->title }}
+                            </a>
+                        </li>
+                    </ul>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
