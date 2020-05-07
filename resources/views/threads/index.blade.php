@@ -14,6 +14,7 @@
             {{ $threads->links() }}
         </div>
         <div class="col-md-4">
+            @if (count($trending))
             <div class="card">
                 <img class="card-img-top" src="holder.js/100x180/" alt="">
                 <div class="card-header">
@@ -31,6 +32,7 @@
                     @endforeach
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>
