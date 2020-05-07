@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
-    use RecordAble;
+    use RecordsActivity, RecordsVisits;
 
     protected $guarded = [];
 

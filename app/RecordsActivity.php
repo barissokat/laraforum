@@ -2,9 +2,9 @@
 
 namespace App;
 
-trait RecordAble
+trait RecordsActivity
 {
-    protected static function bootRecordAble()
+    protected static function bootRecordsActivity()
     {
         if (auth()->guest()) {
             return;

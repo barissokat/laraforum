@@ -40,6 +40,9 @@
             {{ $thread->body }}
         </div>
     </div>
+    <div class="card-footer">
+        <span class="badge badge-primary">{{ $thread->visits }} Visits</span>
+    </div>
 </div>
 @if(!$loop->last)
 <hr>

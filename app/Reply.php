@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Notification;
 
 class Reply extends Model
 {
-    use FavoritAble, RecordAble;
+    use FavoritAble, RecordsActivity;
 
     protected $guarded = [];
 

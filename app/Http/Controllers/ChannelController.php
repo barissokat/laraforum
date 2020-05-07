@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Thread;
+use App\Trending;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -56,7 +57,7 @@ class ChannelController extends Controller
      * @param  \App\Channel  $channel
      * @return \Illuminate\Http\Response
      */
-    public function show(Channel $channel)
+    public function show(Channel $channel, Trending $trending)
     {
         if ($channel->exists) {
             $threads = $channel->threads()->latest()->paginate(25);
@@ -65,7 +66,8 @@ class ChannelController extends Controller
         }
 
         return view('threads.index', [
-            'threads' => $threads
+            'threads' => $threads,
+            'trending' => $trending->get(),
         ]);
     }
 
