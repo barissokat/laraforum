@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="card-footer">
-        <span class="badge badge-primary">{{ $thread->visits()->count() }} Visits</span>
+        <span class="badge badge-primary">{{ $thread->visits }} Visits</span>
     </div>
 </div>
 @if(!$loop->last)

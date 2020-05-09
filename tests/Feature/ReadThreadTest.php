@@ -124,4 +124,24 @@ class ReadThreadTest extends TestCase
         $this->assertCount(2, $response['data']);
         $this->assertEquals(2, $response['total']);
     }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function weRecordANewVisitEachTimeTheThreadIsRead()
+    {
+        $thread = create('App\Thread');
+
+        $this->assertSame(0, $thread->visits);
+
+        $this->call('GET', $thread->path());
+
+        $this->assertEquals(1, $thread->fresh()->visits);
+
+        $this->call('GET', $thread->path());
+
+        $this->assertEquals(2, $thread->fresh()->visits);
+    }
 }
