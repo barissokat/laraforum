@@ -29,6 +29,25 @@ class ManageThreadsTest extends TestCase
      *
      * @return void
      */
+    public function authenticatedUsersMustFirstConfirmTheirEmailAddressBeforeCreatingThreads()
+    {
+        $user = create('App\User', ['email_verified_at' => null]);
+
+        $this->withExceptionHandling()->signIn($user);
+
+        $thread = make('App\Thread');
+
+        $this->post('/threads', $thread->toArray())
+            ->assertRedirect('/email/verify');
+
+        // ->assertSessionHas('flash', 'You must first confirm your email address.');
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
     public function anAuthenticatedUserCanCreateNewForumThreads()
     {
         // Given we have a user

@@ -20,7 +20,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\ThreadReceivedNewReply' => [
             'App\Listeners\NotifyMentionedUsers',
-            'App\Listeners\NotifySubscribers'
+            'App\Listeners\NotifySubscribers',
+        ],
+        'Illuminate\Auth\Events\Verified' => [
+            'App\Listeners\LogVerifiedUser',
         ],
     ];
 
