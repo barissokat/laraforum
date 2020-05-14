@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Activity;
+use App\Thread;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -109,6 +110,28 @@ class ManageThreadsTest extends TestCase
      *
      * @return void
      */
+    public function aThreadRequiresAUniqueSlug()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread', ['title' => 'Foo Title', 'slug' => 'foo-title']);
+
+        $this->assertEquals($thread->fresh()->slug, 'foo-title');
+
+        $this->post(route('threads.index'), $thread->toArray());
+
+        $this->assertTrue(Thread::whereSlug('foo-title-2')->exists());
+
+        $this->post(route('threads.index'), $thread->toArray());
+
+        $this->assertTrue(Thread::whereSlug('foo-title-3')->exists());
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
     public function publishThread($overrides = [])
     {
         $this->withExceptionHandling()->signIn();
@@ -129,12 +152,12 @@ class ManageThreadsTest extends TestCase
 
         $thread = create('App\Thread');
 
-        $this->delete($thread->path())
+        $this->delete(route('threads.delete', [$thread->channel->slug, $thread]))
             ->assertRedirect('/login');
 
         $this->signIn();
 
-        $this->delete($thread->path())
+        $this->delete(route('threads.delete', [$thread->channel->slug, $thread]))
             ->assertStatus(403);
     }
 
@@ -150,7 +173,7 @@ class ManageThreadsTest extends TestCase
         $thread = create('App\Thread', ['user_id' => auth()->id()]);
         $reply = create('App\Reply', ['thread_id' => $thread->id]);
 
-        $response = $this->json('DELETE', $thread->path());
+        $response = $this->json('DELETE', route('threads.delete', [$thread->channel->slug, $thread]));
 
         $response->assertStatus(204);
 
