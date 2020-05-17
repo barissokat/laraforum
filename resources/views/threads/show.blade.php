@@ -2,6 +2,9 @@
 
 @section('head')
 <link href="{{ asset('css/vendor/tribute.css') }}" rel="stylesheet">
+<script>
+    window.thread = <?= json_encode($thread); ?>
+</script>
 @endsection
 
 @section('content')

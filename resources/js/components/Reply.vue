@@ -1,6 +1,6 @@
 <template>
-  <div :id="`reply-${id}`" class="card" :class="isBest ? 'border-success' : ''">
-    <div class="card-header" :class="isBest ? 'alert alert-success' : ''">
+  <div :id="`reply-${id}`" class="card mb-2" :class="isBest ? 'border-success' : ''">
+    <div class="card-header" :class="isBest ? 'alert-success' : ''">
       <h5 class="card-title d-flex justify-content-between">
         <div class="flex-grow-1 align-self-center">
           <a :href="`/profiles/${data.owner.name}`" v-text="data.owner.name"></a>
@@ -14,7 +14,7 @@
       </h5>
     </div>
     <div class="card-body">
-      <div class="card-text">
+      <div class="card-text mb-2">
         <div v-if="editing">
           <form @submit="update">
             <div class="form-group">
@@ -58,12 +58,16 @@ export default {
       editing: false,
       id: this.data.id,
       body: this.data.body,
-      isBest: false,
-      reply: this.data
+      reply: this.data,
+      thread: window.thread
     };
   },
 
   computed: {
+    isBest() {
+      return this.thread.best_reply_id == this.id;
+    },
+
     ago() {
       return moment(this.data.created_at).fromNow() + "...";
     }
@@ -91,7 +95,9 @@ export default {
     },
 
     markBestReply() {
-      this.isBest = true;
+      axios.post("/replies/" + this.data.id + "/best");
+
+      this.thread.best_reply_id = this.id;
     }
   }
 };

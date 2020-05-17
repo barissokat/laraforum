@@ -2315,11 +2315,14 @@ __webpack_require__.r(__webpack_exports__);
       editing: false,
       id: this.data.id,
       body: this.data.body,
-      isBest: false,
-      reply: this.data
+      reply: this.data,
+      thread: window.thread
     };
   },
   computed: {
+    isBest: function isBest() {
+      return this.thread.best_reply_id == this.id;
+    },
     ago: function ago() {
       return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.data.created_at).fromNow() + "...";
     }
@@ -2339,7 +2342,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit("deleted", this.data.id);
     },
     markBestReply: function markBestReply() {
-      this.isBest = true;
+      axios.post("/replies/" + this.data.id + "/best");
+      this.thread.best_reply_id = this.id;
     }
   }
 });
@@ -60013,7 +60017,7 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "card",
+      staticClass: "card mb-2",
       class: _vm.isBest ? "border-success" : "",
       attrs: { id: "reply-" + _vm.id }
     },
@@ -60022,7 +60026,7 @@ var render = function() {
         "div",
         {
           staticClass: "card-header",
-          class: _vm.isBest ? "alert alert-success" : ""
+          class: _vm.isBest ? "alert-success" : ""
         },
         [
           _c(
@@ -60052,7 +60056,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "card-text" }, [
+        _c("div", { staticClass: "card-text mb-2" }, [
           _vm.editing
             ? _c("div", [
                 _c("form", { on: { submit: _vm.update } }, [
