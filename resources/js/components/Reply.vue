@@ -1,6 +1,6 @@
 <template>
-  <div :id="`reply-${id}`" class="card">
-    <div class="card-body">
+  <div :id="`reply-${id}`" class="card" :class="isBest ? 'border-success' : ''">
+    <div class="card-header" :class="isBest ? 'alert alert-success' : ''">
       <h5 class="card-title d-flex justify-content-between">
         <div class="flex-grow-1 align-self-center">
           <a :href="`/profiles/${data.owner.name}`" v-text="data.owner.name"></a>
@@ -12,6 +12,8 @@
           <favorite :reply="data"></favorite>
         </div>
       </h5>
+    </div>
+    <div class="card-body">
       <div class="card-text">
         <div v-if="editing">
           <form @submit="update">
@@ -26,9 +28,17 @@
 
         <div v-else v-html="body"></div>
       </div>
-      <div class="card-footer d-flex" v-if="canUpdate">
-        <button class="btn btn-secondary btn-sm mr-2" @click="editing = true">Edit</button>
-        <button class="btn btn-danger btn-sm mr-2" @click="destroy" type="button">Delete</button>
+      <div class="card-footer d-flex">
+        <div v-if="canUpdate">
+          <button class="btn btn-primary btn-sm mr-2" @click="editing = true">Edit</button>
+          <button class="btn btn-danger btn-sm mr-2" @click="destroy" type="button">Delete</button>
+        </div>
+        <button
+          class="btn btn-secondary btn-sm mr-2 ml-auto"
+          @click="markBestReply"
+          type="button"
+          v-show="!isBest"
+        >Best Reply?</button>
       </div>
     </div>
   </div>
@@ -47,7 +57,8 @@ export default {
     return {
       editing: false,
       id: this.data.id,
-      body: this.data.body
+      body: this.data.body,
+      isBest: false
     };
   },
 
@@ -85,6 +96,10 @@ export default {
       axios.delete("/replies/" + this.data.id);
 
       this.$emit("deleted", this.data.id);
+    },
+
+    markBestReply() {
+      this.isBest = true;
     }
   }
 };
