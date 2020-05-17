@@ -29,14 +29,14 @@ Route::get('/threads', ['as' => 'threads.index', 'uses' => 'ThreadController@ind
 Route::get('/threads/create', ['as' => 'threads.create', 'uses' => 'ThreadController@create']);
 Route::get('/threads/{channel:slug}/{thread}', ['as' => 'threads.show', 'uses' => 'ThreadController@show']);
 Route::post('/threads', ['as' => 'threads.store', 'uses' => 'ThreadController@store']);
-Route::delete('/threads/{channel:slug}/{thread}', ['as' => 'threads.delete', 'uses' => 'ThreadController@destroy']);
+Route::delete('/threads/{channel:slug}/{thread}', ['as' => 'threads.destroy', 'uses' => 'ThreadController@destroy']);
 
 # ReplyController
 Route::get('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.index', 'uses' => 'ReplyController@index']);
 Route::post('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.store', 'uses' => 'ReplyController@store']);
 // Route::middleware('throttle:1')->post('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.store', 'uses' => 'ReplyController@store']);
 Route::patch('/replies/{reply}', ['as' => 'replies.update', 'uses' => 'ReplyController@update']);
-Route::delete('/replies/{reply}', ['as' => 'replies.delete', 'uses' => 'ReplyController@destroy']);
+Route::delete('/replies/{reply}', ['as' => 'replies.destroy', 'uses' => 'ReplyController@destroy']);
 
 # BestReplyController
 Route::post('/replies/{reply}/best', ['as' => 'best-replies.store', 'uses' => 'BestReplyController@store']);

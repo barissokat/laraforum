@@ -34,18 +34,16 @@ class BestReplyTest extends TestCase
      *
      * @return void
      */
-    public function testOnlyTheThreadCreatorMayMarkAReplyAsBest()
+    public function testIfABestReplyIsDeletedThenTheThreadIsProperlyUpdatedToReflectThat()
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+        $reply = create('App\Reply', ['user_id' => auth()->id()]);
 
-        $replies = create('App\Reply', ['thread_id' => $thread->id], 2);
+        $reply->thread->markBestReply($reply);
 
-        $this->signIn(create('App\User'));
+        $this->deleteJson(route('replies.destroy', $reply));
 
-        $this->postJson(route('best-replies.store', $replies[1]->id))->assertStatus(403);
-
-        $this->assertFalse($replies[1]->fresh()->isBest());
+        $this->assertNull($reply->thread->fresh()->best_reply_id);
     }
 }

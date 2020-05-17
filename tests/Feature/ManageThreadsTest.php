@@ -164,12 +164,12 @@ class ManageThreadsTest extends TestCase
 
         $thread = create('App\Thread');
 
-        $this->delete(route('threads.delete', [$thread->channel->slug, $thread]))
+        $this->delete(route('threads.destroy', [$thread->channel->slug, $thread]))
             ->assertRedirect('/login');
 
         $this->signIn();
 
-        $this->delete(route('threads.delete', [$thread->channel->slug, $thread]))
+        $this->delete(route('threads.destroy', [$thread->channel->slug, $thread]))
             ->assertStatus(403);
     }
 
@@ -185,7 +185,7 @@ class ManageThreadsTest extends TestCase
         $thread = create('App\Thread', ['user_id' => auth()->id()]);
         $reply = create('App\Reply', ['thread_id' => $thread->id]);
 
-        $response = $this->json('DELETE', route('threads.delete', [$thread->channel->slug, $thread]));
+        $response = $this->json('DELETE', route('threads.destroy', [$thread->channel->slug, $thread]));
 
         $response->assertStatus(204);
 
