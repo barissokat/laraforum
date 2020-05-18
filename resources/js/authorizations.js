@@ -1,15 +1,7 @@
 let user = window.App.user;
 
 module.exports = {
-    updateReply (reply) {
-        return reply.user_id === user.id;
-    },
-
-    updateThread (thread) {
-        return thread.user_id === user.id;
-    },
-
-    owns(model) {
-        return model['id'] === user.id;
+    owns  (model, prob = 'user_id') {
+        return model[prob] === user.id;
     }
 };

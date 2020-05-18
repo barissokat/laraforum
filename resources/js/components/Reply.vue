@@ -3,13 +3,13 @@
     <div class="card-header" :class="isBest ? 'alert-success' : ''">
       <h5 class="card-title d-flex justify-content-between">
         <div class="flex-grow-1 align-self-center">
-          <a :href="`/profiles/${data.owner.name}`" v-text="data.owner.name"></a>
+          <a :href="`/profiles/${reply.owner.name}`" v-text="reply.owner.name"></a>
           said
           <span v-text="ago"></span>
         </div>
 
         <div class="flex-shrink-1" v-if="signedIn">
-          <favorite :reply="data"></favorite>
+          <favorite :reply="reply"></favorite>
         </div>
       </h5>
     </div>
@@ -29,8 +29,8 @@
         <div v-else v-html="body"></div>
       </div>
     </div>
-    <div class="card-footer d-flex" v-if="authorize('updateThread', reply.thread) || authorize('updateThread', reply.thread)">
-      <div v-if="authorize('updateReply', reply)">
+    <div class="card-footer d-flex" v-if="authorize('owns', reply.thread) || authorize('owns', reply.thread)">
+      <div v-if="authorize('owns', reply)">
         <button class="btn btn-primary btn-sm mr-2" @click="editing = true">Edit</button>
         <button class="btn btn-danger btn-sm mr-2" @click="destroy" type="button">Delete</button>
       </div>
@@ -39,7 +39,7 @@
         class="btn btn-secondary btn-sm mr-2 ml-auto"
         @click="markBestReply"
         type="button"
-        v-if="authorize('updateThread', reply.thread)"
+        v-if="authorize('owns', reply.thread)"
         v-show="! isBest"
       >Best Reply?</button>
     </div>
@@ -51,17 +51,16 @@ import Favorite from "./Favorite";
 import moment from "moment";
 
 export default {
-  props: ["data"],
+  props: ["reply"],
 
   components: { Favorite },
 
   data() {
     return {
       editing: false,
-      id: this.data.id,
-      body: this.data.body,
-      isBest: this.data.isBest,
-      reply: this.data
+      id: this.reply.id,
+      body: this.reply.body,
+      isBest: this.reply.isBest,
     };
   },
 
@@ -80,7 +79,7 @@ export default {
   methods: {
     update() {
       axios
-        .patch("/replies/" + this.data.id, {
+        .patch("/replies/" + this.id, {
           body: this.body
         })
         .catch(error => {
@@ -89,19 +88,21 @@ export default {
 
       this.editing = false;
 
-      flash("Your reply is updated");
+      flash("Your reply is updated!");
     },
 
     destroy() {
-      axios.delete("/replies/" + this.data.id);
+      axios.delete("/replies/" + this.id);
 
-      this.$emit("deleted", this.data.id);
+      flash("Your reply is deleted!");
+
+      this.$emit("deleted", this.id);
     },
 
     markBestReply() {
-      axios.post("/replies/" + this.data.id + "/best");
+      axios.post("/replies/" + this.id + "/best");
 
-      window.events.$emit("best-reply-selected", this.data.id);
+      window.events.$emit("best-reply-selected", this.id);
     }
   }
 };
