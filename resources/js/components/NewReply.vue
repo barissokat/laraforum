@@ -1,26 +1,24 @@
 <template>
-  <div>
-    <div class="card bg-light border-light">
-      <div class="card-body">
-        <div v-if="signedIn">
-          <div class="form-group">
-            <textarea
-              class="form-control"
-              name="body"
-              id="body"
-              rows="3"
-              placeholder="Have something to say?"
-              required
-              v-model="body"
-            ></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" @click="addReply">Post</button>
+  <div class="card bg-light border-light">
+    <div class="card-body">
+      <div v-if="signedIn">
+        <div class="form-group">
+          <textarea
+            class="form-control"
+            name="body"
+            id="body"
+            rows="3"
+            placeholder="Have something to say?"
+            required
+            v-model="body"
+          ></textarea>
         </div>
-        <p class="text-muted text-center" v-else>
-          Please
-          <a href="/login">sign in</a> to participate in this discussion.
-        </p>
+        <button type="submit" class="btn btn-primary" @click="addReply">Post</button>
       </div>
+      <p class="text-muted text-center" v-else>
+        Please
+        <a href="/login">sign in</a> to participate in this discussion.
+      </p>
     </div>
   </div>
 </template>

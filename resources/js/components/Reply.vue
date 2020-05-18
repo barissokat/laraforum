@@ -28,18 +28,20 @@
 
         <div v-else v-html="body"></div>
       </div>
-      <div class="card-footer d-flex">
-        <div v-if="authorize('updateReply', reply)">
-          <button class="btn btn-primary btn-sm mr-2" @click="editing = true">Edit</button>
-          <button class="btn btn-danger btn-sm mr-2" @click="destroy" type="button">Delete</button>
-        </div>
-        <button
-          class="btn btn-secondary btn-sm mr-2 ml-auto"
-          @click="markBestReply"
-          type="button"
-          v-show="!isBest"
-        >Best Reply?</button>
+    </div>
+    <div class="card-footer d-flex" v-if="authorize('updateThread', reply.thread) || authorize('updateThread', reply.thread)">
+      <div v-if="authorize('updateReply', reply)">
+        <button class="btn btn-primary btn-sm mr-2" @click="editing = true">Edit</button>
+        <button class="btn btn-danger btn-sm mr-2" @click="destroy" type="button">Delete</button>
       </div>
+
+      <button
+        class="btn btn-secondary btn-sm mr-2 ml-auto"
+        @click="markBestReply"
+        type="button"
+        v-if="authorize('updateThread', reply.thread)"
+        v-show="! isBest"
+      >Best Reply?</button>
     </div>
   </div>
 </template>
@@ -58,19 +60,21 @@ export default {
       editing: false,
       id: this.data.id,
       body: this.data.body,
-      reply: this.data,
-      thread: window.thread
+      isBest: this.data.isBest,
+      reply: this.data
     };
   },
 
   computed: {
-    isBest() {
-      return this.thread.best_reply_id == this.id;
-    },
-
     ago() {
-      return moment(this.data.created_at).fromNow() + "...";
+      return moment(this.reply.created_at).fromNow() + "...";
     }
+  },
+
+  created() {
+    window.events.$on("best-reply-selected", id => {
+      this.isBest = id === this.id;
+    });
   },
 
   methods: {
@@ -97,7 +101,7 @@ export default {
     markBestReply() {
       axios.post("/replies/" + this.data.id + "/best");
 
-      this.thread.best_reply_id = this.id;
+      window.events.$emit("best-reply-selected", this.data.id);
     }
   }
 };

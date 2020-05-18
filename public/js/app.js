@@ -2303,6 +2303,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2315,17 +2317,21 @@ __webpack_require__.r(__webpack_exports__);
       editing: false,
       id: this.data.id,
       body: this.data.body,
-      reply: this.data,
-      thread: window.thread
+      isBest: this.data.isBest,
+      reply: this.data
     };
   },
   computed: {
-    isBest: function isBest() {
-      return this.thread.best_reply_id == this.id;
-    },
     ago: function ago() {
-      return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.data.created_at).fromNow() + "...";
+      return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.reply.created_at).fromNow() + "...";
     }
+  },
+  created: function created() {
+    var _this = this;
+
+    window.events.$on("best-reply-selected", function (id) {
+      _this.isBest = id === _this.id;
+    });
   },
   methods: {
     update: function update() {
@@ -2343,7 +2349,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     markBestReply: function markBestReply() {
       axios.post("/replies/" + this.data.id + "/best");
-      this.thread.best_reply_id = this.id;
+      window.events.$emit("best-reply-selected", this.data.id);
     }
   }
 });
@@ -2453,8 +2459,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tributejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tributejs */ "./node_modules/tributejs/dist/tribute.min.js");
 /* harmony import */ var tributejs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(tributejs__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
 //
 //
 //
@@ -60105,55 +60109,60 @@ var render = function() {
                 ])
               ])
             : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-footer d-flex" }, [
-          _vm.authorize("updateReply", _vm.reply)
-            ? _c("div", [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary btn-sm mr-2",
-                    on: {
-                      click: function($event) {
-                        _vm.editing = true
-                      }
-                    }
-                  },
-                  [_vm._v("Edit")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger btn-sm mr-2",
-                    attrs: { type: "button" },
-                    on: { click: _vm.destroy }
-                  },
-                  [_vm._v("Delete")]
-                )
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: !_vm.isBest,
-                  expression: "!isBest"
-                }
-              ],
-              staticClass: "btn btn-secondary btn-sm mr-2 ml-auto",
-              attrs: { type: "button" },
-              on: { click: _vm.markBestReply }
-            },
-            [_vm._v("Best Reply?")]
-          )
         ])
-      ])
+      ]),
+      _vm._v(" "),
+      _vm.authorize("updateThread", _vm.reply.thread) ||
+      _vm.authorize("updateThread", _vm.reply.thread)
+        ? _c("div", { staticClass: "card-footer d-flex" }, [
+            _vm.authorize("updateReply", _vm.reply)
+              ? _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary btn-sm mr-2",
+                      on: {
+                        click: function($event) {
+                          _vm.editing = true
+                        }
+                      }
+                    },
+                    [_vm._v("Edit")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger btn-sm mr-2",
+                      attrs: { type: "button" },
+                      on: { click: _vm.destroy }
+                    },
+                    [_vm._v("Delete")]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.authorize("updateThread", _vm.reply.thread)
+              ? _c(
+                  "button",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.isBest,
+                        expression: "! isBest"
+                      }
+                    ],
+                    staticClass: "btn btn-secondary btn-sm mr-2 ml-auto",
+                    attrs: { type: "button" },
+                    on: { click: _vm.markBestReply }
+                  },
+                  [_vm._v("Best Reply?")]
+                )
+              : _vm._e()
+          ])
+        : _vm._e()
     ]
   )
 }
@@ -60272,57 +60281,55 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "card bg-light border-light" }, [
-      _c("div", { staticClass: "card-body" }, [
-        _vm.signedIn
-          ? _c("div", [
-              _c("div", { staticClass: "form-group" }, [
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.body,
-                      expression: "body"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    name: "body",
-                    id: "body",
-                    rows: "3",
-                    placeholder: "Have something to say?",
-                    required: ""
-                  },
-                  domProps: { value: _vm.body },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.body = $event.target.value
-                    }
+  return _c("div", { staticClass: "card bg-light border-light" }, [
+    _c("div", { staticClass: "card-body" }, [
+      _vm.signedIn
+        ? _c("div", [
+            _c("div", { staticClass: "form-group" }, [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.body,
+                    expression: "body"
                   }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "submit" },
-                  on: { click: _vm.addReply }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  name: "body",
+                  id: "body",
+                  rows: "3",
+                  placeholder: "Have something to say?",
+                  required: ""
                 },
-                [_vm._v("Post")]
-              )
-            ])
-          : _c("p", { staticClass: "text-muted text-center" }, [
-              _vm._v("\n        Please\n        "),
-              _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
-              _vm._v(" to participate in this discussion.\n      ")
-            ])
-      ])
+                domProps: { value: _vm.body },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.body = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { type: "submit" },
+                on: { click: _vm.addReply }
+              },
+              [_vm._v("Post")]
+            )
+          ])
+        : _c("p", { staticClass: "text-muted text-center" }, [
+            _vm._v("\n      Please\n      "),
+            _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
+            _vm._v(" to participate in this discussion.\n    ")
+          ])
     ])
   ])
 }
@@ -72542,6 +72549,12 @@ var user = window.App.user;
 module.exports = {
   updateReply: function updateReply(reply) {
     return reply.user_id === user.id;
+  },
+  updateThread: function updateThread(thread) {
+    return thread.user_id === user.id;
+  },
+  owns: function owns(model) {
+    return model['id'] === user.id;
   }
 };
 
@@ -72598,8 +72611,6 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 var authorizations = __webpack_require__(/*! ./authorizations */ "./resources/js/authorizations.js");
 
 Vue.prototype.authorize = function () {
-  // Additional admin privileges
-  // return true;
   if (!window.App.signedIn) return false;
 
   for (var _len = arguments.length, params = new Array(_len), _key = 0; _key < _len; _key++) {

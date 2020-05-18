@@ -48,8 +48,6 @@ window.Vue = require('vue');
 let authorizations = require('./authorizations');
 
 Vue.prototype.authorize = function (...params) {
-    // Additional admin privileges
-    // return true;
     if (!window.App.signedIn) return false;
 
     if (typeof params[0] === 'string') {
