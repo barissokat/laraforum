@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<thread-view :initial-replies-count="{{ $thread->replies_count }}" inline-template>
+<thread-view :data-replies-count="{{ $thread->replies_count }}" :data-locked="{{ $thread->locked }}" inline-template>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
@@ -52,9 +52,11 @@
                         , and currently has
                         <span v-text="repliesCount"></span>
                         {{ Str::plural('reply', $thread->replies_count) }}.
-                        <hr>
+
                         <div>
-                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}"></subscribe-button>
+                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}" v-if="signedIn"></subscribe-button>
+
+                            <button class="btn btn-warning btn-block" v-if="authorize('isAdmin') && !locked" @click="locked = true">Lock</button>
                         </div>
                     </div>
                 </div>

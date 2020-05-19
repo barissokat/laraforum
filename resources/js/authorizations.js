@@ -1,7 +1,11 @@
 let user = window.App.user;
 
 module.exports = {
-    owns  (model, prob = 'user_id') {
+    owns(model, prob = 'user_id') {
         return model[prob] === user.id;
+    },
+
+    isAdmin() {
+        return ['Baris'].includes(user.name);
     }
 };
