@@ -34,6 +34,7 @@ Route::delete('/threads/{channel:slug}/{thread}', ['as' => 'threads.destroy', 'u
 
 # LockedThreadController
 Route::post('/locked-threads/{thread}', ['as' => 'locked-threads.store', 'uses' => 'LockedThreadController@store']);
+Route::delete('/locked-threads/{thread}', ['as' => 'locked-threads.destroy', 'uses' => 'LockedThreadController@destroy']);
 
 # ReplyController
 Route::get('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.index', 'uses' => 'ReplyController@index']);

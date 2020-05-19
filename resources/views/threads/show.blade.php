@@ -11,15 +11,15 @@
     </div>
 </div>
 
-<thread-view :data-replies-count="{{ $thread->replies_count }}" :data-locked="{{ $thread->locked }}" inline-template>
+<thread-view :thread="{{ $thread }}" inline-template>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center mb-2">
-                            <img src="{{ $thread->owner->avatar }}" class="rounded-circle mr-2" width="25"
-                                height="25" alt="{{ $thread->owner->name }}">
+                            <img src="{{ $thread->owner->avatar }}" class="rounded-circle mr-2" width="25" height="25"
+                                alt="{{ $thread->owner->name }}">
                             <h4 class="card-title d-inline mb-0"><a
                                     href="{{ route('profiles.show', $thread->owner->name ) }}">{{ $thread->owner->name }}</a>
                                 posted: {{ $thread->title }}</h4>
@@ -54,9 +54,12 @@
                         {{ Str::plural('reply', $thread->replies_count) }}.
 
                         <div>
-                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}" v-if="signedIn"></subscribe-button>
+                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}" v-if="signedIn">
+                            </subscribe-button>
 
-                            <button class="btn btn-warning btn-block" v-if="authorize('isAdmin') && !locked" @click="locked = true">Lock</button>
+                            <button class="btn btn-warning btn-block"
+                                v-if="authorize('isAdmin')" @click="toggleLock"
+                                v-text="locked ? 'Unlock' : 'Lock'"></button>
                         </div>
                     </div>
                 </div>
