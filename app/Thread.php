@@ -4,6 +4,7 @@ namespace App;
 
 use App\Events\ThreadReceivedNewReply;
 use App\Filters\ThreadFilters;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -62,6 +63,10 @@ class Thread extends Model
 
     public function addReply($reply)
     {
+        if ($this->locked) {
+            throw new Exception('Thread is locked', 422);
+        }
+
         $reply = $this->replies()->create($reply);
 
         event(new ThreadReceivedNewReply($reply));
@@ -118,5 +123,10 @@ class Thread extends Model
     public function markBestReply(Reply $reply)
     {
         $this->update(['best_reply_id' => $reply->id]);
+    }
+
+    public function lock()
+    {
+        $this->update(['locked' => true]);
     }
 }

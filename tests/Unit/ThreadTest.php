@@ -172,4 +172,18 @@ class ThreadTest extends TestCase
             ]
         );
     }
+
+    /**
+     * @return void
+     */
+    public function testAThreadMayBeLocked()
+    {
+        $this->signIn();
+
+        $this->assertFalse($this->thread->locked);
+
+        $this->thread->lock();
+
+        $this->assertTrue($this->thread->locked);
+    }
 }
