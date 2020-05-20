@@ -15,33 +15,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex align-items-center mb-2">
-                            <img src="{{ $thread->owner->avatar }}" class="rounded-circle mr-2" width="25" height="25"
-                                alt="{{ $thread->owner->name }}">
-                            <h4 class="card-title d-inline mb-0"><a
-                                    href="{{ route('profiles.show', $thread->owner->name ) }}">{{ $thread->owner->name }}</a>
-                                posted: {{ $thread->title }}</h4>
-                        </div>
-                        @can('update', $thread)
-                        <form action="{{ $thread->path() }}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-primary">Delete Thread</button>
-                        </form>
-                        @endcan
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            {{ $thread->body }}
-                        </p>
-                        <a href="{{ route('threads.index') }}" class="btn-link">Back</a>
-                    </div>
-                </div>
+                @include('threads._question')
+
                 <hr>
 
-                <h2>Replies</h2>
                 <replies @added="repliesCount++" @removed="repliesCount--"></replies>
             </div>
             <div class="col-md-4">

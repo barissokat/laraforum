@@ -1,47 +1,53 @@
 <template>
-  <div :id="`reply-${id}`" class="card mb-2" :class="isBest ? 'border-success' : ''">
-    <div class="card-header" :class="isBest ? 'alert-success' : ''">
-      <h5 class="card-title d-flex justify-content-between">
-        <div class="flex-grow-1 align-self-center">
-          <a :href="`/profiles/${reply.owner.name}`" v-text="reply.owner.name"></a>
-          said
-          <span v-text="ago"></span>
-        </div>
+  <div>
+    <h2>Replies</h2>
+    <div :id="`reply-${id}`" class="card mb-2" :class="isBest ? 'border-success' : ''">
+      <div class="card-header" :class="isBest ? 'alert-success' : ''">
+        <h5 class="card-title d-flex justify-content-between">
+          <div class="flex-grow-1 align-self-center">
+            <a :href="`/profiles/${reply.owner.name}`" v-text="reply.owner.name"></a>
+            said
+            <span v-text="ago"></span>
+          </div>
 
-        <div class="flex-shrink-1" v-if="signedIn">
-          <favorite :reply="reply"></favorite>
-        </div>
-      </h5>
-    </div>
-    <div class="card-body">
-      <div class="card-text mb-2">
-        <div v-if="editing">
-          <form @submit="update">
-            <div class="form-group">
-              <textarea class="form-control" rows="3" v-model="body" required></textarea>
-            </div>
-
-            <button class="btn btn-outline-primary btn-sm">Update</button>
-            <button class="btn btn-link btn-sm" @click="editing = false">Cancel</button>
-          </form>
-        </div>
-
-        <div v-else v-html="body"></div>
+          <div class="flex-shrink-1" v-if="signedIn">
+            <favorite :reply="reply"></favorite>
+          </div>
+        </h5>
       </div>
-    </div>
-    <div class="card-footer d-flex" v-if="authorize('owns', reply.thread) || authorize('owns', reply.thread)">
-      <div v-if="authorize('owns', reply)">
-        <button class="btn btn-primary btn-sm mr-2" @click="editing = true">Edit</button>
-        <button class="btn btn-danger btn-sm mr-2" @click="destroy" type="button">Delete</button>
-      </div>
+      <div class="card-body">
+        <div class="card-text mb-2">
+          <div v-if="editing">
+            <form @submit="update">
+              <div class="form-group">
+                <textarea class="form-control" rows="3" v-model="body" required></textarea>
+              </div>
 
-      <button
-        class="btn btn-secondary btn-sm mr-2 ml-auto"
-        @click="markBestReply"
-        type="button"
-        v-if="authorize('owns', reply.thread)"
-        v-show="! isBest"
-      >Best Reply?</button>
+              <button class="btn btn-outline-primary btn-sm">Update</button>
+              <button class="btn btn-link btn-sm" @click="editing = false">Cancel</button>
+            </form>
+          </div>
+
+          <div v-else v-html="body"></div>
+        </div>
+      </div>
+      <div
+        class="card-footer d-flex"
+        v-if="authorize('owns', reply.thread) || authorize('owns', reply.thread)"
+      >
+        <div v-if="authorize('owns', reply)">
+          <button class="btn btn-primary btn-sm mr-2" @click="editing = true">Edit</button>
+          <button class="btn btn-danger btn-sm mr-2" @click="destroy" type="button">Delete</button>
+        </div>
+
+        <button
+          class="btn btn-secondary btn-sm mr-2 ml-auto"
+          @click="markBestReply"
+          type="button"
+          v-if="authorize('owns', reply.thread)"
+          v-show="! isBest"
+        >Best Reply?</button>
+      </div>
     </div>
   </div>
 </template>
@@ -60,7 +66,7 @@ export default {
       editing: false,
       id: this.reply.id,
       body: this.reply.body,
-      isBest: this.reply.isBest,
+      isBest: this.reply.isBest
     };
   },
 
