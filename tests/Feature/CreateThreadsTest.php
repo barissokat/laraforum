@@ -3,20 +3,31 @@
 namespace Tests\Feature;
 
 use App\Activity;
-use App\Thread;
+use App\Rules\Recaptcha;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Tests\TestCase;
 
-class ManageThreadsTest extends TestCase
+class CreateThreadsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, MockeryPHPUnitIntegration;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        app()->singleton(Recaptcha::class, function () {
+            return \Mockery::mock(Recaptcha::class, function ($m) {
+                $m->shouldReceive('passes')->andReturn(true);
+            });
+        });
+    }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function guestMayNotCreateThreads()
+    public function testGuestMayNotCreateThreads()
     {
         $this->get('/threads/create')
             ->assertRedirect('/login');
@@ -26,75 +37,72 @@ class ManageThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function authenticatedUsersMustFirstConfirmTheirEmailAddressBeforeCreatingThreads()
+    public function testNewUsersMustFirstConfirmTheirEmailAddressBeforeCreatingThreads()
     {
-        $user = create('App\User', ['email_verified_at' => null]);
+        $user = factory('App\User')->states('unconfirmed')->create();
 
-        $this->withExceptionHandling()->signIn($user);
+        $this->signIn($user);
 
         $thread = make('App\Thread');
 
-        $this->post('/threads', $thread->toArray())
+        $this->post(route('threads.store'), $thread->toArray())
             ->assertRedirect('/email/verify');
-
         // ->assertSessionHas('flash', 'You must first confirm your email address.');
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function anAuthenticatedUserCanCreateNewForumThreads()
+    public function testAUserCanCreateNewForumThreads()
     {
-        // Given we have a user
-        // And that user is authenticated
-        $this->signIn();
+        $response = $this->publishThread(['title' => 'Some Title', 'body' => 'Some body.']);
 
-        // And we have a thread created by that user
-        $thread = make('App\Thread');
-
-        // And once we hit the endpoint to create a new thread
-        $response = $this->post('/threads', $thread->toArray());
-
-        // And when we visit the thread page
         $this->get($response->headers->get('Location'))
-            ->assertSee($thread->title)
-            ->assertSee($thread->body);
+            ->assertSee('Some Title')
+            ->assertSee('Some body.');
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadRequiresATitle()
+    public function testAThreadRequiresATitle()
     {
         $this->publishThread(['title' => null])
             ->assertSessionHasErrors('title');
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadRequiresABody()
+    public function testAThreadRequiresABody()
     {
         $this->publishThread(['body' => null])
             ->assertSessionHasErrors('body');
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadRequiresAValidChannel()
+    public function testAThreadRequiresRecaptchaVerification()
+    {
+        unset(app()[Recaptcha::class]);
+
+        $this->publishThread()
+            ->assertSessionHasErrors('g-recaptcha-response');
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function testAThreadRequiresAValidChannel()
     {
         factory('App\Channel', 2)->create();
 
@@ -106,11 +114,10 @@ class ManageThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadRequiresAUniqueSlug()
+    public function testAThreadRequiresAUniqueSlug()
     {
         $this->signIn();
 
@@ -118,47 +125,31 @@ class ManageThreadsTest extends TestCase
 
         $this->assertEquals($thread->fresh()->slug, 'foo-title');
 
-        $thread = $this->postJson(route('threads.index'), $thread->toArray())->json();
+        $thread = $this->postJson(route('threads.index'), $thread->toArray() + ['g-recaptcha-response' => 'token'])->json();
 
         $this->assertEquals("foo-title-{$thread['id']}", $thread['slug']);
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadWithATitleThatEndsInANumberShouldGenerateTheProperSlug()
+    public function testAThreadWithATitleThatEndsInANumberShouldGenerateTheProperSlug()
     {
         $this->signIn();
 
         $thread = create('App\Thread', ['title' => 'Some Title 23']);
 
-        $thread = $this->postJson(route('threads.index'), $thread->toArray())->json();
+        $thread = $this->postJson('/threads', $thread->toArray() + ['g-recaptcha-response' => 'token'])->json();
 
         $this->assertEquals("some-title-23-{$thread['id']}", $thread['slug']);
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function publishThread($overrides = [])
-    {
-        $this->withExceptionHandling()->signIn();
-
-        $thread = make('App\Thread', $overrides);
-
-        return $this->post('/threads', $thread->toArray());
-    }
-
-    /**
-     * @test
-     *
-     * @return void
-     */
-    public function unauthorizedUsersMayNotDeleteThreads()
+    public function testUnauthorizedUsersMayNotDeleteThreads()
     {
         $this->withExceptionHandling();
 
@@ -174,11 +165,10 @@ class ManageThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function authorizedUsersCanDeleteThreads()
+    public function testAuthorizedUsersCanDeleteThreads()
     {
         $this->signIn();
 
@@ -199,5 +189,18 @@ class ManageThreadsTest extends TestCase
         ]);
 
         $this->assertEquals(0, Activity::count());
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function publishThread($overrides = [])
+    {
+        $this->withExceptionHandling()->signIn();
+
+        $thread = make('App\Thread', $overrides);
+
+        return $this->post(route('threads.store'), $thread->toArray() + ['g-recaptcha-response' => 'token']);
     }
 }
