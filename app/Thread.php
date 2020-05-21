@@ -7,10 +7,11 @@ use App\Filters\ThreadFilters;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 
 class Thread extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity, Searchable;
 
     protected $guarded = [];
 
@@ -19,7 +20,7 @@ class Thread extends Model
     protected $appends = ['isSubscribedTo'];
 
     protected $casts = [
-        'locked' => 'boolean'
+        'locked' => 'boolean',
     ];
 
     protected static function boot()
