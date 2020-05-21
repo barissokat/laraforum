@@ -27,10 +27,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 # ThreadController
 Route::get('/threads', ['as' => 'threads.index', 'uses' => 'ThreadController@index']);
 Route::get('/threads/create', ['as' => 'threads.create', 'uses' => 'ThreadController@create']);
+Route::get('/threads/search', ['as' => 'threads.index', 'uses' => 'SearchController@show']);
 Route::get('/threads/{channel:slug}/{thread}', ['as' => 'threads.show', 'uses' => 'ThreadController@show']);
 Route::patch('/threads/{channel:slug}/{thread}', ['as' => 'threads.update', 'uses' => 'ThreadController@update']);
 Route::post('/threads', ['as' => 'threads.store', 'uses' => 'ThreadController@store']);
 Route::delete('/threads/{channel:slug}/{thread}', ['as' => 'threads.destroy', 'uses' => 'ThreadController@destroy']);
+
 
 # LockedThreadController
 Route::post('/locked-threads/{thread}', ['as' => 'locked-threads.store', 'uses' => 'LockedThreadController@store']);

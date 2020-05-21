@@ -14,6 +14,22 @@
             {{ $threads->links() }}
         </div>
         <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="holder.js/100px180/" alt="">
+                <div class="card-body">
+                    <h4 class="card-title">Searching</h4>
+                    <form action="/threads/search" method="get">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search for something..." name="q">
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             @if (count($trending))
             <div class="card">
                 <img class="card-img-top" src="holder.js/100x180/" alt="">
