@@ -3,19 +3,18 @@
     <div class="card-header">
         <div class="d-flex align-items-center">
             <div class="form-group mb-0">
-                <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder=""
-                    value="{{ $thread->title }}">
+                <input type="text" class="form-control" v-model="form.title">
             </div>
         </div>
     </div>
     <div class="card-body">
         <div class="form-group">
-            <textarea class="form-control" name="" id="" rows="3">{{ $thread->body }}</textarea>
+            <textarea class="form-control" rows="3" v-model="form.body"></textarea>
         </div>
     </div>
     <div class="card-footer d-flex">
-        <button class="btn btn-primary btn-sm mr-2" @click="">Update</button>
-        <button class="btn btn-secondary btn-sm" @click="editing = false">Cancel</button>
+        <button class="btn btn-primary btn-sm mr-2" @click="update">Update</button>
+        <button class="btn btn-secondary btn-sm" @click="resetForm">Cancel</button>
 
         @can('update', $thread)
         <form action="{{ $thread->path() }}" method="post" class="ml-auto">
@@ -36,16 +35,16 @@
 
             <h4 class="card-title d-inline mb-0"><a
                     href="{{ route('profiles.show', $thread->owner->name ) }}">{{ $thread->owner->name }}</a>
-                posted: {{ $thread->title }}</h4>
+                posted: <span v-text="title"></span>
+            </h4>
         </div>
     </div>
     <div class="card-body">
-        <p class="card-text">
-            {{ $thread->body }}
+        <p class="card-text" v-text="body">
         </p>
         <a href="{{ route('threads.index') }}" class="btn-link">Back</a>
     </div>
-    <div class="card-footer">
+    <div class="card-footer" v-if="authorize('owns', thread)">
         <button class="btn btn-primary btn-sm" @click="editing = true">Edit</button>
     </div>
 </div>
