@@ -24,6 +24,8 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::view('/search', 'search');
+
 # ThreadController
 Route::get('/threads', ['as' => 'threads.index', 'uses' => 'ThreadController@index']);
 Route::get('/threads/create', ['as' => 'threads.create', 'uses' => 'ThreadController@create']);

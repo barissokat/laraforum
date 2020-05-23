@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button class="btn btn-primary" type="submit">Search</button>
+                            <button class="btn btn-primary btn-block" type="submit">Search</button>
                         </div>
                     </form>
                 </div>
