@@ -20,7 +20,7 @@
           <div v-if="editing">
             <form @submit="update">
               <div class="form-group">
-                <textarea class="form-control" rows="3" v-model="body" required></textarea>
+                  <wysiwyg v-model="body"></wysiwyg>
               </div>
 
               <button class="btn btn-outline-primary btn-sm">Update</button>

@@ -50,9 +50,6 @@
                         </div>
                         <div class="form-group">
                             <wysiwyg name="body"></wysiwyg>
-                            {{-- <textarea class="form-control @error('body') is-invalid @enderror" name="body" id="body"
-                                rows="8" placeholder="Have something to say?" required>{{ old('body') }}</textarea>
-                            --}}
                             @error('body')
                             <div class="invalid-feedback">
                                 {{ $message }}
