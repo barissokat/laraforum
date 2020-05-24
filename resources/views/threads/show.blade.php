@@ -2,6 +2,7 @@
 
 @section('head')
 <link href="{{ asset('css/vendor/tribute.css') }}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.css">
 @endsection
 
 @section('content')

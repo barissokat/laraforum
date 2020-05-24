@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            {{-- @if (count($trending))
+            @if (count($trending))
             <div class="card">
                 <img class="card-img-top" src="holder.js/100x180/" alt="">
                 <div class="card-header">
@@ -70,7 +70,7 @@
                     @endforeach
                 </div>
             </div>
-            @endif --}}
+            @endif
         </div>
     </ais-index>
 </div>

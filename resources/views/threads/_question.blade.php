@@ -1,15 +1,13 @@
 {{-- Editing the question --}}
 <div class="card" v-if="editing">
     <div class="card-header">
-        <div class="d-flex align-items-center">
-            <div class="form-group mb-0">
-                <input type="text" class="form-control" v-model="form.title">
-            </div>
+        <div class="form-group mb-0">
+            <input type="text" class="form-control" v-model="form.title">
         </div>
     </div>
     <div class="card-body">
         <div class="form-group">
-            <textarea class="form-control" rows="3" v-model="form.body"></textarea>
+            <wysiwyg v-model="form.body" :value="form.body"></wysiwyg>
         </div>
     </div>
     <div class="card-footer d-flex">
@@ -40,7 +38,7 @@
         </div>
     </div>
     <div class="card-body">
-        <p class="card-text" v-text="body">
+        <p class="card-text" v-html="body">
         </p>
         <a href="{{ route('threads.index') }}" class="btn-link">Back</a>
     </div>

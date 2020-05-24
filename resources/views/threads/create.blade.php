@@ -2,6 +2,7 @@
 
 @section('head')
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.css">
 @endsection
 
 @section('content')
@@ -48,8 +49,10 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control @error('body') is-invalid @enderror" name="body" id="body"
+                            <wysiwyg name="body"></wysiwyg>
+                            {{-- <textarea class="form-control @error('body') is-invalid @enderror" name="body" id="body"
                                 rows="8" placeholder="Have something to say?" required>{{ old('body') }}</textarea>
+                            --}}
                             @error('body')
                             <div class="invalid-feedback">
                                 {{ $message }}
