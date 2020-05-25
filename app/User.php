@@ -2,10 +2,10 @@
 
 namespace App;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -38,32 +38,42 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Fetch all threads that were created by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function threads()
     {
         return $this->hasMany(Thread::class)->latest();
     }
 
+    /**
+     * Fetch the last published reply for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function lastReply()
     {
         return $this->hasOne(Reply::class)->latest();
     }
 
+    /**
+     * Get all activity for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function activity()
     {
         return $this->hasMany(Activity::class);
     }
 
-    public function read($thread)
-    {
-        cache()->forever($this->visitedThreadCacheKey($thread), \Carbon\Carbon::now());
-
-    }
-
-    public function visitedThreadCacheKey($thread)
-    {
-        return sprintf("users.%s.visits.%s", $this->id, $thread->id);
-    }
-
+    /**
+     * Get the path to the user's avatar.
+     *
+     * @param  string $avatar
+     * @return string
+     */
     public function getAvatarPathAttribute($avatar_path)
     {
         return asset(Storage::url($avatar_path ?: 'avatars/default.jpg'));
@@ -74,6 +84,32 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->avatar_path;
     }
 
+    /**
+     * Record that the user has read the given thread.
+     *
+     * @param Thread $thread
+     */
+    public function read($thread)
+    {
+        cache()->forever($this->visitedThreadCacheKey($thread), \Carbon\Carbon::now());
+    }
+
+    /**
+     * Get the cache key for when a user reads a thread.
+     *
+     * @param  Thread $thread
+     * @return string
+     */
+    public function visitedThreadCacheKey($thread)
+    {
+        return sprintf("users.%s.visits.%s", $this->id, $thread->id);
+    }
+
+    /**
+     * Determine if the user is an administrator.
+     *
+     * @return bool
+     */
     public function isAdmin()
     {
         return in_array($this->name, ['Baris']);

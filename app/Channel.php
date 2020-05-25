@@ -3,12 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 
 class Channel extends Model
 {
-    protected $guarded = [];
-
     // protected static function boot()
     // {
     //     parent::boot();
@@ -18,6 +15,11 @@ class Channel extends Model
     //     });
     // }
 
+    /**
+     * A channel consists of threads.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function threads()
     {
         return $this->hasMany(Thread::class);

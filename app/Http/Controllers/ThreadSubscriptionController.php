@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Thread;
-use App\ThreadSubscription;
-use Illuminate\Http\Request;
 
 class ThreadSubscriptionController extends Controller
 {
@@ -19,10 +17,10 @@ class ThreadSubscriptionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new thread subscription.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param int    $channelId
+     * @param Thread $thread
      */
     public function store($channelId, Thread $thread)
     {
@@ -30,10 +28,10 @@ class ThreadSubscriptionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete an existing thread subscription.
      *
-     * @param  \App\ThreadSubscription  $threadSubscription
-     * @return \Illuminate\Http\Response
+     * @param int    $channelId
+     * @param Thread $thread
      */
     public function destroy($channelId, Thread $thread)
     {

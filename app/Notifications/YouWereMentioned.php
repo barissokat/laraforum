@@ -9,12 +9,15 @@ class YouWereMentioned extends Notification
 {
     use Queueable;
 
+    /**
+     * @var \App\Reply
+     */
     protected $reply;
 
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param \App\Reply $reply
      */
     public function __construct($reply)
     {
@@ -24,7 +27,7 @@ class YouWereMentioned extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -35,7 +38,7 @@ class YouWereMentioned extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

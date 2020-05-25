@@ -26,6 +26,7 @@ class ThreadController extends Controller
      *
      * @param  Channel      $channel
      * @param ThreadFilters $filters
+     * @param \App\Trending $trending
      * @return \Illuminate\Http\Response
      */
     public function index(ThreadFilters $filters, Trending $trending)
@@ -55,8 +56,7 @@ class ThreadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Rules\Recaptcha     $recaptcha
+     * @param  \App\Rules\Recaptcha $recaptcha
      * @return \Illuminate\Http\Response
      */
     public function store(Recaptcha $recaptcha)
@@ -85,7 +85,9 @@ class ThreadController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  integer      $channel
      * @param  \App\Thread  $thread
+     * @param \App\Trending $trending
      * @return \Illuminate\Http\Response
      */
     public function show($channel, Thread $thread, Trending $trending)
@@ -102,11 +104,10 @@ class ThreadController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the given thread.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Thread  $thread
-     * @return \Illuminate\Http\Response
+     * @param string $channel
+     * @param Thread $thread
      */
     public function update($channel, Thread $thread)
     {
@@ -121,10 +122,11 @@ class ThreadController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete the given thread.
      *
-     * @param  \App\Thread  $thread
-     * @return \Illuminate\Http\Response
+     * @param        $channel
+     * @param Thread $thread
+     * @return mixed
      */
     public function destroy($channel, Thread $thread)
     {

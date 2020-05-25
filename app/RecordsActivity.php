@@ -4,6 +4,10 @@ namespace App;
 
 trait RecordsActivity
 {
+
+    /**
+     * Boot the trait.
+     */
     protected static function bootRecordsActivity()
     {
         if (auth()->guest()) {
@@ -21,29 +25,50 @@ trait RecordsActivity
         });
     }
 
+    /**
+     * Fetch all model events that require activity recording.
+     *
+     * @return array
+     */
     protected static function getActivitiesToRecord()
     {
         return ['created'];
         // return ['created', 'deleted'];
     }
 
+    /**
+     * Fetch the activity relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function activity()
     {
         return $this->morphMany(Activity::class, 'subject');
     }
 
+    /**
+     * Determine the activity type.
+     *
+     * @param  string $event
+     * @return string
+     */
+    public function getActivityType($event)
+    {
+        $type = strtolower((new \ReflectionClass($this))->getShortName());
+
+        return "{$event}_{$type}";
+    }
+
+    /**
+     * Record new activity for the model.
+     *
+     * @param string $event
+     */
     protected function recordActivity($event)
     {
         $this->activity()->create([
             'user_id' => auth()->id(),
             'type' => $this->getActivityType($event),
         ]);
-    }
-
-    public function getActivityType($event)
-    {
-        $type = strtolower((new \ReflectionClass($this))->getShortName());
-
-        return "{$event}_{$type}";
     }
 }

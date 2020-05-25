@@ -7,6 +7,11 @@ use App\User;
 
 class UsersController extends Controller
 {
+     /**
+     * Fetch all relevant username.
+     *
+     * @return mixed
+     */
     public function index()
     {
         $search = request('name');

@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
-use Illuminate\Http\Request;
 
 class BestReplyController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Mark the best reply for a thread.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Reply $reply
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Reply $reply)
     {

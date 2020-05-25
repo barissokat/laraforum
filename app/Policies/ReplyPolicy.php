@@ -11,10 +11,10 @@ class ReplyPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can create models.
+     * Determine if the authenticated user has permission to create a new reply.
      *
-     * @param  \App\User  $user
-     * @return mixed
+     * @param  User $user
+     * @return bool
      */
     public function create(User $user)
     {
@@ -26,11 +26,11 @@ class ReplyPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine if the authenticated user has permission to update a reply.
      *
-     * @param  \App\User  $user
-     * @param  \App\Reply  $reply
-     * @return mixed
+     * @param  User  $user
+     * @param  Reply $reply
+     * @return bool
      */
     public function update(User $user, Reply $reply)
     {

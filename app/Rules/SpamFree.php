@@ -8,20 +8,10 @@ use Illuminate\Contracts\Validation\Rule;
 class SpamFree implements Rule
 {
     /**
-     * Create a new rule instance.
+     * Determine if the given attribute passes our spam validation.
      *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param  string $attribute
+     * @param  string $value
      * @return bool
      */
     public function passes($attribute, $value)
