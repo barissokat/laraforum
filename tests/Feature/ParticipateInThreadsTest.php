@@ -10,11 +10,10 @@ class ParticipateInThreadsTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @test
      *
      * @return void
      */
-    public function unauthenticatedUsersMayNotAddReplies()
+    public function testUnauthenticatedUsersMayNotAddReplies()
     {
         $this->withExceptionHandling();
 
@@ -23,11 +22,10 @@ class ParticipateInThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function anAuthenticatedUserMayParticipateInForumThreads()
+    public function testAnAuthenticatedUserMayParticipateInForumThreads()
     {
         $this->signIn();
 
@@ -41,11 +39,10 @@ class ParticipateInThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aReplyRequiresABody()
+    public function testAReplyRequiresABody()
     {
         $this->signIn();
 
@@ -57,11 +54,10 @@ class ParticipateInThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function unauthorizedUsersCannotDeleteReplies()
+    public function testUnauthorizedUsersCannotDeleteReplies()
     {
         $reply = create('App\Reply');
 
@@ -74,11 +70,10 @@ class ParticipateInThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function authorizedUsersCanDeleteReplies()
+    public function testAuthorizedUsersCanDeleteReplies()
     {
         $this->signIn();
 
@@ -91,11 +86,10 @@ class ParticipateInThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function unauthorizedUsersCannotUpdateReplies()
+    public function testUnauthorizedUsersCannotUpdateReplies()
     {
         $reply = create('App\Reply');
 
@@ -109,11 +103,10 @@ class ParticipateInThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function authorizedUsersCanUpdateReplies()
+    public function testAuthorizedUsersCanUpdateReplies()
     {
         $this->signIn();
 
@@ -129,11 +122,10 @@ class ParticipateInThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function repliesThatContainSpamMayNotBeCreated()
+    public function testRepliesThatContainSpamMayNotBeCreated()
     {
         $this->signIn();
 
@@ -147,11 +139,10 @@ class ParticipateInThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function usersMayOnlyReplyAMaximumOfOncePerMinute()
+    public function testUsersMayOnlyReplyAMaximumOfOncePerMinute()
     {
         $this->signIn();
 

@@ -12,11 +12,10 @@ class ActivityTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @test
      *
      * @return void
      */
-    public function itRecordsActivityWhenAThreadIsCreated()
+    public function testItRecordsActivityWhenAThreadIsCreated()
     {
         $this->signIn();
 
@@ -35,11 +34,10 @@ class ActivityTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function itRecordsActivityWhenAReplyIsCreated()
+    public function testItRecordsActivityWhenAReplyIsCreated()
     {
         $this->signIn();
 
@@ -49,11 +47,10 @@ class ActivityTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function itFetchesAFeedForAnyUser()
+    public function testItFetchesAFeedForAnyUser()
     {
         $this->signIn();
 

@@ -18,11 +18,10 @@ class NotificationsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aNotificationsIsPreparedWhenASubscribedThreadReceivesANewReplyThatIsNotByTheCurrentUser()
+    public function testANotificationsIsPreparedWhenASubscribedThreadReceivesANewReplyThatIsNotByTheCurrentUser()
     {
         $thread = create('App\Thread')->subscribe();
 
@@ -44,11 +43,10 @@ class NotificationsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanFetchTheirUnreadNotifications()
+    public function testAUserCanFetchTheirUnreadNotifications()
     {
         create(DatabaseNotification::class);
 
@@ -59,11 +57,10 @@ class NotificationsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanMarkANotificationAsRead()
+    public function testAUserCanMarkANotificationAsRead()
     {
         create(DatabaseNotification::class);
 

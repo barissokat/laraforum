@@ -11,11 +11,10 @@ class ReplyTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @test
      *
      * @return void
      */
-    public function replyHasAnOwner()
+    public function testReplyHasAnOwner()
     {
         $reply = create('App\Reply');
 
@@ -23,11 +22,10 @@ class ReplyTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function itKnowsIfItWasJustPublished()
+    public function testItKnowsIfItWasJustPublished()
     {
         $reply = create('App\Reply');
 
@@ -39,11 +37,10 @@ class ReplyTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function itCanDetectAllMentionedUsersInTheBody()
+    public function testItCanDetectAllMentionedUsersInTheBody()
     {
         $reply = new \App\Reply([
             'body' => '@JaneDoe wants to talk to @JohnDoe',
@@ -54,11 +51,10 @@ class ReplyTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function itWrapsMentionedUsernamesInTheBodyWithinAnchorTags()
+    public function testItWrapsMentionedUsernamesInTheBodyWithinAnchorTags()
     {
         $reply = new \App\Reply([
             'body' => 'Hello @Jane-Doe.',
@@ -81,5 +77,19 @@ class ReplyTest extends TestCase
         $reply->thread->update(['best_reply_id' => $reply->id]);
 
         $this->assertTrue($reply->isBest());
+    }
+
+
+    /**
+     *
+     * @return void
+     */
+    public function testARepliesBodyIsSanitizedAutomatically()
+    {
+        $reply = make('App\Reply', [
+            'body' => '<script>alert("bad")</script><p>This is okay.</p>'
+        ]);
+
+        $this->assertEquals('<p>This is okay.</p>', $reply->body);
     }
 }

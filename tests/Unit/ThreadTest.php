@@ -21,11 +21,10 @@ class ThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadHasAPath()
+    public function testAThreadHasAPath()
     {
         $thread = create('App\Thread');
 
@@ -33,21 +32,19 @@ class ThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadHasAOwner()
+    public function testAThreadHasAOwner()
     {
         $this->assertInstanceOf('App\User', $this->thread->owner);
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadCanAddAReply()
+    public function testAThreadCanAddAReply()
     {
         $this->thread->addReply([
             'user_id' => 1,
@@ -58,11 +55,10 @@ class ThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadNotifiesAllRegisteredSubscribersWhenAReplyIsAdded()
+    public function testAThreadNotifiesAllRegisteredSubscribersWhenAReplyIsAdded()
     {
         Notification::fake();
 
@@ -78,21 +74,19 @@ class ThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadHasReplies()
+    public function testAThreadHasReplies()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->thread->replies);
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadBelongsToAChannel()
+    public function testAThreadBelongsToAChannel()
     {
         $thread = create('App\Thread');
 
@@ -100,11 +94,10 @@ class ThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadCanBeSubscribedTo()
+    public function testAThreadCanBeSubscribedTo()
     {
         $thread = create('App\Thread');
 
@@ -117,11 +110,10 @@ class ThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadCanBeUnsubscribedFrom()
+    public function testAThreadCanBeUnsubscribedFrom()
     {
         $thread = create('App\Thread');
 
@@ -133,11 +125,10 @@ class ThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function itKnowsIfTheAuthenticatedUserIsSubscribedToIt()
+    public function testItKnowsIfTheAuthenticatedUserIsSubscribedToIt()
     {
         $thread = create('App\Thread');
 
@@ -151,11 +142,10 @@ class ThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aThreadCanCheckIfTheAuthenticatedUserHasReadAllReplies()
+    public function testAThreadCanCheckIfTheAuthenticatedUserHasReadAllReplies()
     {
         $this->signIn();
 
@@ -171,5 +161,18 @@ class ThreadTest extends TestCase
                 $this->assertFalse($thread->hasUpdatesFor($user)),
             ]
         );
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function testAThreadsBodyIsSanitizedAutomatically()
+    {
+        $thread = make('App\Thread', [
+            'body' => '<script>alert("bad")</script><p>This is okay.</p>'
+        ]);
+
+        $this->assertEquals('<p>This is okay.</p>', $thread->body);
     }
 }

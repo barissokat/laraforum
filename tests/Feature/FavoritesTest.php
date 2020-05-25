@@ -10,22 +10,20 @@ class FavoritesTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @test
      *
      * @return void
      */
-    public function guestsCanNotFavoriteAnything()
+    public function testGuestsCanNotFavoriteAnything()
     {
         $this->post('replies/1/favorites')
             ->assertRedirect('/login');
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function anAuthenticatedUserCanFavoriteAnyReply()
+    public function testAnAuthenticatedUserCanFavoriteAnyReply()
     {
         $this->signIn();
 
@@ -37,11 +35,10 @@ class FavoritesTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function anAuthenticatedUserCanUnfavoriteAnyReply()
+    public function testAnAuthenticatedUserCanUnfavoriteAnyReply()
     {
         $this->signIn();
 
@@ -55,11 +52,10 @@ class FavoritesTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function anAuthenticatedUserMayOnlyFavoriteAReplyOnce()
+    public function testAnAuthenticatedUserMayOnlyFavoriteAReplyOnce()
     {
         $this->signIn();
 

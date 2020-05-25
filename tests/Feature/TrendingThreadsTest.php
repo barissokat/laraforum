@@ -21,11 +21,10 @@ class TrendingThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function itIncrementsAThreadsScoreEachTimeItIsRead()
+    public function testItIncrementsAThreadsScoreEachTimeItIsRead()
     {
         $this->assertEmpty($this->trending->get());
 

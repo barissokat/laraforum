@@ -19,33 +19,30 @@ class ReadThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanViewAllThreads()
+    public function testAUserCanViewAllThreads()
     {
         $response = $this->get('/threads')
             ->assertSee($this->thread->title);
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanReadASingleThread()
+    public function testAUserCanReadASingleThread()
     {
         $response = $this->get($this->thread->path())
             ->assertSee($this->thread->title);
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanFilterThreadsAccordingToAChannel()
+    public function testAUserCanFilterThreadsAccordingToAChannel()
     {
         $channel = create('App\Channel');
 
@@ -58,11 +55,10 @@ class ReadThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanFilterThreadsByAnyUsername()
+    public function testAUserCanFilterThreadsByAnyUsername()
     {
         $this->signIn(create('App\User', ['name' => 'Baris']));
 
@@ -75,11 +71,10 @@ class ReadThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanFilterThreadsByPopularity()
+    public function testAUserCanFilterThreadsByPopularity()
     {
         $threadWithTwoReplies = create('App\Thread');
         create('App\Reply', ['thread_id' => $threadWithTwoReplies->id], 2);
@@ -95,11 +90,10 @@ class ReadThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanFilterThreadsByThoseThatAreUnanswered()
+    public function testAUserCanFilterThreadsByThoseThatAreUnanswered()
     {
         $thread = create('App\Thread');
         $reply = create('App\Reply', ['thread_id' => $thread->id]);
@@ -110,11 +104,10 @@ class ReadThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanRequestAllRepliesForAGivenThread()
+    public function testAUserCanRequestAllRepliesForAGivenThread()
     {
         $thread = create('App\Thread');
         create('App\Reply', ['thread_id' => $thread->id], 2);
@@ -126,11 +119,10 @@ class ReadThreadTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function weRecordANewVisitEachTimeTheThreadIsRead()
+    public function testWeRecordANewVisitEachTimeTheThreadIsRead()
     {
         $thread = create('App\Thread');
 

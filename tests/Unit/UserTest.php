@@ -10,11 +10,10 @@ class UserTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanFetchTheirMostRecentReply()
+    public function testAUserCanFetchTheirMostRecentReply()
     {
         $user = create('App\User');
 
@@ -24,11 +23,10 @@ class UserTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanDetermineTheirAvatarPath()
+    public function testAUserCanDetermineTheirAvatarPath()
     {
         $user = create('App\User');
 

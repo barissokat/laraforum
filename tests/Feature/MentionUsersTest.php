@@ -14,7 +14,7 @@ class MentionUsersTest extends TestCase
      *
      * @return void
      */
-    public function mentionedUsersInAReplyAreNotified()
+    public function testMentionedUsersInAReplyAreNotified()
     {
         $john = create('App\User', ['name' => 'JohnDoe']);
         $this->signIn($john);
@@ -37,7 +37,7 @@ class MentionUsersTest extends TestCase
      *
      * @return void
      */
-    public function itFetchesAllMentionedUsersStartingWithTheGivenCharacters()
+    public function testItFetchesAllMentionedUsersStartingWithTheGivenCharacters()
     {
         $this->withoutExceptionHandling();
         create('App\User', ['name' => 'JohnDoe']);

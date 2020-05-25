@@ -9,11 +9,10 @@ class SpamTest extends TestCase
 {
 
     /**
-     * @test
      *
      * @return void
      */
-    public function itChecksForInvalidKeywords()
+    public function testItChecksForInvalidKeywords()
     {
         $spam = new Spam();
 
@@ -25,11 +24,10 @@ class SpamTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function itChecksForAnyKeyBeingHeldDown()
+    public function testItChecksForAnyKeyBeingHeldDown()
     {
         $spam = new Spam();
 

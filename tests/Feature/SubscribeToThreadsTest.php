@@ -10,11 +10,10 @@ class SubscribeToThreadsTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanSubscribeToThreads()
+    public function testAUserCanSubscribeToThreads()
     {
         $this->signIn();
 
@@ -26,11 +25,10 @@ class SubscribeToThreadsTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserCanUnsubscribeFromThreads()
+    public function testAUserCanUnsubscribeFromThreads()
     {
         $this->signIn();
 

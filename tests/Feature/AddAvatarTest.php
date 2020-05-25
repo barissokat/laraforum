@@ -12,22 +12,20 @@ class AddAvatarTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @test
      *
      * @return void
      */
-    public function onlyMembersCanAddAvatars()
+    public function testOnlyMembersCanAddAvatars()
     {
         $this->json('POST', 'api/users/1/avatar')
             ->assertStatus(401);
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aValidAvatarMustBeProvided()
+    public function testAValidAvatarMustBeProvided()
     {
         $this->signIn();
 
@@ -37,11 +35,10 @@ class AddAvatarTest extends TestCase
     }
 
      /**
-     * @test
      *
      * @return void
      */
-    public function aUserMayAddAnAvatarToTheirProfile()
+    public function testAUserMayAddAnAvatarToTheirProfile()
     {
         $this->signIn();
 

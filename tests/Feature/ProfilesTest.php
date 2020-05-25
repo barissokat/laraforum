@@ -10,11 +10,10 @@ class ProfilesTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @test
      *
      * @return void
      */
-    public function aUserHasAProfile()
+    public function testAUserHasAProfile()
     {
         $user = create('App\User');
 
@@ -23,11 +22,10 @@ class ProfilesTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @return void
      */
-    public function profilesDisplayAllThreadsCreatedByTheAssociatedUser()
+    public function testProfilesDisplayAllThreadsCreatedByTheAssociatedUser()
     {
         $this->signIn();
 
