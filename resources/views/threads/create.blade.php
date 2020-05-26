@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="g-recaptcha" data-sitekey="6Lf2qPkUAAAAAC847rLEkRbotybFDFm2wc4w7PWe"></div>
+                        <div class="g-recaptcha" data-sitekey="{{ config('laraforum.recaptcha.key') }}"></div>
 
                         </div>
 
