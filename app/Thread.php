@@ -50,14 +50,16 @@ class Thread extends Model
     {
         parent::boot();
 
-        static::deleting(function ($thread) {
-            $thread->replies->each->delete();
-        });
-
         static::created(function ($thread) {
             $thread->update(['slug' => $thread->title]);
 
             Reputation::award($thread->owner, Reputation::THREAD_PUBLISHED);
+        });
+
+        static::deleting(function ($thread) {
+            $thread->replies->each->delete();
+
+            Reputation::deduct($thread->owner, Reputation::THREAD_PUBLISHED);
         });
     }
 
