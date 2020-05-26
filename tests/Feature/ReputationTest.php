@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Reputation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,7 +18,7 @@ class ReputationTest extends TestCase
     {
         $thread = create('App\Thread');
 
-        $this->assertEquals(10, $thread->owner->reputation);
+        $this->assertEquals(Reputation::THREAD_PUBLISHED, $thread->owner->reputation);
     }
 
     /**
@@ -30,10 +31,10 @@ class ReputationTest extends TestCase
 
         $reply = $thread->addReply([
             'user_id' => create('App\User')->id,
-            'body' => 'Here is a reply.'
+            'body' => 'Here is a reply.',
         ]);
 
-        $this->assertEquals(2, $reply->owner->reputation);
+        $this->assertEquals(Reputation::REPLY_POSTED, $reply->owner->reputation);
     }
 
     /**
@@ -46,13 +47,13 @@ class ReputationTest extends TestCase
 
         $reply = $thread->addReply([
             'user_id' => create('App\User')->id,
-            'body' => 'Here is a reply.'
+            'body' => 'Here is a reply.',
         ]);
 
-        $this->assertEquals(2, $reply->owner->reputation);
+        $reputation = Reputation::REPLY_POSTED + Reputation::BEST_REPLY_AWARDED;
 
         $thread->markBestReply($reply);
 
-        $this->assertEquals(52, $reply->owner->reputation);
+        $this->assertEquals($reputation, $reply->owner->reputation);
     }
 }
