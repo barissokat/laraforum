@@ -7,6 +7,8 @@
             {{ $profileUser->name }}
         </h1>
         <p class="lead">
+            <small> {{ $profileUser->reputation }} XP</small>
+            <br>
             <small>Since {{ $profileUser->created_at->diffForHumans() }}</small>
         </p>
     </div>

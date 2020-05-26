@@ -32,7 +32,9 @@
                 alt="{{ $thread->owner->name }}">
 
             <h4 class="card-title d-inline mb-0"><a
-                    href="{{ route('profiles.show', $thread->owner->name ) }}">{{ $thread->owner->name }}</a>
+                    href="{{ route('profiles.show', $thread->owner->name) }}">
+                    {{ $thread->owner->name }} <small>({{ $thread->owner->reputation }} XP)</small>
+                </a>
                 posted: <span v-text="title"></span>
             </h4>
         </div>
