@@ -39,7 +39,5 @@ password: admin
 
 now visit: http://localhost/admin/channels and add at least one channel.
 
-    php artisan cache:clear
-
 ### Step 4.
 Use your forum! Visit http://localhost to create a new account and publish your first thread.
