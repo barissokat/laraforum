@@ -30,7 +30,14 @@ Then, migrate your database to create the required tables.
 
 
 ### Step 3.
-Until an administration portal is available, manually insert any number of `channels` (think of these as forum categories) into the `channels` table in your database.
+Finally, add one or more channels. Login with the following credentials:
+
+```
+email: admin@example.com
+password: admin
+```
+
+now visit: http://localhost/admin/channels and add at least one channel.
 
 Once finished, clear your server cache, and you’re all set to go!
 
