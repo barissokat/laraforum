@@ -9,10 +9,11 @@ This is an open source forum that was built and maintained from Laracasts.com. T
 
 Begin by cloning this repository to your machine, and installing all Composer dependencies.
 
- 	git clone https://github.com/barissokat/laraforum`
-    cd forum && composer install
+ 	git clone https://github.com/barissokat/laraforum
+    cd forum && composer install && npm install
     php artisan key:generate
     cp .env.example .env
+    npm run dev
 
 ### Step 2.
 Next, create a new database and reference its name and username/password within the project’s `.env` file. In the example below, we’ve named the database `"laraforum"`.
@@ -30,11 +31,8 @@ Then, migrate your database to create the required tables.
 
 
 ### Step 3.
-Finally, add one or more channels.
+Next, boot up a server and visit your forum.
 
-1. Visit: http://localhost/register and register an account.
-2. Edit `config/laraforum.php`, adding the email address of the account you just created.
-3. Visit: http://localhost/admin/channels and add at least one channel.  
-
-### Step 4.
-Use your forum! Visit http://localhost to create a new account and publish your first thread.
+1. Visit: http://localhost/register to register a new forum account.
+2. Edit `config/laraforum.php`, and add any email address that should be marked as an administrator.
+3. Visit: http://localhost/admin/channels to seed your forum with one or more channels.  

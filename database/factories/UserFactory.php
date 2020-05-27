@@ -32,9 +32,3 @@ $factory->state(App\User::class, 'unconfirmed', function () {
         'email_verified_at' => null,
     ];
 });
-
-// $factory->state(App\User::class, 'administrator', function () {
-//     return [
-//         'isAdmin' => true,
-//     ];
-// });

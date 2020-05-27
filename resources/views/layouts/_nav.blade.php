@@ -46,10 +46,6 @@
 
                 <user-notifications></user-notifications>
 
-                @if (Auth::user()->isAdmin())
-                <li><a href="/admin"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
-                @endif
-
                 <!-- Authentication Links -->
                 @guest
                 <li class="nav-item">
@@ -61,6 +57,13 @@
                 </li>
                 @endif
                 @else
+
+                @if (Auth::user()->isAdmin())
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin"><span class="fas fa-cog" aria-hidden="true"></span></a>
+                </li>
+                @endif
+
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

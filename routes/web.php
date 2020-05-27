@@ -82,7 +82,7 @@ Route::group([
     'namespace' => 'Admin'
 ], function() {
     Route::get('/', 'DashboardController@index')->name('admin.dashboard.index');
-    Route::post('/channels', 'ChannelsController@store')->name('admin.channels.store');
-    Route::get('/channels', 'ChannelsController@index')->name('admin.channels.index');
-    Route::get('/channels/create', 'ChannelsController@create')->name('admin.channels.create');
+    Route::get('/channels', 'ChannelController@index')->name('admin.channels.index');
+    Route::get('/channels/create', 'ChannelController@create')->name('admin.channels.create');
+    Route::post('/channels', 'ChannelController@store')->name('admin.channels.store');
 });

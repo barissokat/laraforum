@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
-class ChannelsController extends Controller
+class ChannelController extends Controller
 {
     public function index()
     {

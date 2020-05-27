@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\admin;
+namespace Tests\Feature\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,25 +10,14 @@ class AdministratorTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->withExceptionHandling();
-    }
-
     /**
      *
      * @return void
      */
     public function testAnAdministratorCanAccessTheAdministratorSection()
     {
-        $administrator = factory('App\User')->create();
-        config(['council.administrators' => [ $administrator->email ]]);
-        $this->signIn($administrator);
-
-        $this->actingAs($administrator)
-            ->get('/admin')
+        $this->signInAdmin()
+            ->get(route('admin.dashboard.index'))
             ->assertStatus(Response::HTTP_OK);
     }
 
@@ -38,10 +27,8 @@ class AdministratorTest extends TestCase
      */
     public function testNonAdministratorCannotAccessTheAdministratorSection()
     {
-        $regularUser = factory('App\User')->create();
-
-        $this->actingAs($regularUser)
-            ->get('/admin')
+        $this->signIn()
+            ->get(route('admin.dashboard.index'))
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 }

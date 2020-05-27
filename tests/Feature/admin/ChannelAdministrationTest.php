@@ -10,25 +10,14 @@ class ChannelAdministrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->withExceptionHandling();
-    }
-
     /**
      *
      * @return void
      */
     public function testAnAdministratorCanAccessTheChannelAdministrationSection()
     {
-        $administrator = factory('App\User')->create();
-        config(['council.administrators' => [$administrator->email]]);
-        $this->signIn($administrator);
-
-        $this->actingAs($administrator)
-            ->get('/admin/channels')
+        $this->signInAdmin()
+            ->get(route('admin.channels.index'))
             ->assertStatus(Response::HTTP_OK);
     }
 
@@ -38,13 +27,11 @@ class ChannelAdministrationTest extends TestCase
      */
     public function testNonAdministratorCannotAccessTheChannelAdministrationSection()
     {
-        $regularUser = factory('App\User')->create();
-
-        $this->actingAs($regularUser)
+        $this->signIn()
             ->get(route('admin.channels.index'))
             ->assertStatus(Response::HTTP_FORBIDDEN);
 
-        $this->actingAs($regularUser)
+        $this->signIn()
             ->get(route('admin.channels.create'))
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -87,13 +74,11 @@ class ChannelAdministrationTest extends TestCase
 
     protected function createChannel($overrides = [])
     {
-        $administrator = factory('App\User')->create();
-        config(['council.administrators' => [$administrator->email]]);
-        $this->signIn($administrator);
+        $this->signInAdmin();
 
         $channel = make('App\Channel', $overrides);
 
-        return $this->post('/admin/channels', $channel->toArray());
+        return $this->post(route('admin.channels.store'), $channel->toArray());
     }
 
 }
