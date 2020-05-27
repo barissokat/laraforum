@@ -23,9 +23,9 @@ class ChannelAdministrationTest extends TestCase
      */
     public function testAnAdministratorCanAccessTheChannelAdministrationSection()
     {
-        $administrator = factory('App\User')
-            ->states('administrator')
-            ->create();
+        $administrator = factory('App\User')->create();
+        config(['council.administrators' => [$administrator->email]]);
+        $this->signIn($administrator);
 
         $this->actingAs($administrator)
             ->get('/admin/channels')
@@ -79,16 +79,6 @@ class ChannelAdministrationTest extends TestCase
      *
      * @return void
      */
-    // public function testAChannelRequiresASlug()
-    // {
-    //     $this->createChannel(['slug' => null])
-    //          ->assertSessionHasErrors('slug');
-    // }
-
-    /**
-     *
-     * @return void
-     */
     public function testAChannelRequiresADescription()
     {
         $this->createChannel(['description' => null])
@@ -97,9 +87,8 @@ class ChannelAdministrationTest extends TestCase
 
     protected function createChannel($overrides = [])
     {
-        $administrator = factory('App\User')
-            ->states('administrator')
-            ->create();
+        $administrator = factory('App\User')->create();
+        config(['council.administrators' => [$administrator->email]]);
         $this->signIn($administrator);
 
         $channel = make('App\Channel', $overrides);

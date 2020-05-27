@@ -23,7 +23,9 @@ class AdministratorTest extends TestCase
      */
     public function testAnAdministratorCanAccessTheAdministratorSection()
     {
-        $administrator = factory('App\User')->states('administrator')->create();
+        $administrator = factory('App\User')->create();
+        config(['council.administrators' => [ $administrator->email ]]);
+        $this->signIn($administrator);
 
         $this->actingAs($administrator)
             ->get('/admin')

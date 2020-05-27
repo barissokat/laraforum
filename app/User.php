@@ -39,6 +39,15 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'isAdmin',
+    ];
+
+    /**
      * Fetch all threads that were created by the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -66,6 +75,26 @@ class User extends Authenticatable implements MustVerifyEmail
     public function activity()
     {
         return $this->hasMany(Activity::class);
+    }
+
+    /**
+     * Determine if the user is an administrator.
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return in_array($this->email, config('laraforum.administrators'));
+    }
+
+    /**
+     * Determine if the user is an administrator.
+     *
+     * @return bool
+     */
+    public function getIsAdminAttribute()
+    {
+        return $this->isAdmin();
     }
 
     /**

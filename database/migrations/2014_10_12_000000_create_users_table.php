@@ -22,21 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->unsignedBigInteger('reputation')->default(0);
             $table->string('avatar_path')->nullable();
-            $table->boolean('isAdmin')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
-
-        DB::table('users')
-            ->insert(
-                [
-                    'name' => 'admin',
-                    'email' => 'admin@example.com',
-                    'password' => bcrypt('admin'),
-                    'isAdmin' => true,
-                    'email_verified_at' => now(),
-                ]
-            );
     }
 
     /**

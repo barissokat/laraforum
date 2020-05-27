@@ -30,7 +30,9 @@ class LockThreadsTest extends TestCase
      */
     public function testAdministratorsCanLockThreads()
     {
-        $this->signIn(factory('App\User')->states('administrator')->create());
+        $user = factory('App\User')->create();
+        config(['laraforum.administrators' => [$user->email]]);
+        $this->signIn($user);
 
         $thread = create('App\Thread', ['user_id' => auth()->id()]);
 
@@ -45,7 +47,9 @@ class LockThreadsTest extends TestCase
      */
     public function testAdministratorsCanUnlockThreads()
     {
-        $this->signIn(factory('App\User')->states('administrator')->create());
+        $user = factory('App\User')->create();
+        config(['council.administrators' => [$user->email]]);
+        $this->signIn($user);
 
         $thread = create('App\Thread', ['user_id' => auth()->id(), 'locked' => true]);
 
