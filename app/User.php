@@ -104,14 +104,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return sprintf("users.%s.visits.%s", $this->id, $thread->id);
     }
-
-    /**
-     * Determine if the user is an administrator.
-     *
-     * @return bool
-     */
-    public function isAdmin()
-    {
-        return in_array($this->name, ['Baris']);
-    }
 }
