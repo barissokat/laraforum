@@ -3,6 +3,9 @@ language: php
 php:
   - 7.4
 
+before_install:
+  sudo service redis-server start --bind 127.0.0.1
+
 before_script:
   - cp .env.travis .env
   - composer install --no-interaction

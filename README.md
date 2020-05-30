@@ -11,8 +11,8 @@ Begin by cloning this repository to your machine, and installing all Composer de
 
  	git clone https://github.com/barissokat/laraforum
     cd forum && composer install && npm install
-    php artisan key:generate
     cp .env.example .env
+    php artisan key:generate
     npm run dev
 
 ### Step 2.
