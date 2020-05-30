@@ -10,9 +10,7 @@ before_script:
   - cp .env.travis .env
   - composer install --no-interaction
   - php artisan key:generate
-
-services:
-  - redis-server
+  - sudo redis-server /etc/redis/redis.conf --port 6379
 
 script:
   - vendor/bin/phpunit
