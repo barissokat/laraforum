@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="form-group">
-                        <div class="g-recaptcha" data-sitekey="{{ config('laraforum.recaptcha.key') }}"></div>
+                        <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key') }}"></div>
 
                         </div>
 
