@@ -8,11 +8,11 @@ before_script:
   - composer install --no-interaction
   - php artisan key:generate
 
-script:
-  - vendor/bin/phpunit
-
 services:
   - redis-server
+
+script:
+  - vendor/bin/phpunit
 
 cache:
   directories:
