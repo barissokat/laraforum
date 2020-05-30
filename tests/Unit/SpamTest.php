@@ -22,17 +22,4 @@ class SpamTest extends TestCase
 
         $spam->detect('yahoo customer support');
     }
-
-    /**
-     *
-     * @return void
-     */
-    public function testItChecksForAnyKeyBeingHeldDown()
-    {
-        $spam = new Spam();
-
-        $this->expectException(\Exception::class);
-
-        $spam->detect('Hello world aaaaaaaaaaaa');
-    }
 }
