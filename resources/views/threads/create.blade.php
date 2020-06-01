@@ -2,7 +2,6 @@
 
 @section('head')
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.css">
 @endsection
 
 @section('content')
