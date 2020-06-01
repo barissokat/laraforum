@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Notifications\DatabaseNotification;
 use Tests\TestCase;
 
 class NotificationsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     public function setUp(): void
     {
@@ -65,12 +65,12 @@ class NotificationsTest extends TestCase
         create(DatabaseNotification::class);
 
         tap(auth()->user(), fn($user) =>
-        [
-            $this->assertCount(1, $user->unreadNotifications),
+            [
+                $this->assertCount(1, $user->unreadNotifications),
 
-            $this->delete("/profiles/{$user->name}/notifications/" . $user->unreadNotifications->first()->id),
+                $this->delete("/profiles/{$user->name}/notifications/" . $user->unreadNotifications->first()->id),
 
-            $this->assertCount(0, $user->fresh()->unreadNotifications),
+                $this->assertCount(0, $user->fresh()->unreadNotifications),
             ]
         );
     }

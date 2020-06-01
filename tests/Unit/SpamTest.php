@@ -3,11 +3,12 @@
 namespace Tests\Unit;
 
 use App\Inspections\Spam;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class SpamTest extends TestCase
 {
-
+    use RefreshDatabase;
     /**
      *
      * @return void

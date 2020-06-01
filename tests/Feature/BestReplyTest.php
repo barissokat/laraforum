@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class BestReplyTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /**
      *
@@ -32,7 +32,7 @@ class BestReplyTest extends TestCase
      *
      * @return void
      */
-    function testOnlyTheThreadCreatorMayMarkAReplyAsBest()
+    public function testOnlyTheThreadCreatorMayMarkAReplyAsBest()
     {
         $this->withExceptionHandling();
 

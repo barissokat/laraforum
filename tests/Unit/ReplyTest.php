@@ -3,12 +3,12 @@
 namespace Tests\Unit;
 
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ReplyTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /**
      *
@@ -79,7 +79,6 @@ class ReplyTest extends TestCase
         $this->assertTrue($reply->isBest());
     }
 
-
     /**
      *
      * @return void
@@ -87,7 +86,7 @@ class ReplyTest extends TestCase
     public function testARepliesBodyIsSanitizedAutomatically()
     {
         $reply = make('App\Reply', [
-            'body' => '<script>alert("bad")</script><p>This is okay.</p>'
+            'body' => '<script>alert("bad")</script><p>This is okay.</p>',
         ]);
 
         $this->assertEquals('<p>This is okay.</p>', $reply->body);

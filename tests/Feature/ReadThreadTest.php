@@ -2,14 +2,14 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ReadThreadTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
-    // protected $thread;
+    protected $thread;
 
     public function setUp(): void
     {
@@ -61,7 +61,6 @@ class ReadThreadTest extends TestCase
     public function testAUserCanFilterThreadsByAnyUsername()
     {
         $this->signIn(create('App\User', ['name' => 'Baris']));
-
 
         $threadByBaris = create('App\Thread', ['user_id' => auth()->id()]);
         $threadNotByBaris = create('App\Thread');

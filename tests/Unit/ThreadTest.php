@@ -3,13 +3,13 @@
 namespace Tests\Unit;
 
 use App\Notifications\ThreadWasUpdated;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class ThreadTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     protected $thread;
 
@@ -170,7 +170,7 @@ class ThreadTest extends TestCase
     public function testAThreadsBodyIsSanitizedAutomatically()
     {
         $thread = make('App\Thread', [
-            'body' => '<script>alert("bad")</script><p>This is okay.</p>'
+            'body' => '<script>alert("bad")</script><p>This is okay.</p>',
         ]);
 
         $this->assertEquals('<p>This is okay.</p>', $thread->body);
