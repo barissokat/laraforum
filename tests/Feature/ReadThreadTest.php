@@ -60,14 +60,14 @@ class ReadThreadTest extends TestCase
      */
     public function testAUserCanFilterThreadsByAnyUsername()
     {
-        $this->signIn(create('App\User', ['name' => 'Baris']));
+        $this->signIn(create('App\User', ['name' => 'JohnDoe']));
 
-        $threadByBaris = create('App\Thread', ['user_id' => auth()->id()]);
-        $threadNotByBaris = create('App\Thread');
+        $johnsThread = create('App\Thread', ['user_id' => auth()->id()]);
+        $janesThread = create('App\Thread');
 
-        $this->get('threads?by=Baris')
-            ->assertSee($threadByBaris->title)
-            ->assertDontSee($threadNotByBaris->title);
+        $this->get('threads?by=JohnDoe')
+            ->assertSee($johnsThread->title)
+            ->assertDontSee($janesThread->title);
     }
 
     /**
