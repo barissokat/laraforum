@@ -3,8 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ThreadReceivedNewReply;
-use App\Notifications\YouWereMentioned;
-use App\User;
+use App\Mentions;
 
 class NotifyMentionedUsers
 {
@@ -16,6 +15,6 @@ class NotifyMentionedUsers
      */
     public function handle(ThreadReceivedNewReply $event)
     {
-        $event->reply->notifyMentionedUsers();
+        Mentions::notifyMentionedUsers($event->reply);
     }
 }

@@ -40,20 +40,6 @@ class ReplyTest extends TestCase
      *
      * @return void
      */
-    public function testItCanDetectAllMentionedUsersInTheBody()
-    {
-        $reply = new \App\Reply([
-            'body' => '@JaneDoe wants to talk to @JohnDoe',
-        ]);
-
-        $this->assertEquals(['JaneDoe', 'JohnDoe'], $reply->mentionedUsers());
-
-    }
-
-    /**
-     *
-     * @return void
-     */
     public function testItWrapsMentionedUsernamesInTheBodyWithinAnchorTags()
     {
         $reply = new \App\Reply([
@@ -61,7 +47,6 @@ class ReplyTest extends TestCase
         ]);
 
         $this->assertEquals('Hello <a href="/profiles/Jane-Doe">@Jane-Doe</a>.', $reply->body);
-
     }
 
     /**
