@@ -93,6 +93,10 @@ class CreateThreadsTest extends TestCase
      */
     public function testAThreadRequiresRecaptchaVerification()
     {
+        if (Recaptcha::isInTestMode()) {
+            $this->markTestSkipped("Recaptcha is in test mode.");
+        }
+
         unset(app()[Recaptcha::class]);
 
         $this->publishThread()
