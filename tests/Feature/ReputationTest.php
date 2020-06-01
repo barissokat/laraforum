@@ -134,7 +134,7 @@ class ReputationTest extends TestCase
         $thread = create('App\Thread');
 
         $reply = $thread->addReply([
-            'user_id' => auth()->id(),
+            'user_id' => create('App\User')->id,
             'body' => 'Some reply',
         ]);
 
@@ -143,6 +143,8 @@ class ReputationTest extends TestCase
         $this->post(route('replies.favorite', $reply));
 
         $this->assertEquals($total, $reply->owner->fresh()->reputation);
+
+        $this->assertEquals(0, auth()->user()->reputation);
     }
 
     /**
