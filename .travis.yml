@@ -3,14 +3,13 @@ language: php
 php:
   - 7.4
 
-before_install:
-  sudo service redis-server start --bind 127.0.0.1
+services:
+  - redis-server
 
 before_script:
   - cp .env.travis .env
   - composer install --no-interaction
   - php artisan key:generate
-  - sudo redis-server /etc/redis/redis.conf --port 6379
 
 script:
   - vendor/bin/phpunit
