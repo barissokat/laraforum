@@ -82,6 +82,22 @@ class ThreadTest extends TestCase
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->thread->replies);
     }
 
+        /**
+     *
+     * @return void
+     */
+    public function testAThreadCanHaveABestReply()
+    {
+        $reply = $this->thread->addReply([
+            'body' => 'Foobar',
+            'user_id' => 1,
+        ]);
+
+        $this->thread->markBestReply($reply);
+
+        $this->assertEquals($reply->id, $this->thread->bestReply->id);
+    }
+
     /**
      *
      * @return void

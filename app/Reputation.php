@@ -14,7 +14,7 @@ class Reputation
         $user->increment('reputation', $points);
     }
 
-    public static function deduct($user, $points)
+    public static function reduce($user, $points)
     {
         $user->decrement('reputation', $points);
     }

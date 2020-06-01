@@ -59,7 +59,7 @@ class Thread extends Model
         static::deleting(function ($thread) {
             $thread->replies->each->delete();
 
-            Reputation::deduct($thread->owner, Reputation::THREAD_PUBLISHED);
+            Reputation::reduce($thread->owner, Reputation::THREAD_PUBLISHED);
         });
     }
 
@@ -111,6 +111,16 @@ class Thread extends Model
     public function subscriptions()
     {
         return $this->hasMany(ThreadSubscription::class);
+    }
+
+    /**
+     * A thread can have a best reply.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function bestReply()
+    {
+        return $this->hasOne(Reply::class, 'thread_id');
     }
 
     /**
@@ -230,9 +240,23 @@ class Thread extends Model
      */
     public function markBestReply(Reply $reply)
     {
+        if ($this->hasBestReply()) {
+            Reputation::reduce($this->bestReply->owner, Reputation::BEST_REPLY_AWARDED);
+        }
+
         $this->update(['best_reply_id' => $reply->id]);
 
         Reputation::award($reply->owner, Reputation::BEST_REPLY_AWARDED);
+    }
+
+    /**
+     * Determine if the thread has a current best reply.
+     *
+     * @return bool
+     */
+    public function hasBestReply()
+    {
+        return !is_null($this->best_reply_id);
     }
 
     /**

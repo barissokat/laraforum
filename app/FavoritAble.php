@@ -69,7 +69,7 @@ trait FavoritAble
 
         $this->favorites()->where($attributes)->get()->each->delete();
 
-        Reputation::deduct($this->owner, Reputation::REPLY_FAVORITED);
+        Reputation::reduce($this->owner, Reputation::REPLY_FAVORITED);
     }
 
     /**
