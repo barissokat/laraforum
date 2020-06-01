@@ -10336,19 +10336,20 @@ __webpack_require__.r(__webpack_exports__);
   props: ["active"],
   data: function data() {
     return {
-      result: this.active ? "Subscribed" : "Subscribe"
+      result: this.isActive ? "Subscribed" : "Subscribe",
+      isActive: this.active
     };
   },
   computed: {
     classes: function classes() {
-      return ["btn btn-block", this.active ? "btn-success" : "btn-primary"];
+      return ["btn btn-block", this.isActive ? "btn-success" : "btn-primary"];
     }
   },
   methods: {
     subscribe: function subscribe() {
-      axios[this.active ? "delete" : "post"](location.pathname + "/subscriptions");
-      this.active = !this.active;
-      this.result = this.active ? "Subscribed" : "Subscribe";
+      axios[this.isActive ? "delete" : "post"](location.pathname + "/subscriptions");
+      this.isActive = !this.isActive;
+      this.result = this.isActive ? "Subscribed" : "Subscribe";
     }
   }
 });
@@ -97549,7 +97550,7 @@ module.exports = {
     return model[prob] === user.id;
   },
   isAdmin: function isAdmin() {
-    return ['Baris'].includes(user.name);
+    return user.isAdmin;
   }
 };
 

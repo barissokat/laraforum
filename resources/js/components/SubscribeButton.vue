@@ -8,24 +8,25 @@ export default {
 
   data() {
     return {
-      result: this.active ? "Subscribed" : "Subscribe"
+      result: this.isActive ? "Subscribed" : "Subscribe",
+      isActive: this.active
     };
   },
 
   computed: {
     classes() {
-      return ["btn btn-block", this.active ? "btn-success" : "btn-primary"];
+      return ["btn btn-block", this.isActive ? "btn-success" : "btn-primary"];
     }
   },
 
   methods: {
     subscribe() {
-      axios[this.active ? "delete" : "post"](
+      axios[this.isActive ? "delete" : "post"](
         location.pathname + "/subscriptions"
       );
 
-      this.active = !this.active;
-      this.result = this.active ? "Subscribed" : "Subscribe";
+      this.isActive = !this.isActive;
+      this.result = this.isActive ? "Subscribed" : "Subscribe";
     }
   }
 };
