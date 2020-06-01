@@ -6,6 +6,7 @@ use App\Activity;
 use App\Rules\Recaptcha;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class CreateThreadsTest extends TestCase
@@ -161,7 +162,7 @@ class CreateThreadsTest extends TestCase
         $this->signIn();
 
         $this->delete(route('threads.destroy', [$thread->channel->slug, $thread]))
-            ->assertStatus(403);
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /**
@@ -177,7 +178,7 @@ class CreateThreadsTest extends TestCase
 
         $response = $this->json('DELETE', route('threads.destroy', [$thread->channel->slug, $thread]));
 
-        $response->assertStatus(204);
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
 
         $this->assertDatabaseMissing('threads', [
             'id' => $thread->id,

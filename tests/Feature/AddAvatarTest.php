@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class AddAvatarTest extends TestCase
@@ -18,7 +19,7 @@ class AddAvatarTest extends TestCase
     public function testOnlyMembersCanAddAvatars()
     {
         $this->json('POST', 'api/users/1/avatar')
-            ->assertStatus(401);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -31,7 +32,7 @@ class AddAvatarTest extends TestCase
 
         $this->json('POST', route('avatar.store', auth()->id()), [
             'avatar' => 'not-an-image',
-        ])->assertStatus(422);
+        ])->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**

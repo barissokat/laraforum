@@ -84,17 +84,6 @@ class Reply extends Model
     }
 
     /**
-     *
-     * Determine if the current reply is marked as the best.
-     *
-     * @return bool
-     */
-    public function getIsBestAttribute()
-    {
-        return $this->isBest();
-    }
-
-    /**
      * Access the body attribute.
      *
      * @param  string $body
@@ -103,6 +92,17 @@ class Reply extends Model
     public function getBodyAttribute($body)
     {
         return \Purify::clean($body);
+    }
+
+    /**
+     *
+     * Determine if the current reply is marked as the best.
+     *
+     * @return bool
+     */
+    public function getIsBestAttribute()
+    {
+        return $this->isBest();
     }
 
     /**

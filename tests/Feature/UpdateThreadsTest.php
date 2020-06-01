@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class UpdateThreadsTest extends TestCase
@@ -41,7 +42,7 @@ class UpdateThreadsTest extends TestCase
     {
         $thread = create('App\Thread', ['user_id' => create('App\User')->id]);
 
-        $this->patch($thread->path(), [])->assertStatus(403);
+        $this->patch($thread->path(), [])->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /**

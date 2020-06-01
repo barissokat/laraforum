@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class ParticipateInThreadsTest extends TestCase
@@ -50,7 +51,7 @@ class ParticipateInThreadsTest extends TestCase
         $reply = make('App\Reply', ['body' => null]);
 
         $this->json('post', $thread->path() . '/replies', $reply->toArray())
-            ->assertStatus(422);
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -66,7 +67,7 @@ class ParticipateInThreadsTest extends TestCase
 
         $this->signIn()
             ->delete("/replies/{$reply->id}")
-            ->assertStatus(403);
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /**
@@ -79,7 +80,7 @@ class ParticipateInThreadsTest extends TestCase
 
         $reply = create('App\Reply', ['user_id' => auth()->id()]);
 
-        $this->delete("/replies/{$reply->id}")->assertStatus(302);
+        $this->delete("/replies/{$reply->id}")->assertStatus(Response::HTTP_FOUND);
 
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
         $this->assertEquals(0, $reply->thread->fresh()->replies_count);
@@ -98,7 +99,7 @@ class ParticipateInThreadsTest extends TestCase
 
         $this->signIn()
             ->patch(route('replies.update', $reply->id))
-            ->assertStatus(403);
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /**
@@ -134,7 +135,7 @@ class ParticipateInThreadsTest extends TestCase
         ]);
 
         $this->json('post', $thread->path() . '/replies', $reply->toArray())
-            ->assertStatus(422);
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -150,9 +151,9 @@ class ParticipateInThreadsTest extends TestCase
         $reply = make('App\Reply');
 
         $this->post($thread->path() . '/replies', $reply->toArray())
-            ->assertStatus(201);
+            ->assertStatus(Response::HTTP_CREATED);
 
         $this->post($thread->path() . '/replies', $reply->toArray())
-            ->assertStatus(429);
+            ->assertStatus(Response::HTTP_TOO_MANY_REQUESTS);
     }
 }

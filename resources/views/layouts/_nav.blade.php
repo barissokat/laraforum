@@ -60,7 +60,7 @@
 
                 @if (Auth::user()->isAdmin())
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin"><span class="fas fa-cog" aria-hidden="true"></span></a>
+                    <a class="nav-link" href="{{ route('admin.dashboard.index') }}"><span class="fas fa-cog" aria-hidden="true"></span></a>
                 </li>
                 @endif
 

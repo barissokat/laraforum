@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class LockThreadsTest extends TestCase
@@ -19,7 +20,7 @@ class LockThreadsTest extends TestCase
 
         $thread = create('App\Thread', ['user_id' => auth()->id()]);
 
-        $this->post(route('locked-threads.store', $thread))->assertStatus(403);
+        $this->post(route('locked-threads.store', $thread))->assertStatus(Response::HTTP_FORBIDDEN);
 
         $this->assertFalse($thread->fresh()->locked);
     }
@@ -67,6 +68,6 @@ class LockThreadsTest extends TestCase
         $this->post($thread->path() . '/replies', [
             'body' => 'Foobar',
             'user_id' => auth()->id(),
-        ])->assertStatus(422);
+        ])->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
