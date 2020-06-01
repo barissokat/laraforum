@@ -3,7 +3,7 @@
     <div class="card-body">
       <div v-if="signedIn">
         <div class="form-group">
-          <wysiwyg placeholder="Have something to say?" v-model="body" :shouldClear="completed"></wysiwyg>
+          <wysiwyg placeholder="Have something to say?" v-model="body"></wysiwyg>
         </div>
         <button type="submit" class="btn btn-primary" @click="addReply">Post</button>
       </div>
@@ -21,8 +21,7 @@ import Tribute from "tributejs";
 export default {
   data() {
     return {
-      body: "",
-      completed: false
+      body: ""
     };
   },
 
@@ -55,12 +54,7 @@ export default {
           this.body = "";
           this.$emit("created", data);
 
-          this.completed = true;
-
           flash("Your reply has been posted.");
-        })
-        .finally(() => {
-          this.completed = false;
         });
     }
   }

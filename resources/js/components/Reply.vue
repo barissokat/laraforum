@@ -20,11 +20,11 @@
           <div v-if="editing">
             <form @submit="update">
               <div class="form-group">
-                  <wysiwyg v-model="body"></wysiwyg>
+                <wysiwyg v-model="body"></wysiwyg>
               </div>
 
               <button class="btn btn-outline-primary btn-sm">Update</button>
-              <button class="btn btn-link btn-sm" @click="editing = false">Cancel</button>
+              <button class="btn btn-link btn-sm" @click="cancel">Cancel</button>
             </form>
           </div>
 
@@ -95,6 +95,11 @@ export default {
       this.editing = false;
 
       flash("Your reply is updated!");
+    },
+
+    cancel() {
+      this.editing = false;
+      this.body = this.reply.body;
     },
 
     destroy() {
