@@ -65,7 +65,7 @@ class ThreadTest extends TestCase
         $this->signIn();
 
         $this->thread->subscribe()->addReply([
-            'user_id' => 1,
+            'user_id' => create('App\User')->id,
             'body' => 'Foobar',
         ]);
 
