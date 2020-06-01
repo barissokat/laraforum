@@ -14,7 +14,7 @@ class ReputationTest extends TestCase
      *
      * @return void
      */
-    public function testAUserEarnsPointsWhenTheyCreateAThread()
+    public function testAUserGainsPointsWhenTheyCreateAThread()
     {
         $thread = create('App\Thread');
 
@@ -42,7 +42,7 @@ class ReputationTest extends TestCase
      *
      * @return void
      */
-    public function testAUserEarnsPointsWhenTheyReplyToAThread()
+    public function testAUserGainsPointsWhenTheyReplyToAThread()
     {
         $thread = create('App\Thread');
 
@@ -75,7 +75,7 @@ class ReputationTest extends TestCase
      *
      * @return void
      */
-    public function testAUserEarnsPointsWhenTheyReplyIsMarkedAsBest()
+    public function testAUserGainsPointsWhenTheyReplyIsMarkedAsBest()
     {
         $thread = create('App\Thread');
 
@@ -127,7 +127,7 @@ class ReputationTest extends TestCase
      *
      * @return void
      */
-    public function testAUserEarnsPointsWhenWhenTheirReplyIsFavorited()
+    public function testAUserGainsPointsWhenWhenTheirReplyIsFavorited()
     {
         $this->signIn();
 
