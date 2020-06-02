@@ -40,7 +40,7 @@ class ChannelAdministrationTest extends TestCase
      *
      * @return void
      */
-    public function testAnAdministratorCanCreateaChannel()
+    public function testAnAdministratorCanCreateAChannel()
     {
         $response = $this->createChannel([
             'name' => 'php',
@@ -50,6 +50,27 @@ class ChannelAdministrationTest extends TestCase
         $this->get($response->headers->get('Location'))
             ->assertSee('php')
             ->assertSee('This is the channel for discussing all things PHP.');
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function testAnAdministratorCanEditAnExistingChannel()
+    {
+        $this->signInAdmin();
+
+        $channel = create('App\Channel');
+
+        $this->patch(route('admin.channels.update', $channel), [
+            'name' => 'Altered',
+            'description' => 'Altered channel description',
+        ]);
+
+        tap($channel->fresh(), function ($channel) {
+            $this->assertEquals('Altered', $channel->name);
+            $this->assertEquals('Altered channel description', $channel->description);
+        });
     }
 
     /**
