@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\ThreadReceivedNewReply;
+use App\Events\ThreadWasPublished;
 use App\Filters\ThreadFilters;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -53,7 +54,7 @@ class Thread extends Model
         static::created(function ($thread) {
             $thread->update(['slug' => $thread->title]);
 
-            Mentions::notifyMentionedUsers($thread);
+            event(new ThreadWasPublished($thread));
 
             Reputation::gain($thread->owner, Reputation::THREAD_PUBLISHED);
         });
@@ -135,6 +136,14 @@ class Thread extends Model
     public function scopeFilter($query, ThreadFilters $filters)
     {
         return $filters->apply($query);
+    }
+
+    /**
+     * Get the title for the thread.
+     */
+    public function title()
+    {
+        return $this->title;
     }
 
     /**

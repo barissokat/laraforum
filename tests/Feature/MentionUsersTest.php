@@ -26,7 +26,7 @@ class MentionUsersTest extends TestCase
         // And we also have a user, JaneDoe.
         $jane = create('App\User', ['name' => 'JaneDoe']);
 
-        // And JohnDoe create new thread and mentions @JaneDoe.
+        // And JohnDoe create a new thread and mentions @JaneDoe.
         $thread = make('App\Thread', [
             'body' => 'Hey @JaneDoe check this out.',
         ]);
@@ -35,6 +35,11 @@ class MentionUsersTest extends TestCase
 
         // Then @JaneDoe should receive a notification.
         $this->assertCount(1, $jane->notifications);
+
+        $this->assertEquals(
+            "{$john->name} mentioned you in \"{$thread->title}\"",
+            $jane->notifications->first()->data['message']
+        );
     }
 
     /**
@@ -62,6 +67,11 @@ class MentionUsersTest extends TestCase
 
         // Then @JaneDoe should receive a notification.
         $this->assertCount(1, $jane->notifications);
+
+        $this->assertEquals(
+            "{$john->name} mentioned you in \"{$thread->title}\"",
+            $jane->notifications->first()->data['message']
+        );
     }
 
     /**
@@ -77,23 +87,5 @@ class MentionUsersTest extends TestCase
         $response = $this->json('GET', '/api/users', ['name' => 'John']);
 
         $this->assertCount(2, $response->json());
-    }
-
-
-    /**
-     * @return void
-     */
-    function testItCanDetectAllMentionedUsersInTheBody()
-    {
-        $thread = new Thread([
-            'body' => '@JohnDoe wants to talk to @JaneDoe'
-        ]);
-
-        $reply = new Reply([
-            'body' => '@JaneDoe wants to talk to @JohnDoe'
-        ]);
-
-        $this->assertEquals(['JohnDoe', 'JaneDoe'], Mentions::mentionedUsers($thread->body));
-        $this->assertEquals(['JaneDoe', 'JohnDoe'], Mentions::mentionedUsers($reply->body));
     }
 }
