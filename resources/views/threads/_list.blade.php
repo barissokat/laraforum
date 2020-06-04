@@ -40,8 +40,13 @@
             {!! $thread->body !!}
         </div>
     </div>
-    <div class="card-footer">
-        <span class="badge badge-primary">{{ $thread->visits }} Visits</span>
+    <div class="card-footer d-flex justify-content-between">
+        <span class="badge badge-secondary">{{ $thread->visits }} Visits</span>
+        <span class="badge badge-primary">
+            <a class="text-white" href="/threads/{{ $thread->channel->slug }}">
+                {{ $thread->channel->name}}
+            </a>
+        </span>
     </div>
 </div>
 @if(!$loop->last)
