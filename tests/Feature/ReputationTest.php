@@ -10,6 +10,18 @@ class ReputationTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $points = [];
+
+    /**
+     * Fetch current reputation points on class initialization.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->points = config('laraforum.reputation');
+    }
+
     /**
      *
      * @return void
@@ -18,7 +30,7 @@ class ReputationTest extends TestCase
     {
         $thread = create('App\Thread');
 
-        $this->assertEquals(Reputation::THREAD_PUBLISHED, $thread->owner->reputation);
+        $this->assertEquals($this->points['thread_published'], $thread->owner->reputation);
     }
 
     /**
@@ -31,7 +43,7 @@ class ReputationTest extends TestCase
 
         $thread = create('App\Thread', ['user_id' => auth()->id()]);
 
-        $this->assertEquals(Reputation::THREAD_PUBLISHED, $thread->owner->reputation);
+        $this->assertEquals($this->points['thread_published'], $thread->owner->reputation);
 
         $this->delete($thread->path());
 
@@ -51,7 +63,7 @@ class ReputationTest extends TestCase
             'body' => 'Here is a reply.',
         ]);
 
-        $this->assertEquals(Reputation::REPLY_POSTED, $reply->owner->reputation);
+        $this->assertEquals($this->points['reply_posted'], $reply->owner->reputation);
     }
 
     /**
@@ -64,7 +76,7 @@ class ReputationTest extends TestCase
 
         $reply = create('App\Reply', ['user_id' => auth()->id()]);
 
-        $this->assertEquals(Reputation::REPLY_POSTED, $reply->owner->reputation);
+        $this->assertEquals($this->points['reply_posted'], $reply->owner->reputation);
 
         $this->delete(route('replies.destroy', $reply));
 
@@ -84,7 +96,7 @@ class ReputationTest extends TestCase
             'body' => 'Here is a reply.',
         ]));
 
-        $total = Reputation::REPLY_POSTED + Reputation::BEST_REPLY_AWARDED;
+        $total = $this->points['reply_posted'] + $this->points['best_reply_awarded'];
 
         $this->assertEquals($total, $reply->owner->reputation);
     }
@@ -108,7 +120,7 @@ class ReputationTest extends TestCase
         ]));
 
         // Then Jane should receive the appropriate reputation points.
-        $this->assertEquals(Reputation::REPLY_POSTED + Reputation::BEST_REPLY_AWARDED, $jane->fresh()->reputation);
+        $this->assertEquals($this->points['reply_posted'] + $this->points['best_reply_awarded'], $jane->fresh()->reputation);
 
         // But, if the owner of the thread decides to choose a different best reply, written by John.
         $john = create('App\User');
@@ -119,10 +131,10 @@ class ReputationTest extends TestCase
         ]));
 
         // Then, Jane's reputation should be stripped of those "best reply" points.
-        $this->assertEquals(Reputation::REPLY_POSTED, $jane->fresh()->reputation);
+        $this->assertEquals($this->points['reply_posted'], $jane->fresh()->reputation);
 
         // And those points should now be reflected on the account of the new best reply owner.
-        $total = Reputation::REPLY_POSTED + Reputation::BEST_REPLY_AWARDED;
+        $total = $this->points['reply_posted'] + $this->points['best_reply_awarded'];
         $this->assertEquals($total, $john->fresh()->reputation);
     }
 
@@ -149,7 +161,7 @@ class ReputationTest extends TestCase
 
         // Then, Jane's reputation should grow, accordingly.
         $this->assertEquals(
-            Reputation::REPLY_POSTED + Reputation::REPLY_FAVORITED,
+            $this->points['reply_posted'] + $this->points['reply_favorited'],
             $jane->fresh()->reputation
         );
 
@@ -177,7 +189,7 @@ class ReputationTest extends TestCase
 
         // Then, Jane's reputation should grow, accordingly.
         $this->assertEquals(
-            Reputation::REPLY_POSTED + Reputation::REPLY_FAVORITED,
+            $this->points['reply_posted'] + $this->points['reply_favorited'],
             $jane->fresh()->reputation
         );
 
@@ -185,7 +197,7 @@ class ReputationTest extends TestCase
         $this->delete(route('replies.unfavorite', $reply));
 
         // Then, Jane's reputation should be reduced, accordingly.
-        $this->assertEquals(Reputation::REPLY_POSTED, $jane->fresh()->reputation);
+        $this->assertEquals($this->points['reply_posted'], $jane->fresh()->reputation);
 
         // While John's should remain unaffected.
         $this->assertEquals(0, $john->reputation);
