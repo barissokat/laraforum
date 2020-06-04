@@ -1,16 +1,19 @@
 <template>
   <div class="card bg-light border-light">
     <div class="card-body">
-      <div v-if="signedIn">
+      <p class="text-muted text-center" v-if="!signedIn">
+        Please
+        <a href="/login">sign in</a> to participate in this discussion.
+      </p>
+      <p class="text-muted text-center" v-else-if="!verified">
+        To participate in this thread, please check your email and confirm your account.
+      </p>
+      <div v-else>
         <div class="form-group">
           <wysiwyg placeholder="Have something to say?" v-model="body"></wysiwyg>
         </div>
         <button type="submit" class="btn btn-primary" @click="addReply">Post</button>
       </div>
-      <p class="text-muted text-center" v-else>
-        Please
-        <a href="/login">sign in</a> to participate in this discussion.
-      </p>
     </div>
   </div>
 </template>
@@ -23,6 +26,12 @@ export default {
     return {
       body: ""
     };
+  },
+
+  computed: {
+      verified() {
+          return window.App.user.email_verified_at;
+      }
   },
 
   mounted() {

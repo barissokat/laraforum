@@ -10490,12 +10490,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       body: ""
     };
+  },
+  computed: {
+    verified: function verified() {
+      return window.App.user.email_verified_at;
+    }
   },
   mounted: function mounted() {
     var tribute = new tributejs__WEBPACK_IMPORTED_MODULE_0___default.a({
@@ -85357,8 +85365,19 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card bg-light border-light" }, [
     _c("div", { staticClass: "card-body" }, [
-      _vm.signedIn
-        ? _c("div", [
+      !_vm.signedIn
+        ? _c("p", { staticClass: "text-muted text-center" }, [
+            _vm._v("\n      Please\n      "),
+            _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
+            _vm._v(" to participate in this discussion.\n    ")
+          ])
+        : !_vm.verified
+        ? _c("p", { staticClass: "text-muted text-center" }, [
+            _vm._v(
+              "\n      To participate in this thread, please check your email and confirm your account.\n    "
+            )
+          ])
+        : _c("div", [
             _c(
               "div",
               { staticClass: "form-group" },
@@ -85386,11 +85405,6 @@ var render = function() {
               },
               [_vm._v("Post")]
             )
-          ])
-        : _c("p", { staticClass: "text-muted text-center" }, [
-            _vm._v("\n      Please\n      "),
-            _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
-            _vm._v(" to participate in this discussion.\n    ")
           ])
     ])
   ])
