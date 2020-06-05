@@ -33,10 +33,13 @@ Route::patch('/threads/{channel:slug}/{thread}', ['as' => 'threads.update', 'use
 Route::post('/threads', ['as' => 'threads.store', 'uses' => 'ThreadController@store']);
 Route::delete('/threads/{channel:slug}/{thread}', ['as' => 'threads.destroy', 'uses' => 'ThreadController@destroy']);
 
-
 # LockedThreadController
 Route::post('/locked-threads/{thread}', ['as' => 'locked-threads.store', 'uses' => 'LockedThreadController@store']);
 Route::delete('/locked-threads/{thread}', ['as' => 'locked-threads.destroy', 'uses' => 'LockedThreadController@destroy']);
+
+# PinnedThreadController
+Route::post('/pinned-threads/{thread}', ['as' => 'pinned-threads.store', 'uses' => 'PinnedThreadController@store']);
+Route::delete('/pinned-threads/{thread}', ['as' => 'pinned-threads.destroy', 'uses' => 'PinnedThreadController@destroy']);
 
 # ReplyController
 Route::get('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.index', 'uses' => 'ReplyController@index']);

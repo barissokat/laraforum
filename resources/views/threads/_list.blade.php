@@ -8,6 +8,9 @@
         @endif
         <div class="d-flex flex-column flex-fill">
             <h4 class="card-title">
+                @if($thread->pinned)
+                <span class="fas fa-thumbtack" aria-hidden="true"></span>
+                @endif
                 <a href="{{ $thread->path() }}">
                     @if (auth()->user() && $thread->hasUpdatesFor(auth()->user()))
                     <strong>

@@ -10415,13 +10415,12 @@ __webpack_require__.r(__webpack_exports__);
   props: ["active"],
   data: function data() {
     return {
-      result: this.isActive ? "Subscribed" : "Subscribe",
       isActive: this.active
     };
   },
   computed: {
     classes: function classes() {
-      return ["btn btn-block", this.isActive ? "btn-success" : "btn-primary"];
+      return ["btn btn-block", this.isActive ? "btn-primary" : "btn-secondary"];
     }
   },
   methods: {
@@ -10644,6 +10643,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       repliesCount: this.thread.replies_count,
       locked: this.thread.locked,
+      pinned: this.thread.pinned,
       title: this.thread.title,
       body: this.thread.body,
       form: {},
@@ -10658,6 +10658,11 @@ __webpack_require__.r(__webpack_exports__);
       var uri = "/locked-threads/".concat(this.thread.slug);
       axios[this.locked ? "delete" : "post"](ur);
       this.locked = !this.locked;
+    },
+    togglePin: function togglePin() {
+      var uri = "/pinned-threads/".concat(this.thread.slug);
+      axios[this.pinned ? "delete" : "post"](uri);
+      this.pinned = !this.pinned;
     },
     update: function update() {
       var _this = this;
@@ -10676,6 +10681,9 @@ __webpack_require__.r(__webpack_exports__);
         body: this.thread.body
       };
       this.editing = false;
+    },
+    classes: function classes(target) {
+      return ["btn btn-block", target ? "btn-primary" : "btn-secondary"];
     }
   }
 });
@@ -85448,7 +85456,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("button", {
     class: _vm.classes,
-    domProps: { textContent: _vm._s(_vm.result) },
+    domProps: {
+      textContent: _vm._s(_vm.isActive ? "Subscribed" : "Subscribe")
+    },
     on: { click: _vm.subscribe }
   })
 }
