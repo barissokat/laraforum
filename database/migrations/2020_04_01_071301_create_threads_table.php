@@ -24,6 +24,7 @@ class CreateThreadsTable extends Migration
             $table->text('body');
             $table->foreignId('best_reply_id')->nullable()->constrained('replies')->onDelete('set null');
             $table->boolean('locked')->default(false);
+            $table->boolean('pinned')->default(false);
             $table->timestamps();
         });
     }

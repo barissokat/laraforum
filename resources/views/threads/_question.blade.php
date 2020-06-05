@@ -42,7 +42,6 @@
     <div class="card-body">
         <p class="card-text" v-html="body">
         </p>
-        <a href="{{ route('threads.index') }}" class="btn-link">Back</a>
     </div>
     <div class="card-footer" v-if="authorize('owns', thread)">
         <button class="btn btn-primary btn-sm" @click="editing = true">Edit</button>

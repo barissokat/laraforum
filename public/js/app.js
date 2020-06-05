@@ -9954,11 +9954,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    filteredThreads: function filteredThreads() {
+    filteredChannels: function filteredChannels() {
       var _this = this;
 
       return this.channels.filter(function (channel) {
-        return channel.name.toLowerCase().includes(_this.filter.toLocaleLowerCase());
+        return channel.name.toLowerCase().startsWith(_this.filter.toLocaleLowerCase());
       });
     }
   }
@@ -10415,13 +10415,12 @@ __webpack_require__.r(__webpack_exports__);
   props: ["active"],
   data: function data() {
     return {
-      result: this.isActive ? "Subscribed" : "Subscribe",
       isActive: this.active
     };
   },
   computed: {
     classes: function classes() {
-      return ["btn btn-block", this.isActive ? "btn-success" : "btn-primary"];
+      return ["btn btn-block", this.isActive ? "btn-primary" : "btn-secondary"];
     }
   },
   methods: {
@@ -10644,6 +10643,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       repliesCount: this.thread.replies_count,
       locked: this.thread.locked,
+      pinned: this.thread.pinned,
       title: this.thread.title,
       body: this.thread.body,
       form: {},
@@ -10658,6 +10658,11 @@ __webpack_require__.r(__webpack_exports__);
       var uri = "/locked-threads/".concat(this.thread.slug);
       axios[this.locked ? "delete" : "post"](ur);
       this.locked = !this.locked;
+    },
+    togglePin: function togglePin() {
+      var uri = "/pinned-threads/".concat(this.thread.slug);
+      axios[this.pinned ? "delete" : "post"](uri);
+      this.pinned = !this.pinned;
     },
     update: function update() {
       var _this = this;
@@ -10676,6 +10681,9 @@ __webpack_require__.r(__webpack_exports__);
         body: this.thread.body
       };
       this.editing = false;
+    },
+    classes: function classes(target) {
+      return ["btn btn-block", target ? "btn-primary" : "btn-secondary"];
     }
   }
 });
@@ -84937,74 +84945,62 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "li",
-    { staticClass: "nav-item dropdown", class: { open: _vm.toggle } },
-    [
-      _c(
-        "a",
-        {
-          staticClass: "nav-link dropdown-toggle",
-          attrs: {
-            href: "#",
-            "aria-haspopup": "true",
-            "aria-expanded": "false"
-          },
+  return _c("li", { staticClass: "dropdown", class: { open: _vm.toggle } }, [
+    _c(
+      "a",
+      {
+        staticClass: "dropdown-toggle",
+        attrs: { href: "#", "aria-haspopup": "true", "aria-expanded": "false" },
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            _vm.toggle = !_vm.toggle
+          }
+        }
+      },
+      [_vm._v("\n    Channels\n    "), _c("span", { staticClass: "caret" })]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "dropdown-menu channel-dropdown" }, [
+      _c("div", { staticClass: "input-wrapper" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.filter,
+              expression: "filter"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", placeholder: "Filter Channels..." },
+          domProps: { value: _vm.filter },
           on: {
-            click: function($event) {
-              $event.preventDefault()
-              _vm.toggle = !_vm.toggle
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.filter = $event.target.value
             }
           }
-        },
-        [_vm._v("\n    Channels\n    "), _c("span", { staticClass: "caret" })]
-      ),
+        })
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "dropdown-menu channel-dropdown" }, [
-        _c("div", { staticClass: "input-wrapper" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.filter,
-                expression: "filter"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Filter Channels..." },
-            domProps: { value: _vm.filter },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.filter = $event.target.value
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "ul",
-          { staticClass: "list-group channel-list" },
-          _vm._l(_vm.filteredThreads, function(channel) {
-            return _c(
-              "li",
-              { key: channel.id, staticClass: "list-group-item" },
-              [
-                _c("a", {
-                  attrs: { href: "/threads/" + channel.slug },
-                  domProps: { textContent: _vm._s(channel.name) }
-                })
-              ]
-            )
-          }),
-          0
-        )
-      ])
-    ]
-  )
+      _c(
+        "ul",
+        { staticClass: "list-group channel-list" },
+        _vm._l(_vm.filteredChannels, function(channel) {
+          return _c("li", { key: channel.id, staticClass: "list-group-item" }, [
+            _c("a", {
+              attrs: { href: "/threads/" + channel.slug },
+              domProps: { textContent: _vm._s(channel.name) }
+            })
+          ])
+        }),
+        0
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -85329,39 +85325,53 @@ var render = function() {
           _c("div", { staticClass: "card-text mb-2" }, [
             _vm.editing
               ? _c("div", [
-                  _c("form", { on: { submit: _vm.update } }, [
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("wysiwyg", {
-                          model: {
-                            value: _vm.body,
-                            callback: function($$v) {
-                              _vm.body = $$v
-                            },
-                            expression: "body"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      { staticClass: "btn btn-outline-primary btn-sm" },
-                      [_vm._v("Update")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-link btn-sm",
-                        on: { click: _vm.cancel }
-                      },
-                      [_vm._v("Cancel")]
-                    )
-                  ])
+                  _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.update($event)
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("wysiwyg", {
+                            model: {
+                              value: _vm.body,
+                              callback: function($$v) {
+                                _vm.body = $$v
+                              },
+                              expression: "body"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-primary btn-sm",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Update")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-link btn-sm",
+                          on: { click: _vm.cancel }
+                        },
+                        [_vm._v("Cancel")]
+                      )
+                    ]
+                  )
                 ])
               : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
           ])
@@ -85446,7 +85456,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("button", {
     class: _vm.classes,
-    domProps: { textContent: _vm._s(_vm.result) },
+    domProps: {
+      textContent: _vm._s(_vm.isActive ? "Subscribed" : "Subscribe")
+    },
     on: { click: _vm.subscribe }
   })
 }
