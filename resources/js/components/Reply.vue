@@ -18,12 +18,12 @@
       <div class="card-body">
         <div class="card-text mb-2">
           <div v-if="editing">
-            <form @submit="update">
+            <form @submit.prevent="update">
               <div class="form-group">
                 <wysiwyg v-model="body"></wysiwyg>
               </div>
 
-              <button class="btn btn-outline-primary btn-sm">Update</button>
+              <button type="submit" class="btn btn-outline-primary btn-sm">Update</button>
               <button class="btn btn-link btn-sm" @click="cancel">Cancel</button>
             </form>
           </div>
