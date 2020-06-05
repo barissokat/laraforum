@@ -16,7 +16,7 @@
         <input type="text" class="form-control" v-model="filter" placeholder="Filter Channels..." />
       </div>
       <ul class="list-group channel-list">
-        <li class="list-group-item" v-for="channel in filteredThreads" :key="channel.id">
+        <li class="list-group-item" v-for="channel in filteredChannels" :key="channel.id">
           <a :href="`/threads/${channel.slug}`" v-text="channel.name"></a>
         </li>
       </ul>
@@ -55,7 +55,7 @@ export default {
   },
 
   computed: {
-    filteredThreads() {
+    filteredChannels() {
       return this.channels.filter(channel => {
         return channel.name
           .toLowerCase()
