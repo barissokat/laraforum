@@ -31,7 +31,7 @@ class ThreadController extends Controller
      */
     public function index(ThreadFilters $filters, Trending $trending)
     {
-        $threads = Thread::filter($filters)->latest()->with('channel')->paginate(25);
+        $threads = Thread::orderBy('pinned', 'DESC')->filter($filters)->latest()->with('channel')->paginate(25);
 
         if (request()->wantsJson()) {
             return $threads;
