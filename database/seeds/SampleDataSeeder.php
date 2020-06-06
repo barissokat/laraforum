@@ -18,7 +18,6 @@ class SampleDataSeeder extends Seeder
      */
     public function run()
     {
-
         Schema::disableForeignConstraintChecks();
 
         $this->channels();

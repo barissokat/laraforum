@@ -4,7 +4,6 @@ namespace App;
 
 trait RecordsActivity
 {
-
     /**
      * Boot the trait.
      */

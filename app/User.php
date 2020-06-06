@@ -131,6 +131,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function visitedThreadCacheKey($thread)
     {
-        return sprintf("users.%s.visits.%s", $this->id, $thread->id);
+        return sprintf('users.%s.visits.%s', $this->id, $thread->id);
     }
 }

@@ -4,7 +4,6 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Stevebauman\Purify\Facades\Purify;
 
 class Reply extends Model
 {
@@ -101,7 +100,6 @@ class Reply extends Model
     }
 
     /**
-     *
      * Determine if the current reply is marked as the best.
      *
      * @return bool
@@ -138,6 +136,6 @@ class Reply extends Model
      */
     public function path()
     {
-        return $this->thread->path() . "#reply-{$this->id}";
+        return $this->thread->path()."#reply-{$this->id}";
     }
 }

@@ -27,7 +27,7 @@ trait FavoritAble
     /**
      * Get the number of favorites for the reply.
      *
-     * @return integer
+     * @return int
      */
     public function getFavoritesCountAttribute()
     {
@@ -53,7 +53,7 @@ trait FavoritAble
     {
         $attributes = ['user_id' => auth()->id()];
 
-        if (!$this->favorites()->where($attributes)->exists()) {
+        if (! $this->favorites()->where($attributes)->exists()) {
             return $this->favorites()->create($attributes);
         }
     }
@@ -71,11 +71,10 @@ trait FavoritAble
     /**
      * Determine if the current reply has been favorited.
      *
-     * @return boolean
+     * @return bool
      */
     public function isFavorited()
     {
-        return !!$this->favorites->where('user_id', auth()->id())->count();
+        return (bool) $this->favorites->where('user_id', auth()->id())->count();
     }
-
 }

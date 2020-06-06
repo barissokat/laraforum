@@ -24,7 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::view('/search', 'search');
 
-# ThreadController
+// ThreadController
 Route::get('/threads', ['as' => 'threads.index', 'uses' => 'ThreadController@index']);
 Route::get('/threads/create', ['as' => 'threads.create', 'uses' => 'ThreadController@create']);
 Route::get('/threads/search', ['as' => 'threads.index', 'uses' => 'SearchController@show']);
@@ -33,55 +33,55 @@ Route::patch('/threads/{channel:slug}/{thread}', ['as' => 'threads.update', 'use
 Route::post('/threads', ['as' => 'threads.store', 'uses' => 'ThreadController@store']);
 Route::delete('/threads/{channel:slug}/{thread}', ['as' => 'threads.destroy', 'uses' => 'ThreadController@destroy']);
 
-# LockedThreadController
+// LockedThreadController
 Route::post('/locked-threads/{thread}', ['as' => 'locked-threads.store', 'uses' => 'LockedThreadController@store']);
 Route::delete('/locked-threads/{thread}', ['as' => 'locked-threads.destroy', 'uses' => 'LockedThreadController@destroy']);
 
-# PinnedThreadController
+// PinnedThreadController
 Route::post('/pinned-threads/{thread}', ['as' => 'pinned-threads.store', 'uses' => 'PinnedThreadController@store']);
 Route::delete('/pinned-threads/{thread}', ['as' => 'pinned-threads.destroy', 'uses' => 'PinnedThreadController@destroy']);
 
-# ReplyController
+// ReplyController
 Route::get('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.index', 'uses' => 'ReplyController@index']);
 Route::post('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.store', 'uses' => 'ReplyController@store']);
 // Route::middleware('throttle:1')->post('/threads/{channel:slug}/{thread}/replies', ['as' => 'replies.store', 'uses' => 'ReplyController@store']);
 Route::patch('/replies/{reply}', ['as' => 'replies.update', 'uses' => 'ReplyController@update']);
 Route::delete('/replies/{reply}', ['as' => 'replies.destroy', 'uses' => 'ReplyController@destroy']);
 
-# BestReplyController
+// BestReplyController
 Route::post('/replies/{reply}/best', ['as' => 'best-replies.store', 'uses' => 'BestReplyController@store']);
 
-# ThreadSubscriptionController
+// ThreadSubscriptionController
 Route::post('/threads/{channel:slug}/{thread}/subscriptions', ['as' => 'subscriptions.store', 'uses' => 'ThreadSubscriptionController@store']);
 Route::delete('/threads/{channel:slug}/{thread}/subscriptions', ['as' => 'subscriptions.destroy', 'uses' => 'ThreadSubscriptionController@destroy']);
 
-# ChannelController
+// ChannelController
 Route::get('/threads/{channel:slug}', ['as' => 'channels.index', 'uses' => 'ChannelController@show']);
 
-# FavoriteController
+// FavoriteController
 Route::post('/replies/{reply}/favorites', ['as' => 'replies.favorite', 'uses' => 'FavoriteController@store']);
 Route::delete('/replies/{reply}/favorites', ['as' => 'replies.unfavorite', 'uses' => 'FavoriteController@destroy']);
 
-# ProfileController
+// ProfileController
 Route::get('/profiles/{user:name}', ['as' => 'profiles.show', 'uses' => 'ProfileController@show']);
 
-#*** Api
+//*** Api
 
-# UserNotificationController
+// UserNotificationController
 Route::get('/profiles/{user:name}/notifications', ['as' => 'notifications.index', 'uses' => 'Api\UserNotificationController@index']);
 Route::delete('/profiles/{user:name}/notifications/{notification}', ['as' => 'notifications.destroy', 'uses' => 'Api\UserNotificationController@destroy']);
 
-# UsersController
+// UsersController
 Route::get('/api/users', 'Api\UsersController@index');
 
-# UserAvatarController
+// UserAvatarController
 Route::post('/api/users/{user}/avatar', ['as' => 'avatar.store', 'uses' => 'Api\UserAvatarController@store']);
 
 Route::group([
     'prefix' => 'admin',
     'middleware' => 'admin',
     'namespace' => 'Admin'
-], function() {
+], function () {
     Route::get('/', 'DashboardController@index')->name('admin.dashboard.index');
     Route::get('/channels', 'ChannelController@index')->name('admin.channels.index');
     Route::get('/channels/create', 'ChannelController@create')->name('admin.channels.create');
