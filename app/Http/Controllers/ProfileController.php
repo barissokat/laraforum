@@ -19,6 +19,5 @@ class ProfileController extends Controller
             'profileUser' => $user,
             'activities' => Activity::feed($user),
         ]);
-
     }
 }
