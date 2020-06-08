@@ -1,11 +1,12 @@
 <script>
 import Replies from "../components/Replies";
 import SubscribeButton from "../components/SubscribeButton";
+import Highlight from "../components/Highlight.vue";
 
 export default {
   props: ["thread"],
 
-  components: { Replies, SubscribeButton },
+  components: { Replies, SubscribeButton, Highlight },
 
   data() {
     return {

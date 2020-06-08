@@ -40,7 +40,9 @@
 
     <div class="card-body">
         <div class="card-text">
-            {!! $thread->body !!}
+            <thread-view :thread="{{ $thread }}" inline-template>
+                <highlight :content="body"></highlight>
+            </thread-view>
         </div>
     </div>
     <div class="card-footer d-flex justify-content-between">

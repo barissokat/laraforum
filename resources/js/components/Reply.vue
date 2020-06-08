@@ -28,7 +28,9 @@
             </form>
           </div>
 
-          <div v-else v-html="body"></div>
+          <div v-else>
+            <highlight :content="body"></highlight>
+          </div>
         </div>
       </div>
       <div
@@ -54,12 +56,13 @@
 
 <script>
 import Favorite from "./Favorite";
+import Highlight from "./Highlight.vue";
 import moment from "moment";
 
 export default {
   props: ["reply"],
 
-  components: { Favorite },
+  components: { Favorite, Highlight },
 
   data() {
     return {

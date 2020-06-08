@@ -31,8 +31,7 @@
             <img src="{{ $thread->owner->avatar }}" class="rounded-circle mr-2" width="25" height="25"
                 alt="{{ $thread->owner->name }}">
 
-            <h4 class="card-title d-inline mb-0"><a
-                    href="{{ route('profiles.show', $thread->owner->name) }}">
+            <h4 class="card-title d-inline mb-0"><a href="{{ route('profiles.show', $thread->owner->name) }}">
                     {{ $thread->owner->name }} <small>({{ $thread->owner->reputation }} XP)</small>
                 </a>
                 posted: <span v-text="title"></span>
@@ -40,8 +39,9 @@
         </div>
     </div>
     <div class="card-body">
-        <p class="card-text" v-html="body">
-        </p>
+        <div class="panel-body">
+            <highlight :content="body"></highlight>
+        </div>
     </div>
     <div class="card-footer" v-if="authorize('owns', thread)">
         <button class="btn btn-primary btn-sm" @click="editing = true">Edit</button>
