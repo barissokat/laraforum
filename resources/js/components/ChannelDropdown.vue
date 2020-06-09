@@ -1,47 +1,29 @@
 <template>
-  <li class="dropdown" :class="{'open': toggle}">
+  <li class="nav-item dropdown" :class="{'open': toggle}">
     <a
+      id="channelsDropdown"
+      class="nav-link dropdown-toggle"
       href="#"
-      class="dropdown-toggle"
-      @click.prevent="toggle = !toggle"
+      role="button"
+      data-toggle="dropdown"
       aria-haspopup="true"
       aria-expanded="false"
-    >
-      Channels
-      <span class="caret"></span>
-    </a>
+      @click.prevent="toggle = !toggle"
+    >Channels</a>
 
-    <div class="dropdown-menu channel-dropdown">
+    <div
+      class="dropdown-menu dropdown-menu-right channel-dropdown"
+      aria-labelledby="channelsDropdown"
+    >
       <div class="input-wrapper">
         <input type="text" class="form-control" v-model="filter" placeholder="Filter Channels..." />
       </div>
-      <ul class="list-group channel-list">
-        <li class="list-group-item" v-for="channel in filteredChannels" :key="channel.id">
-          <a :href="`/threads/${channel.slug}`" v-text="channel.name"></a>
-        </li>
-      </ul>
+      <div v-for="channel in filteredThreads" :key="channel.id">
+        <a class="dropdown-item" :href="`/threads/${channel.slug}`" v-text="channel.name"></a>
+      </div>
     </div>
   </li>
 </template>
-
-<style lang="scss">
-.channel-dropdown {
-  padding: 0;
-}
-.input-wrapper {
-  padding: 0.5rem 1rem;
-}
-.channel-list {
-  max-height: 400px;
-  overflow: auto;
-  margin-bottom: 0;
-  .list-group-item {
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-  }
-}
-</style>
 
 <script>
 export default {
@@ -55,13 +37,22 @@ export default {
   },
 
   computed: {
-    filteredChannels() {
+    filteredThreads() {
       return this.channels.filter(channel => {
         return channel.name
           .toLowerCase()
-          .startsWith(this.filter.toLocaleLowerCase());
+          .includes(this.filter.toLocaleLowerCase());
       });
     }
   }
 };
 </script>
+
+<style lang="scss">
+.channel-dropdown {
+  padding: 0;
+}
+.input-wrapper {
+  padding: 0.5rem 1rem;
+}
+</style>

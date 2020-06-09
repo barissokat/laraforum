@@ -23,7 +23,7 @@ Vue.component('user-notifications', require('./components/UserNotifications.vue'
 Vue.component('avatar-form', require('./components/AvatarForm.vue').default);
 Vue.component('search', require('./components/Search.vue').default);
 Vue.component('wysiwyg', require('./components/Wysiwyg.vue').default);
-Vue.component('channel-dropdown', require('./components/ChannelDropdown.vue'));
+Vue.component('channel-dropdown', require('./components/ChannelDropdown.vue').default);
 
 Vue.component('thread-view', require('./pages/Thread.vue').default);
 

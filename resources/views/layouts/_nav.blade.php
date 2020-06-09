@@ -27,19 +27,7 @@
                         <a class="dropdown-item" href="/threads?unanswered=all">Unanswered Threads</a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        Channels
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        @foreach ($channels as $channel)
-                        <a class="dropdown-item" href="/threads/{{ $channel->slug }}">{{ $channel->name }}</a>
-                        @endforeach
-                    </div>
-                </li>
-                {{-- <channel-dropdown :channels="{{ $channels }}"></channel-dropdown> --}}
+                <channel-dropdown :channels="{{ $channels }}"></channel-dropdown>
             </ul>
 
             <!-- Right Side Of Navbar -->
