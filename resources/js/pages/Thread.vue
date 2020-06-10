@@ -28,7 +28,7 @@ export default {
     toggleLock() {
       let uri = `/locked-threads/${this.thread.slug}`;
 
-      axios[this.locked ? "delete" : "post"](ur);
+      axios[this.locked ? "delete" : "post"](uri);
 
       this.locked = !this.locked;
     },
