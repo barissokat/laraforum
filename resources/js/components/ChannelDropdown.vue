@@ -18,7 +18,7 @@
       <div class="input-wrapper">
         <input type="text" class="form-control" v-model="filter" placeholder="Filter Channels..." />
       </div>
-      <div v-for="channel in filteredThreads" :key="channel.id">
+      <div v-for="channel in filteredChannels" :key="channel.id">
         <a class="dropdown-item" :href="`/threads/${channel.slug}`" v-text="channel.name"></a>
       </div>
     </div>
@@ -37,7 +37,7 @@ export default {
   },
 
   computed: {
-    filteredThreads() {
+    filteredChannels() {
       return this.channels.filter(channel => {
         return channel.name
           .toLowerCase()
