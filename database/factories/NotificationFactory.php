@@ -14,6 +14,6 @@ $factory->define(DatabaseNotification::class, function (Faker $faker) {
             return auth()->id() ?: factory('App\User')->create()->id;
         },
         'notifiable_type' => 'App\User',
-        'data' => ['foo' => 'bar']
+        'data' => ['foo' => 'bar'],
     ];
 });

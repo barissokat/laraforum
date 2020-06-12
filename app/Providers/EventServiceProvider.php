@@ -23,7 +23,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\NotifySubscribers',
         ],
         'App\Events\ThreadWasPublished' => [
-            'App\Listeners\NotifyMentionedUsers'
+            'App\Listeners\NotifyMentionedUsers',
         ],
     ];
 
