@@ -42,5 +42,27 @@ class PinThreadsTest extends TestCase
      */
     public function testPinnedThreadsAreListedFirst()
     {
+        $this->signInAdmin();
+
+        $threads = create('App\Thread', [], 3);
+        $ids = $threads->pluck('id');
+
+        $this->getJson('threads')->assertJson([
+            'data' => [
+                ['id' => $ids[0]],
+                ['id' => $ids[1]],
+                ['id' => $ids[2]],
+            ],
+        ]);
+
+        $this->post(route('pinned-threads.store', $pinned = $threads->last()));
+
+        $this->getJson('/threads')->assertJson([
+            'data' => [
+                ['id' => $pinned->id],
+                ['id' => $ids[0]],
+                ['id' => $ids[1]]
+            ]
+        ]);
     }
 }
