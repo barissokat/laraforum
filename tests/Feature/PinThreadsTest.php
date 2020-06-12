@@ -3,11 +3,26 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class PinThreadsTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * @return void
+     */
+    public function testRegularUsersCannotPinThreads()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+
+        $this->post(route('pinned-threads.store', $thread))->assertStatus(Response::HTTP_FORBIDDEN);
+
+        $this->assertFalse($thread->fresh()->pinned, 'Failed asserting that the thread was pinned.');
+    }
 
     /**
      * @return void
