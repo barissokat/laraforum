@@ -80,7 +80,7 @@ Route::post('/api/users/{user}/avatar', ['as' => 'avatar.store', 'uses' => 'Api\
 Route::group([
     'prefix' => 'admin',
     'middleware' => 'admin',
-    'namespace' => 'Admin'
+    'namespace' => 'Admin',
 ], function () {
     Route::get('/', 'DashboardController@index')->name('admin.dashboard.index');
     Route::get('/channels', 'ChannelController@index')->name('admin.channels.index');
