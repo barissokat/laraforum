@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Channel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -21,7 +22,6 @@ class ChannelTest extends TestCase
         $this->assertTrue($channel->threads->contains($thread));
     }
 
-
     /**
      *
      * @return void
@@ -35,5 +35,17 @@ class ChannelTest extends TestCase
         $channel->archive();
 
         $this->assertTrue($channel->archived);
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function testArchivedChannelsAreExcludedByDefault()
+    {
+        $channel = create('App\Channel');
+        create('App\Channel', ['archived' => true]);
+
+        $this->assertEquals(1, Channel::count());
     }
 }

@@ -31,6 +31,11 @@ class Channel extends Model
         static::saving(function ($thread) {
             Cache::forget('channels');
         });
+
+        static::addGlobalScope('active', function ($builder) {
+            $builder->where('archived', false)
+                ->orderBy('name', 'asc');
+        });
     }
 
     /**
