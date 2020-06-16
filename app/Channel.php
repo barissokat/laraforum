@@ -15,6 +15,15 @@ class Channel extends Model
      */
     protected $guarded = [];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'archived' => 'boolean',
+    ];
+
     protected static function boot()
     {
         parent::boot();
@@ -32,6 +41,14 @@ class Channel extends Model
     public function threads()
     {
         return $this->hasMany(Thread::class);
+    }
+
+    /**
+     * Archive the channel.
+     */
+    public function archive()
+    {
+        $this->update(['archived' => true]);
     }
 
     /**

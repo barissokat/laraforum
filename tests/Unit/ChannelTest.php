@@ -10,7 +10,6 @@ class ChannelTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * @test
      *
      * @return void
      */
@@ -20,5 +19,21 @@ class ChannelTest extends TestCase
         $thread = create('App\Thread', ['channel_id' => $channel->id]);
 
         $this->assertTrue($channel->threads->contains($thread));
+    }
+
+
+    /**
+     *
+     * @return void
+     */
+    public function testAChannelCanBeArchived()
+    {
+        $channel = create('App\Channel');
+
+        $this->assertFalse($channel->archived);
+
+        $channel->archive();
+
+        $this->assertTrue($channel->archived);
     }
 }
