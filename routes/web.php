@@ -77,6 +77,9 @@ Route::get('/api/users', 'Api\UsersController@index');
 // UserAvatarController
 Route::post('/api/users/{user}/avatar', ['as' => 'avatar.store', 'uses' => 'Api\UserAvatarController@store']);
 
+// ChannelsController
+Route::get('/api/channels', 'Api\ChannelController@index');
+
 Route::group([
     'prefix' => 'admin',
     'middleware' => 'admin',

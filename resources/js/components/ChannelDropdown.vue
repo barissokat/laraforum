@@ -27,13 +27,17 @@
 
 <script>
 export default {
-  props: ["channels"],
-
   data() {
     return {
+      channels: [],
       toggle: false,
       filter: ""
     };
+  },
+
+  created() {
+    axios.get("/api/channels")
+         .then(({ data }) => (this.channels = data));
   },
 
   computed: {
@@ -41,7 +45,7 @@ export default {
       return this.channels.filter(channel => {
         return channel.name
           .toLowerCase()
-          .includes(this.filter.toLocaleLowerCase());
+          .startsWith(this.filter.toLocaleLowerCase());
       });
     }
   }

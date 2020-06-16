@@ -27,7 +27,7 @@
                         <a class="dropdown-item" href="/threads?unanswered=all">Unanswered Threads</a>
                     </div>
                 </li>
-                <channel-dropdown :channels="{{ $channels }}"></channel-dropdown>
+                <channel-dropdown></channel-dropdown>
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -49,7 +49,9 @@
 
                 @if (Auth::user()->isAdmin())
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.dashboard.index') }}"><span class="fas fa-cog" aria-hidden="true"></span></a>
+                    <a class="nav-link" href="{{ route('admin.dashboard.index') }}">
+                        <span class="fas fa-cog" aria-hidden="true"></span>
+                    </a>
                 </li>
                 @endif
 

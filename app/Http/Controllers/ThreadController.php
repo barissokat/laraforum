@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
 use App\Filters\ThreadFilters;
 use App\Rules\Recaptcha;
 use App\Thread;
@@ -50,7 +51,9 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        return view('threads.create');
+        return view('threads.create', [
+            'channels' => Channel::orderBy('name', 'asc')->get(),
+        ]);
     }
 
     /**
