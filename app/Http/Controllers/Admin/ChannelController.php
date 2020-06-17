@@ -73,7 +73,7 @@ class ChannelController extends Controller
             request()->validate([
                 'name' => ['required', Rule::unique('channels')->ignore($channel->id)],
                 'description' => 'required',
-                'archived' => 'required|boolean'
+                'archived' => 'required|boolean',
             ])
         );
 
