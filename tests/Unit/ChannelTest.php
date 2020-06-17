@@ -3,12 +3,28 @@
 namespace Tests\Unit;
 
 use App\Channel;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Assert;
 use Tests\TestCase;
 
 class ChannelTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        EloquentCollection::macro('assertEquals', function ($items) {
+            Assert::assertEquals(count($this), count($items));
+
+            $this->zip($items)->each(function ($pair) {
+                list($a, $b) = $pair;
+                Assert::assertTrue($a->is($b));
+            });
+        });
+    }
 
     /**
      *
@@ -47,5 +63,24 @@ class ChannelTest extends TestCase
         create('App\Channel', ['archived' => true]);
 
         $this->assertEquals(1, Channel::count());
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function testChannelsAreSortedAlphabeticallyByDefault()
+    {
+        $channelA = create('App\Channel', ['name' => 'PHP']);
+        $channelB = create('App\Channel', ['name' => 'Basic']);
+        $channelC = create('App\Channel', ['name' => 'Zsh']);
+
+        $channels = Channel::all();
+
+        $channels->assertEquals([
+            $channelB,
+            $channelA,
+            $channelC,
+        ]);
     }
 }
