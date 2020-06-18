@@ -1,6 +1,6 @@
 <template>
   <div class="card bg-light border-light">
-    <div class="card-body">
+    <div class="card-body new-reply">
       <p class="text-muted text-center" v-if="!signedIn">
         Please
         <a href="/login">sign in</a> to participate in this discussion.
@@ -69,3 +69,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+ .new-reply {
+     padding: 15px;
+     background-color: #fff;
+     border: 1px solid #e3e3e3;
+ }
+</style>
