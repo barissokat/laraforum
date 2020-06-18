@@ -16,7 +16,7 @@
     </thead>
     <tbody>
         @forelse($channels as $channel)
-        <tr class="{{ $channel->archived ? 'table-info' : '' }}">
+        <tr class="{{ $channel->archived ? 'table-danger' : '' }}">
             <td>{{ $channel->name }}</td>
             <td>{{ $channel->slug }}</td>
             <td>{{ $channel->description }}</td>
