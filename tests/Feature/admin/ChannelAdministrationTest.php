@@ -111,6 +111,46 @@ class ChannelAdministrationTest extends TestCase
      *
      * @return void
      */
+    public function testAnAdministratorCanEditAnArchivedChannel()
+    {
+        $this->signInAdmin();
+
+        $channel = create('App\Channel', ['archived' => true]);
+
+        $this->assertTrue($channel->archived);
+
+        $this->get(route('admin.channels.edit', $channel))
+            ->assertStatus(Response::HTTP_OK);
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function testAnAdministratorCanActivateAnArchivedChannel()
+    {
+        $this->signInAdmin();
+
+        $channel = create('App\Channel', ['archived' => true]);
+
+        $this->assertTrue($channel->archived);
+
+        $this->patch(
+            route('admin.channels.update', $channel),
+            [
+                'name' => 'altered',
+                'description' => 'altered channel description',
+                'archived' => false
+            ]
+        );
+
+        $this->assertFalse($channel->fresh()->archived);
+    }
+
+    /**
+     *
+     * @return void
+     */
     public function testAChannelRequiresAName()
     {
         $this->createChannel(['name' => null])

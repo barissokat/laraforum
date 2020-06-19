@@ -33,6 +33,10 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
+
+        Route::bind('any_channel', function ($id) {
+            return \App\Channel::withArchived()->where('id', $id)->firstOrFail();
+        });
     }
 
     /**
