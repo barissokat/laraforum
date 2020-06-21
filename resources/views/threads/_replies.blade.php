@@ -5,7 +5,7 @@
         <div class="card-body">
             <h5 class="card-title d-flex justify-content-between">
                 <div class="flex-grow-1 align-self-center">
-                    <a href="{{ route('profiles.show', $reply->owner->name ) }}">{{ $reply->owner->name }}</a> said
+                    <a href="{{ route('profiles.show', $reply->owner->username ) }}">{{ $reply->owner->username }}</a> said
                     {{ $reply->created_at->diffForHumans() }}
                 </div>
 

@@ -26,7 +26,7 @@
                 <div class="card">
                     <div class="card-body">
                         This thread was published <strong>{{ $thread->created_at->diffForHumans() }}</strong>
-                        by <a href="{{ route('profiles.show', $thread->owner->name ) }}">{{ $thread->owner->name }}</a>
+                        by <a href="{{ route('profiles.show', $thread->owner->username ) }}">{{ $thread->owner->username }}</a>
                         , and currently has
                         <span v-text="repliesCount"></span>
                         {{ Str::plural('reply', $thread->replies_count) }}.

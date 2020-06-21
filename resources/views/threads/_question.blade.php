@@ -29,10 +29,11 @@
     <div class="card-header">
         <div class="d-flex align-items-center mb-2">
             <img src="{{ $thread->owner->avatar }}" class="rounded-circle mr-2" width="25" height="25"
-                alt="{{ $thread->owner->name }}">
+                alt="{{ $thread->owner->username }}">
 
-            <h4 class="card-title d-inline mb-0"><a href="{{ route('profiles.show', $thread->owner->name) }}">
-                    {{ $thread->owner->name }} <small>({{ $thread->owner->reputation }} XP)</small>
+            <h4 class="card-title d-inline mb-0">
+                <a href="{{ route('profiles.show', $thread->owner->username) }}">
+                    {{ $thread->owner->username }} <small>({{ $thread->owner->reputation }} XP)</small>
                 </a>
                 posted: <span v-text="title"></span>
             </h4>

@@ -46,7 +46,7 @@ export default {
       data.append("avatar", avatar);
 
       axios
-        .post(`/api/users/${this.user.name}/avatar`, data)
+        .post(`/api/users/${this.user.username}/avatar`, data)
         .then(() => flash("Avatar uploaded!"));
     }
   }

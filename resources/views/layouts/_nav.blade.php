@@ -21,7 +21,7 @@
                         <a class="dropdown-item" href="/threads/create">New Thread</a>
                         <a class="dropdown-item" href="/threads">All Threads</a>
                         @auth
-                        <a class="dropdown-item" href="/threads?by={{ auth()->user()->name }}">My Threads</a>
+                        <a class="dropdown-item" href="/threads?by={{ auth()->user()->username }}">My Threads</a>
                         @endauth
                         <a class="dropdown-item" href="/threads?popular=all">Popular All Time</a>
                         <a class="dropdown-item" href="/threads?unanswered=all">Unanswered Threads</a>
@@ -62,7 +62,7 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('profiles.show', Auth::user()->name) }}">
+                        <a class="dropdown-item" href="{{ route('profiles.show', Auth::user()->username) }}">
                             Profile
                         </a>
 

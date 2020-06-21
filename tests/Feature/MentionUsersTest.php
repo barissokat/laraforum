@@ -19,12 +19,12 @@ class MentionUsersTest extends TestCase
     public function testMentionedUsersInAThreadAreNotified()
     {
         // Given we have a user, JohnDoe, who is signed in.
-        $john = create('App\User', ['name' => 'JohnDoe']);
+        $john = create('App\User', ['username' => 'JohnDoe']);
 
         $this->signIn($john);
 
         // And we also have a user, JaneDoe.
-        $jane = create('App\User', ['name' => 'JaneDoe']);
+        $jane = create('App\User', ['username' => 'JaneDoe']);
 
         // And JohnDoe create a new thread and mentions @JaneDoe.
         $thread = make('App\Thread', [
@@ -37,7 +37,7 @@ class MentionUsersTest extends TestCase
         $this->assertCount(1, $jane->notifications);
 
         $this->assertEquals(
-            "{$john->name} mentioned you in \"{$thread->title}\"",
+            "{$john->username} mentioned you in \"{$thread->title}\"",
             $jane->notifications->first()->data['message']
         );
     }
@@ -49,12 +49,12 @@ class MentionUsersTest extends TestCase
     public function testMentionedUsersInAReplyAreNotified()
     {
         // Given we have a user, JohnDoe, who is signed in.
-        $john = create('App\User', ['name' => 'JohnDoe']);
+        $john = create('App\User', ['username' => 'JohnDoe']);
 
         $this->signIn($john);
 
         // And we also have a user, JaneDoe.
-        $jane = create('App\User', ['name' => 'JaneDoe']);
+        $jane = create('App\User', ['username' => 'JaneDoe']);
 
         // And JohnDoe create new thread and mentions in Reply @JaneDoe.
         $thread = create('App\Thread');
@@ -69,7 +69,7 @@ class MentionUsersTest extends TestCase
         $this->assertCount(1, $jane->notifications);
 
         $this->assertEquals(
-            "{$john->name} mentioned you in \"{$thread->title}\"",
+            "{$john->username} mentioned you in \"{$thread->title}\"",
             $jane->notifications->first()->data['message']
         );
     }
@@ -80,11 +80,11 @@ class MentionUsersTest extends TestCase
     public function testItFetchesAllMentionedUsersStartingWithTheGivenCharacters()
     {
         $this->withoutExceptionHandling();
-        create('App\User', ['name' => 'JohnDoe']);
-        create('App\User', ['name' => 'JohnDoe2']);
-        create('App\User', ['name' => 'JaneDoe']);
+        create('App\User', ['username' => 'JohnDoe']);
+        create('App\User', ['username' => 'JohnDoe2']);
+        create('App\User', ['username' => 'JaneDoe']);
 
-        $response = $this->json('GET', '/api/users', ['name' => 'John']);
+        $response = $this->json('GET', '/api/users', ['username' => 'John']);
 
         $this->assertCount(2, $response->json());
     }

@@ -24,8 +24,8 @@
 
             <h5>
                 Posted By:
-                <a href="{{ route('profiles.show', $thread->owner->name) }}">
-                    {{ $thread->owner->name }}
+                <a href="{{ route('profiles.show', $thread->owner->username) }}">
+                    {{ $thread->owner->username }}
                 </a>
             </h5>
         </div>

@@ -55,7 +55,7 @@ class YouWereMentioned extends Notification
      */
     public function message()
     {
-        return sprintf('%s mentioned you in "%s"', $this->subject->owner->name, $this->subject->title());
+        return sprintf('%s mentioned you in "%s"', $this->subject->owner->username, $this->subject->title());
     }
 
     /**

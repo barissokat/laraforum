@@ -3,7 +3,7 @@
 <span class="d-flex align-items-center">
     <i class="fas fa-heart fa-2x mr-2"></i>
     <span class="mr-1">
-        {{ $profileUser->name }} favorited a
+        {{ $profileUser->username }} favorited a
     </span>
     <a href="{{ $activity->subject->favorited->path() }}">
         reply

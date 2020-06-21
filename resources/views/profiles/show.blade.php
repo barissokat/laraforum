@@ -4,7 +4,7 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1 class="display-3">
-            {{ $profileUser->name }}
+            {{ $profileUser->username }}
         </h1>
         <p class="lead">
             <small> {{ $profileUser->reputation }} XP</small>
