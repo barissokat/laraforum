@@ -48,7 +48,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <wysiwyg name="body"></wysiwyg>
+                            <wysiwyg name="body" value="{{ old('body') }}"></wysiwyg>
                             @error('body')
                             <div class="invalid-feedback">
                                 {{ $message }}
