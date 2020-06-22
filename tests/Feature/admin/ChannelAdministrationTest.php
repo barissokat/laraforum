@@ -96,7 +96,7 @@ class ChannelAdministrationTest extends TestCase
      *
      * @return void
      */
-    public function testThePathToAChannelIsUnaffectedByItsArchivedStatus()
+    public function testThePathToAThreadIsUnaffectedByItsChannelsArchivedStatus()
     {
         $thread = create('App\Thread');
 
