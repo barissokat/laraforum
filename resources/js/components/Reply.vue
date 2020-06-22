@@ -5,7 +5,7 @@
       <div class="card-header" :class="isBest ? 'alert-success' : ''">
         <h5 class="card-title d-flex justify-content-between">
           <div class="flex-grow-1 align-self-center">
-            <a :href="`/profiles/${reply.owner.name}`" v-text="reply.owner.name"></a>
+            <a :href="`/profiles/${reply.owner.username}`" v-text="reply.owner.username"></a>
             said
             <span v-text="ago"></span>
           </div>
