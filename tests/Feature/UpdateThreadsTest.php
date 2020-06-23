@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Thread;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -23,7 +25,7 @@ class UpdateThreadsTest extends TestCase
      */
     public function testAThreadRequiresATitleAndBodyToBeUpdated()
     {
-        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+        $thread = create(Thread::class, ['user_id' => auth()->id()]);
 
         $this->patch($thread->path(), [
             'title' => 'Changed',
@@ -40,7 +42,7 @@ class UpdateThreadsTest extends TestCase
      */
     public function testUnauthorizedUsersMayNotUpdateThreads()
     {
-        $thread = create('App\Thread', ['user_id' => create('App\User')->id]);
+        $thread = create(Thread::class, ['user_id' => create(User::class)->id]);
 
         $this->patch($thread->path(), [])->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -51,8 +53,7 @@ class UpdateThreadsTest extends TestCase
      */
     public function testAThreadCanBeUpdatedByItsCreator()
     {
-        // $thread = create('App\Thread', ['user_id' => create('App\User')->id]);
-        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+        $thread = create(Thread::class, ['user_id' => auth()->id()]);
 
         $this->patch($thread->path(), [
             'title' => 'Changed',

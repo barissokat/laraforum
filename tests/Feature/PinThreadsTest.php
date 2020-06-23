@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -17,7 +18,7 @@ class PinThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+        $thread = create(Thread::class, ['user_id' => auth()->id()]);
 
         $this->post(route('pinned-threads.store', $thread))->assertStatus(Response::HTTP_FORBIDDEN);
 
@@ -31,7 +32,7 @@ class PinThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['user_id' => auth()->id(), 'pinned' => true]);
+        $thread = create(Thread::class, ['user_id' => auth()->id(), 'pinned' => true]);
 
         $this->delete(route('pinned-threads.destroy', $thread))->assertStatus(Response::HTTP_FORBIDDEN);
 
@@ -45,7 +46,7 @@ class PinThreadsTest extends TestCase
     {
         $this->signInAdmin();
 
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
         $this->post(route('pinned-threads.store', $thread));
 
@@ -59,7 +60,7 @@ class PinThreadsTest extends TestCase
     {
         $this->signInAdmin();
 
-        $thread = create('App\Thread', ['pinned' => true]);
+        $thread = create(Thread::class, ['pinned' => true]);
 
         $this->post(route('pinned-threads.destroy', $thread));
 
@@ -73,7 +74,7 @@ class PinThreadsTest extends TestCase
     {
         $this->signInAdmin();
 
-        $threads = create('App\Thread', [], 3);
+        $threads = create(Thread::class, [], 3);
         $ids = $threads->pluck('id');
 
         $response_data = $this->getJson('/threads')->decodeResponseJson()['data'];

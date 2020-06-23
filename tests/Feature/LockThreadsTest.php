@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -18,7 +19,7 @@ class LockThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+        $thread = create(Thread::class, ['user_id' => auth()->id()]);
 
         $this->post(route('locked-threads.store', $thread))->assertStatus(Response::HTTP_FORBIDDEN);
 
@@ -33,7 +34,7 @@ class LockThreadsTest extends TestCase
     {
         $this->signInAdmin();
 
-        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+        $thread = create(Thread::class, ['user_id' => auth()->id()]);
 
         $this->post(route('locked-threads.store', $thread));
 
@@ -48,7 +49,7 @@ class LockThreadsTest extends TestCase
     {
         $this->signInAdmin();
 
-        $thread = create('App\Thread', ['user_id' => auth()->id(), 'locked' => true]);
+        $thread = create(Thread::class, ['user_id' => auth()->id(), 'locked' => true]);
 
         $this->delete(route('locked-threads.destroy', $thread));
 
@@ -63,7 +64,7 @@ class LockThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['locked' => true]);
+        $thread = create(Thread::class, ['locked' => true]);
 
         $this->post($thread->path() . '/replies', [
             'body' => 'Foobar',

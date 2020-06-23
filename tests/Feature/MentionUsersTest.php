@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Mentions;
 use App\Reply;
 use App\Thread;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,15 +20,15 @@ class MentionUsersTest extends TestCase
     public function testMentionedUsersInAThreadAreNotified()
     {
         // Given we have a user, JohnDoe, who is signed in.
-        $john = create('App\User', ['username' => 'JohnDoe']);
+        $john = create(User::class, ['username' => 'JohnDoe']);
 
         $this->signIn($john);
 
         // And we also have a user, JaneDoe.
-        $jane = create('App\User', ['username' => 'JaneDoe']);
+        $jane = create(User::class, ['username' => 'JaneDoe']);
 
         // And JohnDoe create a new thread and mentions @JaneDoe.
-        $thread = make('App\Thread', [
+        $thread = make(Thread::class, [
             'body' => 'Hey @JaneDoe check this out.',
         ]);
 
@@ -49,17 +50,17 @@ class MentionUsersTest extends TestCase
     public function testMentionedUsersInAReplyAreNotified()
     {
         // Given we have a user, JohnDoe, who is signed in.
-        $john = create('App\User', ['username' => 'JohnDoe']);
+        $john = create(User::class, ['username' => 'JohnDoe']);
 
         $this->signIn($john);
 
         // And we also have a user, JaneDoe.
-        $jane = create('App\User', ['username' => 'JaneDoe']);
+        $jane = create(User::class, ['username' => 'JaneDoe']);
 
         // And JohnDoe create new thread and mentions in Reply @JaneDoe.
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
-        $reply = make('App\Reply', [
+        $reply = make(Reply::class, [
             'body' => '@JaneDoe look at this. Also @FrankDoe"',
         ]);
 
@@ -80,9 +81,9 @@ class MentionUsersTest extends TestCase
     public function testItFetchesAllMentionedUsersStartingWithTheGivenCharacters()
     {
         $this->withoutExceptionHandling();
-        create('App\User', ['username' => 'JohnDoe']);
-        create('App\User', ['username' => 'JohnDoe2']);
-        create('App\User', ['username' => 'JaneDoe']);
+        create(User::class, ['username' => 'JohnDoe']);
+        create(User::class, ['username' => 'JohnDoe2']);
+        create(User::class, ['username' => 'JaneDoe']);
 
         $response = $this->json('GET', '/api/users', ['username' => 'John']);
 

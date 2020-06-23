@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Thread;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,7 +17,7 @@ class ProfilesTest extends TestCase
      */
     public function testAUserHasAProfile()
     {
-        $user = create('App\User');
+        $user = create(User::class);
 
         $response = $this->getJson("/profiles/{$user->username}")->json();
 
@@ -30,7 +32,7 @@ class ProfilesTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+        $thread = create(Thread::class, ['user_id' => auth()->id()]);
 
         $this->get(route('profiles.show', auth()->user()->username))
             ->assertSee($thread->title)

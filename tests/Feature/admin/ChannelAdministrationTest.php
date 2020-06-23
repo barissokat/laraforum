@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\admin;
 
+use App\Channel;
+use App\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -56,8 +58,7 @@ class ChannelAdministrationTest extends TestCase
     {
         $this->signInAdmin();
 
-        $channel = create('App\Channel');
-
+        $channel = create(Channel::class);
 
         $this->patch(route('admin.channels.update', $channel), [
             'name' => 'Altered',
@@ -79,7 +80,7 @@ class ChannelAdministrationTest extends TestCase
     {
         $this->signInAdmin();
 
-        $channel = create('App\Channel');
+        $channel = create(Channel::class);
 
         $this->assertFalse($channel->archived);
 
@@ -98,7 +99,7 @@ class ChannelAdministrationTest extends TestCase
      */
     public function testThePathToAThreadIsUnaffectedByItsChannelsArchivedStatus()
     {
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
         $path = $thread->path();
 
@@ -115,7 +116,7 @@ class ChannelAdministrationTest extends TestCase
     {
         $this->signInAdmin();
 
-        $channel = create('App\Channel', ['archived' => true]);
+        $channel = create(Channel::class, ['archived' => true]);
 
         $this->assertTrue($channel->archived);
 
@@ -131,7 +132,7 @@ class ChannelAdministrationTest extends TestCase
     {
         $this->signInAdmin();
 
-        $channel = create('App\Channel', ['archived' => true]);
+        $channel = create(Channel::class, ['archived' => true]);
 
         $this->assertTrue($channel->archived);
 
@@ -140,7 +141,7 @@ class ChannelAdministrationTest extends TestCase
             [
                 'name' => 'altered',
                 'description' => 'altered channel description',
-                'archived' => false
+                'archived' => false,
             ]
         );
 
@@ -171,7 +172,7 @@ class ChannelAdministrationTest extends TestCase
     {
         $this->signInAdmin();
 
-        $channel = make('App\Channel', $overrides);
+        $channel = make(Channel::class, $overrides);
 
         return $this->post(route('admin.channels.store'), $channel->toArray());
     }

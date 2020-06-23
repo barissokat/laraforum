@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use App\Reply;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,9 +17,9 @@ class UserTest extends TestCase
      */
     public function testAUserCanFetchTheirMostRecentReply()
     {
-        $user = create('App\User');
+        $user = create(User::class);
 
-        $reply = create('App\Reply', ['user_id' => $user->id]);
+        $reply = create(Reply::class, ['user_id' => $user->id]);
 
         $this->assertEquals($reply->id, $user->lastReply->id);
     }
@@ -28,7 +30,7 @@ class UserTest extends TestCase
      */
     public function testAUserCanDetermineTheirAvatarPath()
     {
-        $user = create('App\User');
+        $user = create(User::class);
 
         $this->assertEquals(asset('storage/avatars/default.jpg'), $user->avatar_path);
 

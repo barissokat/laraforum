@@ -2,7 +2,10 @@
 
 namespace Tests\Unit;
 
+use App\Channel;
 use App\Notifications\ThreadWasUpdated;
+use App\Thread;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -17,7 +20,7 @@ class ThreadTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = create('App\Thread');
+        $this->thread = create(Thread::class);
     }
 
     /**
@@ -26,7 +29,7 @@ class ThreadTest extends TestCase
      */
     public function testAThreadHasAPath()
     {
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
         $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->slug}", $thread->path());
     }
@@ -37,7 +40,7 @@ class ThreadTest extends TestCase
      */
     public function testAThreadHasAOwner()
     {
-        $this->assertInstanceOf('App\User', $this->thread->owner);
+        $this->assertInstanceOf(User::class, $this->thread->owner);
     }
 
     /**
@@ -65,7 +68,7 @@ class ThreadTest extends TestCase
         $this->signIn();
 
         $this->thread->subscribe()->addReply([
-            'user_id' => create('App\User')->id,
+            'user_id' => create(User::class)->id,
             'body' => 'Foobar',
         ]);
 
@@ -104,9 +107,9 @@ class ThreadTest extends TestCase
      */
     public function testAThreadBelongsToAChannel()
     {
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
-        $this->assertInstanceOf('App\Channel', $thread->channel);
+        $this->assertInstanceOf(Channel::class, $thread->channel);
     }
 
     /**
@@ -115,7 +118,7 @@ class ThreadTest extends TestCase
      */
     public function testAThreadCanBeSubscribedTo()
     {
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
         $thread->subscribe($userId = 1);
 
@@ -131,7 +134,7 @@ class ThreadTest extends TestCase
      */
     public function testAThreadCanBeUnsubscribedFrom()
     {
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
         $thread->subscribe($userId = 1);
 
@@ -146,7 +149,7 @@ class ThreadTest extends TestCase
      */
     public function testItKnowsIfTheAuthenticatedUserIsSubscribedToIt()
     {
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
         $this->signIn();
 
@@ -165,7 +168,7 @@ class ThreadTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
         tap(auth()->user(), fn($user) =>
 
@@ -185,7 +188,7 @@ class ThreadTest extends TestCase
      */
     public function testAThreadsBodyIsSanitizedAutomatically()
     {
-        $thread = make('App\Thread', [
+        $thread = make(Thread::class, [
             'body' => '<script>alert("bad")</script><p>This is okay.</p>',
         ]);
 

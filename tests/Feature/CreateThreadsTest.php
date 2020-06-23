@@ -3,7 +3,11 @@
 namespace Tests\Feature;
 
 use App\Activity;
+use App\Channel;
+use App\Reply;
 use App\Rules\Recaptcha;
+use App\Thread;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,11 +47,11 @@ class CreateThreadsTest extends TestCase
      */
     public function testNewUsersMustFirstConfirmTheirEmailAddressBeforeCreatingThreads()
     {
-        $user = factory('App\User')->states('unconfirmed')->create();
+        $user = factory(User::class)->states('unconfirmed')->create();
 
         $this->signIn($user);
 
-        $thread = make('App\Thread');
+        $thread = make(Thread::class);
 
         $this->post(route('threads.store'), $thread->toArray())
             ->assertRedirect('/email/verify');
@@ -109,7 +113,7 @@ class CreateThreadsTest extends TestCase
      */
     public function testAThreadRequiresAValidChannel()
     {
-        factory('App\Channel', 2)->create();
+        create(Channel::class, [], 2);
 
         $this->publishThread(['channel_id' => null])
             ->assertSessionHasErrors('channel_id');
@@ -126,7 +130,7 @@ class CreateThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['title' => 'Foo Title']);
+        $thread = create(Thread::class, ['title' => 'Foo Title']);
 
         $this->assertEquals($thread->fresh()->slug, 'foo-title');
 
@@ -143,7 +147,7 @@ class CreateThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['title' => 'Some Title 23']);
+        $thread = create(Thread::class, ['title' => 'Some Title 23']);
 
         $thread = $this->postJson('/threads', $thread->toArray() + ['g-recaptcha-response' => 'token'])->json();
 
@@ -158,7 +162,7 @@ class CreateThreadsTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
         $this->delete(route('threads.destroy', [$thread->channel->slug, $thread]))
             ->assertRedirect('/login');
@@ -177,8 +181,8 @@ class CreateThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['user_id' => auth()->id()]);
-        $reply = create('App\Reply', ['thread_id' => $thread->id]);
+        $thread = create(Thread::class, ['user_id' => auth()->id()]);
+        $reply = create(Reply::class, ['thread_id' => $thread->id]);
 
         $response = $this->json('DELETE', route('threads.destroy', [$thread->channel->slug, $thread]));
 
@@ -202,7 +206,7 @@ class CreateThreadsTest extends TestCase
      */
     public function testANewThreadCannotBeCreatedInAnArchivedChannel()
     {
-        $channel = create('App\Channel', ['archived' => true]);
+        $channel = create(Channel::class, ['archived' => true]);
 
         $this->publishThread(['channel_id' => $channel->id])
             ->assertSessionHasErrors('channel_id');
@@ -218,7 +222,7 @@ class CreateThreadsTest extends TestCase
     {
         $this->withExceptionHandling()->signIn();
 
-        $thread = make('App\Thread', $overrides);
+        $thread = make(Thread::class, $overrides);
 
         return $this->post(route('threads.store'), $thread->toArray() + ['g-recaptcha-response' => 'token']);
     }

@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Channel;
+use App\Thread;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,7 +18,7 @@ class ReadThreadTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = create('App\Thread');
+        $this->thread = create(Thread::class);
     }
 
     /**
@@ -44,10 +47,10 @@ class ReadThreadTest extends TestCase
      */
     public function testAUserCanFilterThreadsAccordingToAChannel()
     {
-        $channel = create('App\Channel');
+        $channel = create(Channel::class);
 
-        $threadInChannel = create('App\Thread', ['channel_id' => $channel->id]);
-        $threadNotInChannel = create('App\Thread');
+        $threadInChannel = create(Thread::class, ['channel_id' => $channel->id]);
+        $threadNotInChannel = create(Thread::class);
 
         $this->get(route('channels.index', $channel->slug))
             ->assertSee($threadInChannel->title)
@@ -60,10 +63,10 @@ class ReadThreadTest extends TestCase
      */
     public function testAUserCanFilterThreadsByAnyUsername()
     {
-        $this->signIn(create('App\User', ['username' => 'JohnDoe']));
+        $this->signIn(create(User::class, ['username' => 'JohnDoe']));
 
-        $johnsThread = create('App\Thread', ['user_id' => auth()->id()]);
-        $janesThread = create('App\Thread');
+        $johnsThread = create(Thread::class, ['user_id' => auth()->id()]);
+        $janesThread = create(Thread::class);
 
         $this->get('threads?by=JohnDoe')
             ->assertSee($johnsThread->title)
@@ -76,10 +79,10 @@ class ReadThreadTest extends TestCase
      */
     public function testAUserCanFilterThreadsByPopularity()
     {
-        $threadWithTwoReplies = create('App\Thread');
+        $threadWithTwoReplies = create(Thread::class);
         create('App\Reply', ['thread_id' => $threadWithTwoReplies->id], 2);
 
-        $threadWithThreeReplies = create('App\Thread');
+        $threadWithThreeReplies = create(Thread::class);
         create('App\Reply', ['thread_id' => $threadWithThreeReplies->id], 3);
 
         $threadWithNoReplies = $this->thread;
@@ -95,7 +98,7 @@ class ReadThreadTest extends TestCase
      */
     public function testAUserCanFilterThreadsByThoseThatAreUnanswered()
     {
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
         $reply = create('App\Reply', ['thread_id' => $thread->id]);
 
         $response = $this->getJson('threads?unanswered=all')->json();
@@ -109,7 +112,7 @@ class ReadThreadTest extends TestCase
      */
     public function testAUserCanRequestAllRepliesForAGivenThread()
     {
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
         create('App\Reply', ['thread_id' => $thread->id], 2);
 
         $response = $this->getJson($thread->path() . '/replies')->json();
@@ -124,7 +127,7 @@ class ReadThreadTest extends TestCase
      */
     public function testWeRecordANewVisitEachTimeTheThreadIsRead()
     {
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
         $this->assertSame(0, $thread->visits);
 

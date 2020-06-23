@@ -152,7 +152,7 @@ class RegisterUserTest extends TestCase
      */
     public function testUsernameIsUnique()
     {
-        create('App\User', ['username' => 'john']);
+        create(User::class, ['username' => 'john']);
         $this->withExceptionHandling();
         $this->from(route('register'));
 
@@ -229,7 +229,7 @@ class RegisterUserTest extends TestCase
      */
     public function testEmailIsUnique()
     {
-        create('App\User', ['email' => 'johndoe@example.com']);
+        create(User::class, ['email' => 'johndoe@example.com']);
         $this->withExceptionHandling();
         $this->from(route('register'));
 

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Thread;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Notifications\DatabaseNotification;
 use Tests\TestCase;
@@ -23,7 +25,7 @@ class NotificationsTest extends TestCase
      */
     public function testANotificationsIsPreparedWhenASubscribedThreadReceivesANewReplyThatIsNotByTheCurrentUser()
     {
-        $thread = create('App\Thread')->subscribe();
+        $thread = create(Thread::class)->subscribe();
 
         $this->assertCount(0, auth()->user()->notifications);
 
@@ -35,7 +37,7 @@ class NotificationsTest extends TestCase
         $this->assertCount(0, auth()->user()->fresh()->notifications);
 
         $thread->addReply([
-            'user_id' => create('App\User')->id,
+            'user_id' => create(User::class)->id,
             'body' => 'Some reply here',
         ]);
 

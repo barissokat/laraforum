@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Reply;
+use App\Thread;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -18,9 +21,9 @@ class BestReplyTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+        $thread = create(Thread::class, ['user_id' => auth()->id()]);
 
-        $replies = create('App\Reply', ['thread_id' => $thread->id], 2);
+        $replies = create(Reply::class, ['thread_id' => $thread->id], 2);
 
         $this->assertFalse($replies[1]->isBest());
 
@@ -39,11 +42,11 @@ class BestReplyTest extends TestCase
 
         $this->signIn();
 
-        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+        $thread = create(Thread::class, ['user_id' => auth()->id()]);
 
-        $replies = create('App\Reply', ['thread_id' => $thread->id], 2);
+        $replies = create(Reply::class, ['thread_id' => $thread->id], 2);
 
-        $this->signIn(create('App\User'));
+        $this->signIn(create(User::class));
 
         $this->postJson(route('best-replies.store', [$replies[1]->id]))->assertStatus(Response::HTTP_FORBIDDEN);
 
@@ -58,7 +61,7 @@ class BestReplyTest extends TestCase
     {
         $this->signIn();
 
-        $reply = create('App\Reply', ['user_id' => auth()->id()]);
+        $reply = create(Reply::class, ['user_id' => auth()->id()]);
 
         $reply->thread->markBestReply($reply);
 

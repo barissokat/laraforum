@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Reply;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -27,7 +28,7 @@ class FavoritesTest extends TestCase
     {
         $this->signIn();
 
-        $reply = create('App\Reply');
+        $reply = create(Reply::class);
 
         $this->post(route('replies.favorite', $reply->id));
 
@@ -42,7 +43,7 @@ class FavoritesTest extends TestCase
     {
         $this->signIn();
 
-        $reply = create('App\Reply');
+        $reply = create(Reply::class);
 
         $reply->favorite();
 
@@ -59,7 +60,7 @@ class FavoritesTest extends TestCase
     {
         $this->signIn();
 
-        $reply = create('App\Reply');
+        $reply = create(Reply::class);
 
         try {
             $this->post(route('replies.favorite', $reply->id));

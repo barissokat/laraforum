@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Reply;
+use App\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -30,8 +32,8 @@ class ParticipateInThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread');
-        $reply = make('App\Reply');
+        $thread = create(Thread::class);
+        $reply = make(Reply::class);
 
         $this->post($thread->path() . '/replies', $reply->toArray());
 
@@ -47,8 +49,8 @@ class ParticipateInThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread');
-        $reply = make('App\Reply', ['body' => null]);
+        $thread = create(Thread::class);
+        $reply = make(Reply::class, ['body' => null]);
 
         $this->json('post', $thread->path() . '/replies', $reply->toArray())
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -60,7 +62,7 @@ class ParticipateInThreadsTest extends TestCase
      */
     public function testUnauthorizedUsersCannotDeleteReplies()
     {
-        $reply = create('App\Reply');
+        $reply = create(Reply::class);
 
         $this->delete("/replies/{$reply->id}")
             ->assertRedirect('login');
@@ -78,7 +80,7 @@ class ParticipateInThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $reply = create('App\Reply', ['user_id' => auth()->id()]);
+        $reply = create(Reply::class, ['user_id' => auth()->id()]);
 
         $this->delete("/replies/{$reply->id}")->assertStatus(Response::HTTP_FOUND);
 
@@ -92,7 +94,7 @@ class ParticipateInThreadsTest extends TestCase
      */
     public function testUnauthorizedUsersCannotUpdateReplies()
     {
-        $reply = create('App\Reply');
+        $reply = create(Reply::class);
 
         $this->patch(route('replies.update', $reply->id))
             ->assertRedirect('login');
@@ -110,7 +112,7 @@ class ParticipateInThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $reply = create('App\Reply', ['user_id' => auth()->id()]);
+        $reply = create(Reply::class, ['user_id' => auth()->id()]);
 
         $updatedReply = "You been changed, fool.";
         $this->patch(route('replies.update', $reply->id), ['body' => $updatedReply]);
@@ -129,8 +131,8 @@ class ParticipateInThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread');
-        $reply = make('App\Reply', [
+        $thread = create(Thread::class);
+        $reply = make(Reply::class, [
             'body' => 'Yahoo Customer Support',
         ]);
 
@@ -146,9 +148,9 @@ class ParticipateInThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread');
+        $thread = create(Thread::class);
 
-        $reply = make('App\Reply');
+        $reply = make(Reply::class);
 
         $this->post($thread->path() . '/replies', $reply->toArray())
             ->assertStatus(Response::HTTP_CREATED);
