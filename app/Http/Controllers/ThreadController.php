@@ -33,7 +33,7 @@ class ThreadController extends Controller
      */
     public function index(ThreadFilters $filters, Trending $trending)
     {
-        $threads = Thread::latest('pinned', 'DESC')->filter($filters)->latest()->with('channel')->paginate(25);
+        $threads = Thread::latest('pinned', 'DESC')->filter($filters)->latest()->with('channel')->paginate(config('laraforum.pagination.perPage'));
 
         if (request()->wantsJson()) {
             return $threads;

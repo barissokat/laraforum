@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Reply;
+use App\Thread;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -78,4 +79,32 @@ class ReplyTest extends TestCase
 
         $this->assertEquals('<p>This is okay.</p>', $reply->body);
     }
+
+    /**
+     *
+     * @return void
+     */
+     public function testItGeneratesTheCorrectPathForAPaginatedThread()
+     {
+         $thread = create(Thread::class);
+
+         $replies = create(Reply::class, ['thread_id' => $thread->id], 3);
+
+         config(['laraforum.pagination.perPage' => 1]);
+
+         $this->assertEquals(
+             $thread->path() . '?page=1#reply-1',
+             $replies->first()->path()
+         );
+
+         $this->assertEquals(
+             $thread->path() . '?page=2#reply-2',
+             $replies[1]->path()
+         );
+
+         $this->assertEquals(
+             $thread->path() . '?page=3#reply-3',
+             $replies->last()->path()
+         );
+     }
 }

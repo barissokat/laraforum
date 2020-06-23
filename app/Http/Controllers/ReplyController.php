@@ -27,7 +27,7 @@ class ReplyController extends Controller
      */
     public function index($channelId, Thread $thread)
     {
-        return $thread->replies()->paginate(20);
+        return $thread->replies()->orderBy('created_at', 'desc')->paginate(config('laraforum.pagination.perPage'));
     }
 
     /**
