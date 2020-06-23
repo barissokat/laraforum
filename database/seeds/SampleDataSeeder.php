@@ -39,22 +39,7 @@ class SampleDataSeeder extends Seeder
                 'name' => 'VueJS',
                 'description' => 'A channel for general VueJS questions. Use this channel if you can\'t find a more specific channel for your question.',
                 'archived' => false,
-            ],
-            [
-                'name' => 'Laravel Mix',
-                'description' => 'This channel is for all Laravel Mix related questions.',
-                'archived' => false,
-            ],
-            [
-                'name' => 'Eloquent',
-                'description' => 'This channel is for all Laravel Eloquent related questions.',
-                'archived' => false,
-            ],
-            [
-                'name' => 'VueEx',
-                'description' => 'This channel is for all VueEx specific questions.',
-                'archived' => false,
-            ],
+            ]
         ])->each(function ($channel) {
             factory(Channel::class)->create([
                 'name' => $channel['name'],
