@@ -150,7 +150,7 @@ class Thread extends Model
         $slug = Str::slug($value, '-');
 
         if (static::whereSlug($slug)->exists()) {
-            $slug = "{$slug}-".$this->id;
+            $slug = "{$slug}-" . $this->id;
         }
 
         $this->attributes['slug'] = $slug;
@@ -174,7 +174,7 @@ class Thread extends Model
      */
     public function getIsSubscribedToAttribute()
     {
-        if (! auth()->id()) {
+        if (!auth()->id()) {
             return false;
         }
 
@@ -265,7 +265,7 @@ class Thread extends Model
      */
     public function hasBestReply()
     {
-        return ! is_null($this->best_reply_id);
+        return !is_null($this->best_reply_id);
     }
 
     /**
