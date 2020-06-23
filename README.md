@@ -1,4 +1,4 @@
-# Laraforum
+# Laraforum [![Build Status](https://travis-ci.org/barissokat/laraforum.svg?branch=dev)](https://travis-ci.org/barissokat/laraforum)
 
 This is an open source forum that was built and maintained from Laracasts.com. This project is for educational porpuses only.
 
