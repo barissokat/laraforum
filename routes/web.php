@@ -80,6 +80,8 @@ Route::post('api/users/{user}/avatar', ['as' => 'avatar.store', 'uses' => 'Api\U
 // ChannelsController
 Route::get('api/channels', 'Api\ChannelController@index');
 
+Route::get('api/leaderboard', 'Api\LeaderboardController@index')->name('api.leaderboard.index');
+
 Route::group([
     'prefix' => 'admin',
     'middleware' => 'admin',

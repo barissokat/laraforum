@@ -28,6 +28,10 @@
                     </div>
                 </li>
                 <channel-dropdown></channel-dropdown>
+                <a class="nav-link" role="button" data-toggle="modal" data-target="#exampleModal">
+                    Leaderboard
+                </a>
+                <leaderboard></leaderboard>
             </ul>
 
             <!-- Right Side Of Navbar -->

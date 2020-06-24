@@ -25,6 +25,7 @@ Vue.component('search', require('./components/Search.vue').default);
 Vue.component('wysiwyg', require('./components/Wysiwyg.vue').default);
 Vue.component('channel-dropdown', require('./components/ChannelDropdown.vue').default);
 Vue.component('logout-button', require('./components/LogoutButton.vue').default);
+Vue.component("leaderboard", require("./components/Leaderboard").default);
 
 Vue.component('thread-view', require('./pages/Thread.vue').default);
 
